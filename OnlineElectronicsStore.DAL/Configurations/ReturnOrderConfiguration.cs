@@ -28,10 +28,12 @@ public class ReturnOrderConfiguration : IEntityTypeConfiguration<ReturnOrder>
         
         builder.HasOne(ro => ro.StatusDelivery)
             .WithMany(sd => sd.ReturnOrders)
-            .HasForeignKey(ro => ro.IdStatusDelivery);
+            .HasForeignKey(ro => ro.IdStatusDelivery)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(ro => ro.Order)
             .WithMany(o => o.ReturnOrders)
-            .HasForeignKey(ro => ro.IdOrder);
+            .HasForeignKey(ro => ro.IdOrder)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
