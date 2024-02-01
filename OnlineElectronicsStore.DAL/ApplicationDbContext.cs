@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using OnlineElectronicsStore.DAL.Configurations;
 using OnlineElectronicsStore.Domain.Entity;
 
 namespace OnlineElectronicsStore.DAL;
@@ -8,9 +10,44 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        //Database.EnsureCreated();
+        Database.EnsureDeleted();
+        Database.EnsureCreated();
     }
     
-    public DbSet<User> User { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<Profile> Profiles { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<DeliveryType> DeliveryTypes { get; set; }
+    public DbSet<StatusDelivery> StatusDeliveries { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Producer> Producers { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderDetail> OrderDetails { get; set; }
+    public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+    public DbSet<ReturnOrder> ReturnOrders { get; set; }
     
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
+        modelBuilder.ApplyConfiguration(new ProfileConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new DeliveryTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new StatusDeliveryConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new ProducerConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+        modelBuilder.ApplyConfiguration(new ShoppingCartItemConfiguration());
+        modelBuilder.ApplyConfiguration(new ReturnOrderConfiguration());
+    }
 }
