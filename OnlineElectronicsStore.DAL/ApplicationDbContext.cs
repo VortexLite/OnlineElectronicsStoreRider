@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using OnlineElectronicsStore.DAL.Configurations;
+using OnlineElectronicsStore.DAL.Seeds;
 using OnlineElectronicsStore.Domain.Entity;
 
 namespace OnlineElectronicsStore.DAL;
@@ -10,8 +10,8 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
+        /*Database.EnsureDeleted();
+        Database.EnsureCreated();*/
     }
     
     public DbSet<Role> Roles { get; set; }
@@ -22,12 +22,13 @@ public class ApplicationDbContext : DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Producer> Producers { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<WishList> WishLists { get; set; }
+    public DbSet<ProductWishList> ProductWishLists { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetail> OrderDetails { get; set; }
     public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
     public DbSet<ReturnOrder> ReturnOrders { get; set; }
     
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -45,9 +46,14 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new ProducerConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new WishListConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductWishListConfiguration());
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
         modelBuilder.ApplyConfiguration(new ShoppingCartItemConfiguration());
         modelBuilder.ApplyConfiguration(new ReturnOrderConfiguration());
+        
+        
     }
+    
 }

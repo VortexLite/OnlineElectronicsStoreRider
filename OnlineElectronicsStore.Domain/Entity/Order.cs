@@ -16,6 +16,6 @@ public class Order
     public int IdStatusDelivery { get; set; }
     public StatusDelivery StatusDelivery { get; set; }
 
-    public IEnumerable<OrderDetail> OrderDetails { get; set; }
-    public IEnumerable<ReturnOrder> ReturnOrders { get; set; }
+    public List<OrderDetail> OrderDetails { get; set; }
+    public List<ReturnOrder> ReturnOrders { get; set; }
 }

@@ -22,7 +22,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .IsRequired();
 
         builder.Property(t => t.TotalCost)
-            .HasColumnName("TotalCose")
+            .HasColumnName("TotalCost")
             .HasColumnType("decimal")
             .IsRequired();
         
@@ -36,8 +36,8 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasForeignKey(o => o.IdUser);
 
         builder.HasOne(o => o.DeliveryType)
-            .WithMany(dt => dt.Orders)
-            .HasForeignKey(o => o.IdDeliveryType);
+            .WithOne(d => d.Orders)
+            .HasForeignKey<Order>(d => d.IdDeliveryType);
 
         builder.HasOne(o => o.StatusDelivery)
             .WithMany(sd => sd.Orders)

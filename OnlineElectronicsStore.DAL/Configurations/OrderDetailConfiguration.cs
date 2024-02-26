@@ -8,7 +8,7 @@ public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
 {
     public void Configure(EntityTypeBuilder<OrderDetail> builder)
     {
-        builder.ToTable("OrderDetail");
+        builder.ToTable("OrderDetails");
         builder.HasKey(k => k.Id);
         
         builder.Property(k => k.Id)

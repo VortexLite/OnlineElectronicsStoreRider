@@ -11,7 +11,8 @@ public class User
 
     public int IdProfile { get; set; }
     public Profile Profile { get; set; }
-
-    public IEnumerable<Order> Orders { get; set; }
-    public IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
+    
+    public List<Order> Orders { get; set; }
+    public List<ShoppingCartItem> ShoppingCartItems { get; set; }
+    public List<WishList> WishLists { get; set; }
 }

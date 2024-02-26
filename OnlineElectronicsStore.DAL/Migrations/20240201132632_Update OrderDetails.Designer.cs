@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineElectronicsStore.DAL;
 
@@ -11,9 +12,11 @@ using OnlineElectronicsStore.DAL;
 namespace OnlineElectronicsStore.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240201132632_Update OrderDetails")]
+    partial class UpdateOrderDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,12 +92,11 @@ namespace OnlineElectronicsStore.DAL.Migrations
 
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal")
-                        .HasColumnName("TotalCost");
+                        .HasColumnName("TotalCose");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdDeliveryType")
-                        .IsUnique();
+                    b.HasIndex("IdDeliveryType");
 
                     b.HasIndex("IdStatusDelivery");
 
@@ -108,7 +110,7 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("IdOrderDetail");
+                        .HasColumnName("IdOrderDetails");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -192,30 +194,6 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.HasIndex("IdProducer");
 
                     b.ToTable("Products", (string)null);
-                });
-
-            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.ProductWishList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("IdProductWishList");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("IdWishList")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idProduct")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdWishList");
-
-                    b.HasIndex("idProduct");
-
-                    b.ToTable("ProductWishLists", (string)null);
                 });
 
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Profile", b =>
@@ -389,38 +367,18 @@ namespace OnlineElectronicsStore.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdProfile")
-                        .IsUnique();
+                    b.HasIndex("IdProfile");
 
                     b.HasIndex("IdRole");
 
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.WishList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("IdWishList");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("IdUser")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdUser");
-
-                    b.ToTable("WishLists", (string)null);
-                });
-
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Order", b =>
                 {
                     b.HasOne("OnlineElectronicsStore.Domain.Entity.DeliveryType", "DeliveryType")
-                        .WithOne("Orders")
-                        .HasForeignKey("OnlineElectronicsStore.Domain.Entity.Order", "IdDeliveryType")
+                        .WithMany("Orders")
+                        .HasForeignKey("IdDeliveryType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -481,25 +439,6 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.Navigation("Producer");
                 });
 
-            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.ProductWishList", b =>
-                {
-                    b.HasOne("OnlineElectronicsStore.Domain.Entity.WishList", "WishList")
-                        .WithMany("ProductWishLists")
-                        .HasForeignKey("IdWishList")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineElectronicsStore.Domain.Entity.Product", "Product")
-                        .WithMany("ProductWishLists")
-                        .HasForeignKey("idProduct")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("WishList");
-                });
-
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.ReturnOrder", b =>
                 {
                     b.HasOne("OnlineElectronicsStore.Domain.Entity.Order", "Order")
@@ -541,8 +480,8 @@ namespace OnlineElectronicsStore.DAL.Migrations
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.User", b =>
                 {
                     b.HasOne("OnlineElectronicsStore.Domain.Entity.Profile", "Profile")
-                        .WithOne("User")
-                        .HasForeignKey("OnlineElectronicsStore.Domain.Entity.User", "IdProfile")
+                        .WithMany("Users")
+                        .HasForeignKey("IdProfile")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -557,17 +496,6 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.WishList", b =>
-                {
-                    b.HasOne("OnlineElectronicsStore.Domain.Entity.User", "User")
-                        .WithMany("WishLists")
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Category", b =>
                 {
                     b.Navigation("Products");
@@ -575,8 +503,7 @@ namespace OnlineElectronicsStore.DAL.Migrations
 
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.DeliveryType", b =>
                 {
-                    b.Navigation("Orders")
-                        .IsRequired();
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Order", b =>
@@ -595,15 +522,12 @@ namespace OnlineElectronicsStore.DAL.Migrations
                 {
                     b.Navigation("OrderDetails");
 
-                    b.Navigation("ProductWishLists");
-
                     b.Navigation("ShoppingCartItems");
                 });
 
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Profile", b =>
                 {
-                    b.Navigation("User")
-                        .IsRequired();
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Role", b =>
@@ -623,13 +547,6 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("ShoppingCartItems");
-
-                    b.Navigation("WishLists");
-                });
-
-            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.WishList", b =>
-                {
-                    b.Navigation("ProductWishLists");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,6 +14,8 @@ public class Product
     public int IdProducer { get; set; }
     public Producer Producer { get; set; }
 
-    public IEnumerable<OrderDetail> OrderDetails { get; set; }
-    public IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
+    public List<OrderDetail> OrderDetails { get; set; }
+    public List<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+    public List<ProductWishList> ProductWishLists { get; set; }
 }
