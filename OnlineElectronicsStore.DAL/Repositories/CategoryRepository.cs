@@ -6,34 +6,48 @@ namespace OnlineElectronicsStore.DAL.Repositories;
 
 public class CategoryRepository : ICategoryRepository
 {
-    private readonly ApplicationDbContext _context;
-    public CategoryRepository(ApplicationDbContext context)
+    private readonly ApplicationDbContext _db;
+    public CategoryRepository(ApplicationDbContext db)
     {
-        _context = context;
+        _db = db;
     }
     
-    public bool Create(Category entity)
+    public async Task<bool> Create(Category entity)
     {
-        throw new NotImplementedException();
+        await _db.Categories.AddAsync(entity);
+        await _db.SaveChangesAsync();
+
+        return true;
     }
 
-    public Category Get(int id)
+    public async Task<Category> Get(int id)
     {
-        throw new NotImplementedException();
+        return await _db.Categories.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<Category>> Select()
     {
-        return await _context.Categories.ToListAsync();
+        return await _db.Categories.ToListAsync();
     }
 
-    public bool Delete(Category entity)
+    public async Task<bool> Delete(Category entity)
     {
-        throw new NotImplementedException();
+        _db.Categories.Remove(entity);
+        await _db.SaveChangesAsync();
+
+        return true;
     }
 
-    public Category GetByName(string name)
+    public async Task<Category> Update(Category entity)
     {
-        throw new NotImplementedException();
+        _db.Categories.Update(entity);
+        await _db.SaveChangesAsync();
+
+        return entity;
+    }
+
+    public async Task<Category> GetByName(string name)
+    {
+        return await _db.Categories.FirstOrDefaultAsync(x => x.Name == name);
     }
 }

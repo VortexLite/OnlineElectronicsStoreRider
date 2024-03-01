@@ -17,7 +17,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .ValueGeneratedOnAdd();
         
         builder.Property(d => d.DateOrder)
-            .HasColumnName("Date")
+            .HasColumnName("DateOrder")
             .HasColumnType("datetime")
             .IsRequired();
 

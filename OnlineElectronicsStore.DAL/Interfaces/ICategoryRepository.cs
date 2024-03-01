@@ -4,6 +4,5 @@ namespace OnlineElectronicsStore.DAL.Interfaces;
 
 public interface ICategoryRepository : IBaseRepository<Category>
 {
-    Category GetByName(string name);
-    
+    Task<Category> GetByName(string name);
 }

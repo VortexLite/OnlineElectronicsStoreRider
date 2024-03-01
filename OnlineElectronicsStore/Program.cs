@@ -3,6 +3,8 @@ using OnlineElectronicsStore.DAL;
 using OnlineElectronicsStore.DAL.Interfaces;
 using OnlineElectronicsStore.DAL.Repositories;
 using OnlineElectronicsStore.DAL.Seeds;
+using OnlineElectronicsStore.Service.Implementations;
+using OnlineElectronicsStore.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<DbInitializer>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

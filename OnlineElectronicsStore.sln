@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{99016C91-5D6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineElectronicsStore.DAL", "OnlineElectronicsStore.DAL\OnlineElectronicsStore.DAL.csproj", "{62BE40E9-77E2-4751-A28D-8A6D1AE50EE8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{3CB36BD0-9D52-45C0-B79C-87FB0B0138F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineElectronicsStore.Service", "OnlineElectronicsStore.Service\OnlineElectronicsStore.Service.csproj", "{CC7A09B2-3746-4FBE-9C11-183B6BD5F73D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,9 +32,14 @@ Global
 		{62BE40E9-77E2-4751-A28D-8A6D1AE50EE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62BE40E9-77E2-4751-A28D-8A6D1AE50EE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62BE40E9-77E2-4751-A28D-8A6D1AE50EE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC7A09B2-3746-4FBE-9C11-183B6BD5F73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC7A09B2-3746-4FBE-9C11-183B6BD5F73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC7A09B2-3746-4FBE-9C11-183B6BD5F73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC7A09B2-3746-4FBE-9C11-183B6BD5F73D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{12927322-6822-42F7-83D1-5FFFF54EF8C5} = {E7CB4FB9-DCAC-4FDA-AB87-4EEAEC2FA34B}
 		{62BE40E9-77E2-4751-A28D-8A6D1AE50EE8} = {99016C91-5D68-49FB-9588-649AE015DD4A}
+		{CC7A09B2-3746-4FBE-9C11-183B6BD5F73D} = {3CB36BD0-9D52-45C0-B79C-87FB0B0138F6}
 	EndGlobalSection
 EndGlobal

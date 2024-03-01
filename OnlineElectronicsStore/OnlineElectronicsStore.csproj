@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\OnlineElectronicsStore.DAL\OnlineElectronicsStore.DAL.csproj" />
+      <ProjectReference Include="..\OnlineElectronicsStore.Service\OnlineElectronicsStore.Service.csproj" />
     </ItemGroup>
 
     <ItemGroup>

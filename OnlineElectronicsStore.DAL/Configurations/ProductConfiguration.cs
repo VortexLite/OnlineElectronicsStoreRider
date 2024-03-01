@@ -21,14 +21,23 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnType("varchar(100)")
             .IsRequired();
 
-        builder.Property(n => n.Description)
-            .HasColumnName("Description")
+        builder.Property(s => s.ShortDescription)
+            .HasColumnName("ShortDescription")
+            .HasColumnType("varchar(255)")
+            .IsRequired();
+        
+        builder.Property(l => l.LongDescription)
+            .HasColumnName("LongDescription")
             .HasColumnType("varchar(255)");
         
         builder.Property(p => p.Price)
             .HasColumnName("Price")
             .HasColumnType("decimal")
             .IsRequired();
+        
+        builder.Property(i => i.Image)
+            .HasColumnName("Image")
+            .HasColumnType("text");
         
         builder.HasOne(p => p.Category)
             .WithMany(c => c.Products)

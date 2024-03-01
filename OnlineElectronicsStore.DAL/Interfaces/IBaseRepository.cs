@@ -4,11 +4,13 @@ namespace OnlineElectronicsStore.DAL.Interfaces;
 
 public interface IBaseRepository<T>
 {
-    bool Create(T entity);
+    Task<bool> Create(T entity);
 
-    T Get(int id);
+    Task<Category> Get(int id);
 
     Task<List<Category>> Select();
 
-    bool Delete(T entity);
+    Task<bool> Delete(T entity);
+
+    Task<T> Update(T entity);
 }
