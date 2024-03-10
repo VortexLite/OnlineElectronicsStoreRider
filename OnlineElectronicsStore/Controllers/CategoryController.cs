@@ -1,11 +1,6 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices.JavaScript;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OnlineElectronicsStore.DAL.Interfaces;
-using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.ViewModels.Category;
-using OnlineElectronicsStore.Models;
 using OnlineElectronicsStore.Service.Interfaces;
 
 namespace OnlineElectronicsStore.Controllers;

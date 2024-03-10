@@ -8,6 +8,9 @@ public enum StatusCode
     //Category
     CategoryElementsNotFound = 20,
     
+    //Navigation
+    NavigationElementNotFound = 30,
+    
     //All
     OK = 200,
     InternalServerError = 500

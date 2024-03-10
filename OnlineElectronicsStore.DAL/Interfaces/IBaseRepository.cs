@@ -6,9 +6,9 @@ public interface IBaseRepository<T>
 {
     Task<bool> Create(T entity);
 
-    Task<Category> Get(int id);
+    Task<T> Get(int id);
 
-    Task<List<Category>> Select();
+    Task<List<T>> Select();
 
     Task<bool> Delete(T entity);
 

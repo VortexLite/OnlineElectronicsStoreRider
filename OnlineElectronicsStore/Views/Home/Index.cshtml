@@ -1,38 +1,75 @@
-﻿@model List<OnlineElectronicsStore.Domain.Entity.Navigation>
+﻿@model List<string>
 @{
     ViewData["Title"] = "Головна сторінка";
 }
 
 <nav id="navigationFull">
     <ul id="mainNav">
-        <li><i class="fa-solid fa-laptop"></i>Ноутбуки<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-mobile-screen"></i>Смартфони<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-headphones"></i>Навушники<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-battery-full"></i>Power Bank<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-tv"></i>Телевізори<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-camera"></i>Фото і відео техніка<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-tablet"></i>Планшети<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-computer"></i>Комп'ютери<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-desktop"></i>Монітори<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-question"></i>Відеокарти<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-question"></i>Процесори<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-question"></i>Оперативна пам'ять<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-question"></i>SSD<i class="fa-solid fa-chevron-right rightborder"></i></li>
-        <li><i class="fa-solid fa-question"></i>Материнська плата<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="1"><i class="fa-solid fa-laptop"></i>Ноутбуки<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="2"><i class="fa-solid fa-mobile-screen"></i>Смартфони<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="3"><i class="fa-solid fa-headphones"></i>Навушники<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="4"><i class="fa-solid fa-battery-full"></i>Power Bank<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="5"><i class="fa-solid fa-tv"></i>Телевізори<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="6"><i class="fa-solid fa-camera"></i>Фото і відео техніка<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="7"><i class="fa-solid fa-tablet"></i>Планшети<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="8"><i class="fa-solid fa-computer"></i>Комп'ютери<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="9"><i class="fa-solid fa-desktop"></i>Монітори<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="10"><i class="fa-solid fa-question"></i>Відеокарти<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="11"><i class="fa-solid fa-question"></i>Процесори<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="12"><i class="fa-solid fa-question"></i>Оперативна пам'ять<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="13"><i class="fa-solid fa-question"></i>SSD<i class="fa-solid fa-chevron-right rightborder"></i></li>
+        <li data-id="14"><i class="fa-solid fa-question"></i>Материнська плата<i class="fa-solid fa-chevron-right rightborder"></i></li>
     </ul>
     <nav id="subcategory">
         <h2>Бренди</h2>
-        <ul>
+        
+        <ul id="elementToUpdate">
             @foreach (var item in Model)
             {
-                <li>item</li>
+                <li>@item</li>
             }
-    					
+        
             <li>Всі товари <i class="fa-solid fa-arrow-right-long"></i></li>
         </ul>
+        
     </nav>
 </nav>
 		
 <article>
-			
+
 </article>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#mainNav li").mouseout(function () {
+            var categoryId = $(this).data('id');
+    
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetNavigationByCategoryId",
+                data: { id: categoryId },
+                success: function (data) {
+                    // Заново заповнюємо elementToUpdate
+                    updateElementToUpdate(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+    
+    function updateElementToUpdate(data) {
+        var elementToUpdate = $("#elementToUpdate");
+        elementToUpdate.empty(); // Очистити елемент перед оновленням
+    
+        // Заповнюємо elementToUpdate з отриманими даними
+        $.each(data, function(index, value) {
+            elementToUpdate.append('<li>' + value + '</li>');
+        });
+    
+        // Додаткові дії, якщо потрібно, наприклад, додати "Всі товари"
+        elementToUpdate.append('<li>Всі товари <i class="fa-solid fa-arrow-right-long"></i></li>');
+    }
+</script>

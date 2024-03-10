@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using OnlineElectronicsStore.DAL.Interfaces;
-using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Models;
 
 namespace OnlineElectronicsStore.Controllers;
@@ -9,21 +8,32 @@ namespace OnlineElectronicsStore.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private readonly INavigationRepository _navigationRepository;
+    
+    public HomeController(ILogger<HomeController> logger, INavigationRepository navigationService)
     {
         _logger = logger;
+        _navigationRepository = navigationService;
     }
-
+    
     public async Task<IActionResult> Index()
     {
-        return View();
+        var nav = await _navigationRepository.NavigationRowsById(1);
+        
+        return View(nav);
     }
 
     public IActionResult Privacy()
     {
-        var nav = new List<Navigation>();
         return View();
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetNavigationByCategoryId(int id)
+    {
+        var nav = await _navigationRepository.NavigationRowsById(id);
+        
+        return Json(nav);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
