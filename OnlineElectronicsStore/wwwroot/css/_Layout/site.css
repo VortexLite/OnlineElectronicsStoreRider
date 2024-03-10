@@ -1,0 +1,254 @@
+﻿body
+{
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-gap: 8px;
+    height: 100vh;
+    grid-template-rows: 100px 1fr 100px;
+    grid-template-columns: 200px 1fr;
+    grid-template-areas: 
+	"header header" 
+	"main main" 
+	"footer footer";
+}
+
+.gridBlock
+{
+    display: grid;
+    /*background: #303030;*/
+}
+
+
+header
+{
+    grid-area: header;
+    background: #303030;
+    color: white;
+}
+
+header nav
+{
+    margin: 0 5vw;
+    display: grid;
+    align-items: center;
+    grid-auto-flow: column;
+    grid-gap: 50px;
+    grid-template-columns: 204px 220px 1fr 250px;
+}
+
+.btnCatalog
+{
+    width: 200px;
+    height: 45px;
+    border-radius: 5px;
+    border: 0;
+    font-size: 18px;
+    justify-content: center;
+    align-content: center;
+    background-color: #e00027;
+    color: white;
+}
+
+.btnCatalog:hover
+{
+    background-color: #f03a59;
+    transition: all 0.3s  ease-out;
+}
+
+.btnCatalog i
+{
+    padding: 0 5px 0 0;
+}
+
+.search input
+{
+    padding: 0 0 0 10px;
+    font-size: 16px;
+    height: 45px;
+    border-radius: 5px 0 0 5px;
+    border: 0;
+    width: 85%;
+}
+
+.search input:focus
+{
+    outline: none;
+}
+
+.search button
+{
+    height: 45px;
+    width: 50px;
+    border-radius: 0 5px 5px 0;
+    border: 0;
+    margin: 1px 0 0 -4px;
+    font-size: 16px;
+    background-color: #e00027;
+    color: white;
+}
+
+.search button:hover
+{
+    background-color: #f03a59;
+    transition: all 0.3s  ease-out;
+}
+
+.listHeader
+{
+    list-style-type: none;
+    display: grid;
+    grid-gap: 20px;
+    grid-auto-flow: column;
+    font-size: 20px;
+}
+
+.listHeader li
+{
+    padding: 5px;
+    text-align: center;
+    position: relative;
+}
+
+.listHeader li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    bottom: 0;
+    width: 2px;
+    background-color: white;
+}
+
+.listHeader li:last-child::after {
+    display: none;
+}
+
+.listHeader li:hover
+{
+    background-color: #919996;
+    transition: 0.4s ease-out;
+    border-radius: 5px;
+}
+
+#navigationFull
+{
+    display: none;
+    grid-auto-flow: column;
+    grid-template-columns: 250px 1fr;
+    grid-gap: 10px;
+    margin: 0 5vw;
+    background-color: #f0f0f0;
+    border-radius: 0 0 10px 10px;
+    font-size: 16px;
+    position: absolute;
+    width: 90vw;
+}
+
+#navigationFull #mainNav
+{
+    border: 1px none;
+    border-right-style: solid;
+    display: grid;
+}
+
+#navigationFull #mainNav li
+{
+    list-style-type: none;
+    display: grid;
+    align-items: center;
+    grid-auto-flow: column;
+    grid-template-columns: 30px 1fr 20px;
+    margin: 0 0 10px 0;
+    padding: 3px;
+    transition: box-shadow 0.3s;
+}
+
+.rightborder
+{
+    align-items: end;
+}
+
+#navigationFull #mainNav li:hover
+{
+    text-decoration-line: underline;
+    font-weight: bold;
+    box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5),
+    0 -10px 10px -10px rgba(0, 0, 0, 0.5);
+}
+
+#navigationFull #mainNav li i
+{
+    padding: 0 10px 0 0;
+}
+
+#subcategory h2
+{
+    text-align: center;
+}
+
+#subcategory ul
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 10px;
+    justify-items: center;
+    list-style-type: none;
+}
+
+#subcategory ul li:hover
+{
+    text-decoration-line: underline;
+    font-weight: bold;
+}
+
+main
+{
+    grid-area: main;
+}
+
+article
+{
+    position: relative;
+    z-index: 2;
+}
+
+footer
+{
+    grid-area: footer;
+    background: #303030;
+}
+
+footer h3
+{
+    color: white;
+    text-align: center;
+}
+
+footer nav ul
+{
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(6, 1fr);
+    list-style-type: none;
+}
+
+footer nav ul a
+{
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+}
+
+footer nav ul a:hover
+{
+    background-color: #919996;
+    transition: 0.4s ease-out;
+    border-radius: 5px;
+}
+
+footer nav ul a i
+{
+    margin-right: 10px;
+}
+

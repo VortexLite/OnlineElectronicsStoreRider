@@ -60,6 +60,30 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.ToTable("DeliveryTypes", (string)null);
                 });
 
+            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Navigation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("IdNavigation");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("IdCategory")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdProducer")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCategory");
+
+                    b.HasIndex("IdProducer");
+
+                    b.ToTable("Navigations", (string)null);
+                });
+
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -76,7 +100,7 @@ namespace OnlineElectronicsStore.DAL.Migrations
 
                     b.Property<DateTime>("DateOrder")
                         .HasColumnType("datetime")
-                        .HasColumnName("Date");
+                        .HasColumnName("DateOrder");
 
                     b.Property<int>("IdDeliveryType")
                         .HasColumnType("int");
@@ -166,15 +190,20 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("Description");
-
                     b.Property<int>("IdCategory")
                         .HasColumnType("int");
 
                     b.Property<int>("IdProducer")
                         .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Image");
+
+                    b.Property<string>("LongDescription")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("LongDescription");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -184,6 +213,11 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal")
                         .HasColumnName("Price");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("ShortDescription");
 
                     b.HasKey("Id");
 
@@ -416,6 +450,25 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.ToTable("WishLists", (string)null);
                 });
 
+            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Navigation", b =>
+                {
+                    b.HasOne("OnlineElectronicsStore.Domain.Entity.Category", "Category")
+                        .WithMany("Navigations")
+                        .HasForeignKey("IdCategory")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineElectronicsStore.Domain.Entity.Producer", "Producer")
+                        .WithMany("Navigations")
+                        .HasForeignKey("IdProducer")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Producer");
+                });
+
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Order", b =>
                 {
                     b.HasOne("OnlineElectronicsStore.Domain.Entity.DeliveryType", "DeliveryType")
@@ -570,6 +623,8 @@ namespace OnlineElectronicsStore.DAL.Migrations
 
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Category", b =>
                 {
+                    b.Navigation("Navigations");
+
                     b.Navigation("Products");
                 });
 
@@ -588,6 +643,8 @@ namespace OnlineElectronicsStore.DAL.Migrations
 
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Producer", b =>
                 {
+                    b.Navigation("Navigations");
+
                     b.Navigation("Products");
                 });
 

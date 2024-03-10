@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineElectronicsStore.DAL.Configurations;
-using OnlineElectronicsStore.DAL.Seeds;
 using OnlineElectronicsStore.Domain.Entity;
 
 namespace OnlineElectronicsStore.DAL;
@@ -21,6 +20,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<StatusDelivery> StatusDeliveries { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Producer> Producers { get; set; }
+    public DbSet<Navigation> Navigations { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<WishList> WishLists { get; set; }
     public DbSet<ProductWishList> ProductWishLists { get; set; }
@@ -28,6 +28,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<OrderDetail> OrderDetails { get; set; }
     public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
     public DbSet<ReturnOrder> ReturnOrders { get; set; }
+    
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -45,6 +46,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new StatusDeliveryConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new ProducerConfiguration());
+        modelBuilder.ApplyConfiguration(new NavigationConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new WishListConfiguration());
         modelBuilder.ApplyConfiguration(new ProductWishListConfiguration());
@@ -52,8 +54,5 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
         modelBuilder.ApplyConfiguration(new ShoppingCartItemConfiguration());
         modelBuilder.ApplyConfiguration(new ReturnOrderConfiguration());
-        
-        
     }
-    
 }

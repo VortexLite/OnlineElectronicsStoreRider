@@ -5,7 +5,7 @@
 namespace OnlineElectronicsStore.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateDB : Migration
+    public partial class Addnavigationtable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,14 +19,64 @@ namespace OnlineElectronicsStore.DAL.Migrations
                 table: "Orders");
 
             migrationBuilder.RenameColumn(
+                name: "Description",
+                table: "Products",
+                newName: "LongDescription");
+
+            migrationBuilder.RenameColumn(
                 name: "TotalCose",
                 table: "Orders",
                 newName: "TotalCost");
 
             migrationBuilder.RenameColumn(
+                name: "Date",
+                table: "Orders",
+                newName: "DateOrder");
+
+            migrationBuilder.RenameColumn(
                 name: "IdOrderDetails",
                 table: "OrderDetails",
                 newName: "IdOrderDetail");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Image",
+                table: "Products",
+                type: "text",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "ShortDescription",
+                table: "Products",
+                type: "varchar(255)",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.CreateTable(
+                name: "Navigations",
+                columns: table => new
+                {
+                    IdNavigation = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdCategory = table.Column<int>(type: "int", nullable: false),
+                    IdProducer = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Navigations", x => x.IdNavigation);
+                    table.ForeignKey(
+                        name: "FK_Navigations_Categories_IdCategory",
+                        column: x => x.IdCategory,
+                        principalTable: "Categories",
+                        principalColumn: "IdCategory",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Navigations_Producers_IdProducer",
+                        column: x => x.IdProducer,
+                        principalTable: "Producers",
+                        principalColumn: "IdProducer",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateTable(
                 name: "WishLists",
@@ -86,6 +136,16 @@ namespace OnlineElectronicsStore.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Navigations_IdCategory",
+                table: "Navigations",
+                column: "IdCategory");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Navigations_IdProducer",
+                table: "Navigations",
+                column: "IdProducer");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductWishLists_idProduct",
                 table: "ProductWishLists",
                 column: "idProduct");
@@ -105,6 +165,9 @@ namespace OnlineElectronicsStore.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Navigations");
+
+            migrationBuilder.DropTable(
                 name: "ProductWishLists");
 
             migrationBuilder.DropTable(
@@ -118,10 +181,28 @@ namespace OnlineElectronicsStore.DAL.Migrations
                 name: "IX_Orders_IdDeliveryType",
                 table: "Orders");
 
+            migrationBuilder.DropColumn(
+                name: "Image",
+                table: "Products");
+
+            migrationBuilder.DropColumn(
+                name: "ShortDescription",
+                table: "Products");
+
+            migrationBuilder.RenameColumn(
+                name: "LongDescription",
+                table: "Products",
+                newName: "Description");
+
             migrationBuilder.RenameColumn(
                 name: "TotalCost",
                 table: "Orders",
                 newName: "TotalCose");
+
+            migrationBuilder.RenameColumn(
+                name: "DateOrder",
+                table: "Orders",
+                newName: "Date");
 
             migrationBuilder.RenameColumn(
                 name: "IdOrderDetail",

@@ -1,49 +1,94 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ua">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - OnlineElectronicsStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/OnlineElectronicsStore.styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/_Layout/site.css" asp-append-version="true"/>
 </head>
-<body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OnlineElectronicsStore</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
+<body class="backgroundBody">
+    <header class="gridBlock">
+    		<nav>
+    			<img src="~/lib/Images/logo.webp" class="imgLogo"  alt="Logo Gadgets store"/>
+    			
+    			<button class="btnCatalog">
+    				<i class="fa-solid fa-bars"></i>
+    				Каталог
+    			</button>
+    
+    			<form class="search">
+    				<input type="text" placeholder="Пошук товарів" maxlength="128" name="search" autocomplete="off">
+    				<button  type="submit" >
+    					<i class="fa-solid fa-magnifying-glass"></i>
+    				</button>
+    			</form>
+    			
+    			<ul class="listHeader">
+    				<li><i class="fa-solid fa-user"></i></li>
+    				<li><i class="fa-solid fa-heart"></i></li>
+    				<li><i class="fa-solid fa-cart-shopping"></i></li>
+    			</ul>
+    		</nav>
+    	</header>
+    
+	<main class="gridBlock">
+		@RenderBody()
+   	</main>
+    
+   	<footer class="gridBlock">
+   		<nav>
+   			<h3>Розробники проекту</h3>
+   			<ul>
+   				<li>
+   					<a href="https://www.instagram.com/roman.yagodka">
+   						<i class="fa-brands fa-instagram"></i>
+   						Ягодка
+   					</a>
+   				</li>
+    
+   				<li>
+   					<a href="https://www.instagram.com/v0ldemar.s">
+   						<i class="fa-brands fa-instagram"></i>
+   						Смородько
+   					</a>
+   				</li>
+    
+   				<li>
+   					<a href="https://www.instagram.com/dimaolshanskyj">
+   						<i class="fa-brands fa-instagram"></i>
+   						Ольшанський
+   					</a>
+   				</li>
+    
+   				<li>
+   					<a href="https://www.instagram.com/sherbanstas">
+   						<i class="fa-brands fa-instagram"></i>
+   						Щербань
+   					</a>
+   				</li>
+    
+   				<li>
+   					<a href="https://www.instagram.com/mandawatcher">
+   						<i class="fa-brands fa-instagram"></i>
+   						Вовк
+   					</a>
+   				</li>
+    
+   				<li>
+   					<a href="https://www.instagram.com/daryna_v4">
+   						<i class="fa-brands fa-instagram"></i>
+   						Ведмеденко
+   					</a>
+   				</li>
+   			</ul>
+   		</nav>
+    </footer>    
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2023 - OnlineElectronicsStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </div>
-</footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://kit.fontawesome.com/ea97496765.js" crossorigin="anonymous"></script>
+<script src="~/js/_Layout/site.js"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

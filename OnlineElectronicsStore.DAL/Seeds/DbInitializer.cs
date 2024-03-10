@@ -1,5 +1,4 @@
 ﻿using OnlineElectronicsStore.Domain.Entity;
-
 namespace OnlineElectronicsStore.DAL.Seeds;
 
 public class DbInitializer
@@ -9,7 +8,8 @@ public class DbInitializer
     {
         _context = context;
     }
-    public async Task Seed()
+    
+    public async Task SeedCategories()
     {
         if (!_context.Categories.Any())
         {
@@ -37,10 +37,6 @@ public class DbInitializer
                 },
                 new Category
                 {
-                    Name = "Звук. обладнання"
-                },
-                new Category
-                {
                     Name = "Фото і відео техніка"
                 },
                 new Category
@@ -54,10 +50,6 @@ public class DbInitializer
                 new Category
                 {
                     Name = "Монітори"
-                },
-                new Category
-                {
-                    Name = "Комп'ютери"
                 },
                 new Category
                 {
@@ -82,7 +74,12 @@ public class DbInitializer
             };
             await _context.AddRangeAsync(categories);
         }
+        
+        await _context.SaveChangesAsync();
+    }
 
+    public async Task SeedDeliveryTypes()
+    {
         if (!_context.DeliveryTypes.Any())
         {
             var deliveryTypes = new List<DeliveryType>()
@@ -101,8 +98,12 @@ public class DbInitializer
                 }
             };
             await _context.AddRangeAsync(deliveryTypes);
+            await _context.SaveChangesAsync();
         }
-
+    }
+    
+    public async Task SeedProducers()
+    {
         if (!_context.Producers.Any())
         {
             var producers = new List<Producer>()
@@ -139,10 +140,608 @@ public class DbInitializer
                 {
                     Name = "ASUS"
                 },
+                new Producer
+                {
+                    Name = "LG"
+                },
+                new Producer
+                {
+                    Name = "Sony"
+                },
+                new Producer
+                {
+                    Name = "Philips"
+                },
+                new Producer
+                {
+                    Name = "Marshall"
+                },
+                new Producer
+                {
+                    Name = "Logitech"
+                },
+                new Producer
+                {
+                    Name = "Baseus"
+                },
+                new Producer
+                {
+                    Name = "Panasonic"
+                },
+                new Producer
+                {
+                    Name = "Canon"
+                },
+                new Producer
+                {
+                    Name = "Nikon"
+                },
+                
+                new Producer
+                {
+                    Name = "Fujifilm"
+                },
+                new Producer
+                {
+                    Name = "Realme"
+                },
+                new Producer
+                {
+                    Name = "Pixel"
+                },
+                new Producer
+                {
+                    Name = "ASRock"
+                },
+                new Producer
+                {
+                    Name = "Dell"
+                },
+                new Producer
+                {
+                    Name = "Gigabyte"
+                },
+                new Producer
+                {
+                    Name = "Sapphire"
+                },
+                new Producer
+                {
+                    Name = "Kingston"
+                },
+                new Producer
+                {
+                    Name = "Intel"
+                },
+                new Producer
+                {
+                    Name = "AMD"
+                }
             };
             await _context.AddRangeAsync(producers);
+            await _context.SaveChangesAsync();
         }
-        
+    }
+    
+    public async Task SeedNavigations()
+    {
+        if (!_context.Navigations.Any())
+        {
+            var navigations = new List<Navigation>()
+            {
+                new Navigation
+                {
+                    IdCategory = 1,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 1,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 1,
+                    IdProducer = 3
+                },
+                new Navigation
+                {
+                    IdCategory = 1,
+                    IdProducer = 4
+                },
+                new Navigation
+                {
+                    IdCategory = 1,
+                    IdProducer = 5
+                },
+                new Navigation
+                {
+                    IdCategory = 1,
+                    IdProducer = 6
+                },
+                new Navigation
+                {
+                    IdCategory = 1,
+                    IdProducer = 8
+                },
+                new Navigation
+                {
+                    IdCategory = 1,
+                    IdProducer = 22
+                },
+                new Navigation
+                {
+                    IdCategory = 1,
+                    IdProducer = 23
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 3
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 5
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 6
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 7
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 8
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 9
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 10
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 19
+                },
+                new Navigation
+                {
+                    IdCategory = 2,
+                    IdProducer = 20
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 3
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 4
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 5
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 6
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 7
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 8
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 9
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 10
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 11
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 12
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 13
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 14
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 15
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 19
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 20
+                },
+                new Navigation
+                {
+                    IdCategory = 3,
+                    IdProducer = 23
+                },
+                new Navigation
+                {
+                    IdCategory = 4,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 4,
+                    IdProducer = 3
+                },
+                new Navigation
+                {
+                    IdCategory = 4,
+                    IdProducer = 5
+                },
+                new Navigation
+                {
+                    IdCategory = 4,
+                    IdProducer = 11
+                },
+                new Navigation
+                {
+                    IdCategory = 4,
+                    IdProducer = 15
+                },
+                new Navigation
+                {
+                    IdCategory = 5,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 5,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 5,
+                    IdProducer = 3
+                },
+                new Navigation
+                {
+                    IdCategory = 5,
+                    IdProducer = 5
+                },
+                new Navigation
+                {
+                    IdCategory = 5,
+                    IdProducer = 8
+                },
+                new Navigation
+                {
+                    IdCategory = 5,
+                    IdProducer = 9
+                },
+                new Navigation
+                {
+                    IdCategory = 5,
+                    IdProducer = 22
+                },
+                new Navigation
+                {
+                    IdCategory = 6,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 6,
+                    IdProducer = 9
+                },
+                new Navigation
+                {
+                    IdCategory = 6,
+                    IdProducer = 10
+                },
+                new Navigation
+                {
+                    IdCategory = 6,
+                    IdProducer = 15
+                },
+                new Navigation
+                {
+                    IdCategory = 6,
+                    IdProducer = 16
+                },
+                new Navigation
+                {
+                    IdCategory = 6,
+                    IdProducer = 17
+                },
+                new Navigation
+                {
+                    IdCategory = 6,
+                    IdProducer = 18
+                },
+                new Navigation
+                {
+                    IdCategory = 7,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 7,
+                    IdProducer = 5
+                },
+                new Navigation
+                {
+                    IdCategory = 7,
+                    IdProducer = 6
+                },
+                new Navigation
+                {
+                    IdCategory = 7,
+                    IdProducer = 7
+                },
+                new Navigation
+                {
+                    IdCategory = 7,
+                    IdProducer = 8
+                },
+                new Navigation
+                {
+                    IdCategory = 7,
+                    IdProducer = 9
+                },
+                new Navigation
+                {
+                    IdCategory = 7,
+                    IdProducer = 10
+                },
+                new Navigation
+                {
+                    IdCategory = 7,
+                    IdProducer = 19
+                },
+                new Navigation
+                {
+                    IdCategory = 8,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 8,
+                    IdProducer = 3
+                },
+                new Navigation
+                {
+                    IdCategory = 8,
+                    IdProducer = 4
+                },
+                new Navigation
+                {
+                    IdCategory = 8,
+                    IdProducer = 6
+                },
+                new Navigation
+                {
+                    IdCategory = 8,
+                    IdProducer = 8
+                },
+                new Navigation
+                {
+                    IdCategory = 8,
+                    IdProducer = 10
+                },
+                new Navigation
+                {
+                    IdCategory = 8,
+                    IdProducer = 21
+                },
+                new Navigation
+                {
+                    IdCategory = 8,
+                    IdProducer = 22
+                },
+                new Navigation
+                {
+                    IdCategory = 8,
+                    IdProducer = 23
+                },
+                new Navigation
+                {
+                    IdCategory = 9,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 9,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 9,
+                    IdProducer = 3
+                },
+                new Navigation
+                {
+                    IdCategory = 9,
+                    IdProducer = 4
+                },
+                new Navigation
+                {
+                    IdCategory = 9,
+                    IdProducer = 5
+                },
+                new Navigation
+                {
+                    IdCategory = 9,
+                    IdProducer = 8
+                },
+                new Navigation
+                {
+                    IdCategory = 9,
+                    IdProducer = 9
+                },
+                new Navigation
+                {
+                    IdCategory = 9,
+                    IdProducer = 22
+                },
+                new Navigation
+                {
+                    IdCategory = 10,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 10,
+                    IdProducer = 8
+                },
+                new Navigation
+                {
+                    IdCategory = 10,
+                    IdProducer = 21
+                },
+                new Navigation
+                {
+                    IdCategory = 10,
+                    IdProducer = 23
+                },
+                new Navigation
+                {
+                    IdCategory = 10,
+                    IdProducer = 24
+                },
+                new Navigation
+                {
+                    IdCategory = 11,
+                    IdProducer = 26
+                },
+                new Navigation
+                {
+                    IdCategory = 11,
+                    IdProducer = 27
+                },
+                new Navigation
+                {
+                    IdCategory = 12,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 12,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 12,
+                    IdProducer = 25
+                },
+                new Navigation
+                {
+                    IdCategory = 13,
+                    IdProducer = 1
+                },
+                new Navigation
+                {
+                    IdCategory = 13,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 13,
+                    IdProducer = 4
+                },
+                new Navigation
+                {
+                    IdCategory = 13,
+                    IdProducer = 25
+                },
+                new Navigation
+                {
+                    IdCategory = 14,
+                    IdProducer = 2
+                },
+                new Navigation
+                {
+                    IdCategory = 14,
+                    IdProducer = 4
+                },
+                new Navigation
+                {
+                    IdCategory = 14,
+                    IdProducer = 8
+                },
+                new Navigation
+                {
+                    IdCategory = 14,
+                    IdProducer = 23
+                },
+                new Navigation
+                {
+                    IdCategory = 14,
+                    IdProducer = 24
+                }
+            };
+            await _context.AddRangeAsync(navigations);
+            await _context.SaveChangesAsync();
+        }
+    }
+    
+    public async Task SeedStatusDeliveries()
+    {
         if (!_context.StatusDeliveries.Any())
         {
             var statusDelivery = new List<StatusDelivery>()
@@ -169,9 +768,8 @@ public class DbInitializer
                 }
             };
             await _context.AddRangeAsync(statusDelivery);
+            await _context.SaveChangesAsync();
         }
-        
-        await _context.SaveChangesAsync();
     }
-    
 }
+

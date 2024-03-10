@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using OnlineElectronicsStore.DAL.Interfaces;
+using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Models;
 
 namespace OnlineElectronicsStore.Controllers;
@@ -21,6 +22,7 @@ public class HomeController : Controller
 
     public IActionResult Privacy()
     {
+        var nav = new List<Navigation>();
         return View();
     }
 

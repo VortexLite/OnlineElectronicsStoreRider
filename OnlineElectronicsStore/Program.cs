@@ -20,16 +20,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 var app = builder.Build();
 
-//SeedData(app);
+SeedData(app);
 
-void SeedData(IHost app)
+async Task SeedData(IHost app)
 {
     var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 
     using (var scope = scopedFactory.CreateScope())
     {
         var service = scope.ServiceProvider.GetService<DbInitializer>();
-        service.Seed();
+        await service.SeedCategories();
+        await service.SeedDeliveryTypes();
+        await service.SeedProducers();
+        await service.SeedNavigations();
+        await service.SeedStatusDeliveries();
     }
 }
 
