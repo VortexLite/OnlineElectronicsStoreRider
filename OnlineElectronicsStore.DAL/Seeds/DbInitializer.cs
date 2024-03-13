@@ -73,9 +73,10 @@ public class DbInitializer
                 }
             };
             await _context.AddRangeAsync(categories);
+            await _context.SaveChangesAsync();
         }
         
-        await _context.SaveChangesAsync();
+        
     }
 
     public async Task SeedDeliveryTypes()
@@ -768,6 +769,97 @@ public class DbInitializer
                 }
             };
             await _context.AddRangeAsync(statusDelivery);
+            await _context.SaveChangesAsync();
+        }
+    }
+    
+    public async Task SeedCategoryReviews()
+    {
+        if (!_context.CategoryReviews.Any())
+        {
+            var categoryReviews = new List<CategoryReview>()
+            {
+                new CategoryReview
+                {
+                    Name = "User"
+                },
+                new CategoryReview
+                {
+                    Name = "Order"
+                },
+                new CategoryReview
+                {
+                    Name = "Product"
+                }
+            };
+            await _context.AddRangeAsync(categoryReviews);
+            await _context.SaveChangesAsync();
+        }
+    }
+    
+    /*public async Task SeedImages()
+    {
+        if (!_context.Images.Any())
+        {
+            
+            await _context.AddRangeAsync(images);
+            await _context.SaveChangesAsync();
+        }
+    }*/
+    
+    public async Task SeedProducts()
+    {
+        if (!_context.Products.Any())
+        {
+            var products = new List<Product>()
+            {
+                new Product
+                {
+                    Name = "Xiaomi 14 12/512GB Black",
+                    ShortDescription = "test",
+                    Price = 4499,
+                    Amount = 1,
+                    IdCategory = 2,
+                    IdProducer = 5
+                },
+                new Product
+                {
+                    Name = "Телевізор Xiaomi TV A2 32",
+                    ShortDescription = "test",
+                    Price = 8499,
+                    Amount = 1,
+                    IdCategory = 5,
+                    IdProducer = 5
+                },
+                new Product
+                {
+                    Name = "Навушники Apple AirPods with Charging Case 2 gen (MV7N2RU/A) White",
+                    ShortDescription = "test",
+                    Price = 4999,
+                    Amount = 1,
+                    IdCategory = 3,
+                    IdProducer = 6
+                },
+                new Product
+                {
+                    Name = "Планшет Xiaomi Redmi Pad SE 4/128GB Graphite Gray (VHU4448EU)",
+                    ShortDescription = "test",
+                    Price = 7999,
+                    Amount = 1,
+                    IdCategory = 7,
+                    IdProducer = 5
+                },
+                new Product
+                {
+                    Name = "Монітор 23.8\\ Xiaomi Mi Monitor 1C (BHR4510GL) Black",
+                    ShortDescription = "test",
+                    Price = 3999,
+                    Amount = 1,
+                    IdCategory = 5,
+                    IdProducer = 5
+                }
+            };
+            await _context.AddRangeAsync(products);
             await _context.SaveChangesAsync();
         }
     }

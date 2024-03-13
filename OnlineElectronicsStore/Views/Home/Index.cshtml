@@ -1,4 +1,4 @@
-﻿@model OnlineElectronicsStore.Controllers.Temp
+﻿@model OnlineElectronicsStore.Domain.Helpers.Pair<OnlineElectronicsStore.Domain.Response.IBaseResponse<List<string>>, OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.Entity.Product>>>
 @{
     ViewData["Title"] = "Головна сторінка";
 }
@@ -24,7 +24,7 @@
         <h2>Бренди</h2>
         
         <ul id="elementToUpdate">
-            @foreach (var item in Model.DataString.Data)
+            @foreach (var item in Model.First.Data)
             {
                 <li>@item</li>
             }
@@ -36,7 +36,7 @@
 </nav>
 
 <article>
-    @await Html.PartialAsync("ProductsCard", Model.DataProduct.Data)
+    @await Html.PartialAsync("ProductsCard", Model.Second.Data)
 </article>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

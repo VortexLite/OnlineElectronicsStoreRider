@@ -18,7 +18,7 @@ public class ProducerConfiguration : IEntityTypeConfiguration<Producer>
 
         builder.Property(p => p.Name)
             .HasColumnName("NameProducer")
-            .HasColumnType("varchar(50)")
+            .HasColumnType("nvarchar(50)")
             .IsRequired();
     }
 }

@@ -18,7 +18,7 @@ public class DeliveryTypeConfiguration : IEntityTypeConfiguration<DeliveryType>
 
         builder.Property(p => p.Name)
             .HasColumnName("NameDeliveryType")
-            .HasColumnType("varchar(50)")
+            .HasColumnType("nvarchar(50)")
             .IsRequired();
     }
 }

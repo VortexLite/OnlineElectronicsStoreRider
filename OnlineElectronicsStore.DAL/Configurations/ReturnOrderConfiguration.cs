@@ -23,7 +23,7 @@ public class ReturnOrderConfiguration : IEntityTypeConfiguration<ReturnOrder>
 
         builder.Property(r => r.Reason)
             .HasColumnName("Reason")
-            .HasColumnType("varchar(255)")
+            .HasColumnType("nvarchar(max)")
             .IsRequired();
         
         builder.HasOne(ro => ro.StatusDelivery)

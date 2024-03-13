@@ -28,7 +28,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         
         builder.Property(a => a.Address)
             .HasColumnName("Address")
-            .HasColumnType("varchar(100)")
+            .HasColumnType("nvarchar(100)")
             .IsRequired();
         
         builder.HasOne(o => o.User)

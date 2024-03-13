@@ -37,11 +37,15 @@ async Task SeedData(IHost app)
     using (var scope = scopedFactory.CreateScope())
     {
         var service = scope.ServiceProvider.GetService<DbInitializer>();
+        
         await service.SeedCategories();
         await service.SeedDeliveryTypes();
         await service.SeedProducers();
         await service.SeedNavigations();
         await service.SeedStatusDeliveries();
+        await service.SeedCategoryReviews();
+        await service.SeedProducts();
+        //await service.SeedImages();
     }
 }
 

@@ -18,4 +18,5 @@ public class Order
 
     public List<OrderDetail> OrderDetails { get; set; }
     public List<ReturnOrder> ReturnOrders { get; set; }
+    public List<Review> Reviews { get; set; }
 }

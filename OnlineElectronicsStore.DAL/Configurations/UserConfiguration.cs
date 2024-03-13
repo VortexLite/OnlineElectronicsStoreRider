@@ -18,12 +18,12 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(p => p.Login)
             .HasColumnName("Login")
-            .HasColumnType("varchar(50)")
+            .HasColumnType("nvarchar(50)")
             .IsRequired();
 
         builder.Property(p => p.Password)
             .HasColumnName("Password")
-            .HasColumnType("varchar(50)")
+            .HasColumnType("nvarchar(50)")
             .IsRequired();
 
         builder.HasOne(u => u.Role)
@@ -31,7 +31,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasForeignKey(u => u.IdRole);
         
         builder.HasOne(u => u.Profile)
-            .WithOne(r => r.User)
+            .WithOne(p => p.User)
             .HasForeignKey<User>(p => p.IdProfile);
     }
 }

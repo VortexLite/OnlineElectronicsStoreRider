@@ -18,7 +18,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         builder.Property(p => p.Name)
             .HasColumnName("NameCategory")
-            .HasColumnType("varchar(50)")
+            .HasColumnType("nvarchar(50)")
             .IsRequired();
     }
 }

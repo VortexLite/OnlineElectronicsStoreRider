@@ -8,8 +8,7 @@ public class Product
     public string? LongDescription { get; set; }
     public decimal Price { get; set; }
     public int Amount { get; set; }
-    public string Image { get; set; }
-
+    
     public int IdCategory { get; set; }
     public Category Category { get; set; }
 
@@ -18,6 +17,7 @@ public class Product
 
     public List<OrderDetail> OrderDetails { get; set; }
     public List<ShoppingCartItem> ShoppingCartItems { get; set; }
-
+    public List<Image> Images { get; set; }
     public List<ProductWishList> ProductWishLists { get; set; }
+    public List<Review> Reviews { get; set; }
 }

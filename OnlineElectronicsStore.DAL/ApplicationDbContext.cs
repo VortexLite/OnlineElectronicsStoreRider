@@ -28,8 +28,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<OrderDetail> OrderDetails { get; set; }
     public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
     public DbSet<ReturnOrder> ReturnOrders { get; set; }
-    
-    
+    public DbSet<CategoryReview> CategoryReviews { get; set; }
+    public DbSet<Image> Images { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -54,5 +56,8 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
         modelBuilder.ApplyConfiguration(new ShoppingCartItemConfiguration());
         modelBuilder.ApplyConfiguration(new ReturnOrderConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryReviewConfiguration());
+        modelBuilder.ApplyConfiguration(new ImageConfiguration());
+        modelBuilder.ApplyConfiguration(new ReviewConfiguration());
     }
 }

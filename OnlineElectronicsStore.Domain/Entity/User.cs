@@ -15,4 +15,5 @@ public class User
     public List<Order> Orders { get; set; }
     public List<ShoppingCartItem> ShoppingCartItems { get; set; }
     public List<WishList> WishLists { get; set; }
+    public List<Review> Reviews { get; set; }
 }

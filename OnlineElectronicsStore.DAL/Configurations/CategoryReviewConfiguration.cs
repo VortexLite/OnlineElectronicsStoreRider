@@ -4,20 +4,20 @@ using OnlineElectronicsStore.Domain.Entity;
 
 namespace OnlineElectronicsStore.DAL.Configurations;
 
-public class StatusDeliveryConfiguration : IEntityTypeConfiguration<StatusDelivery>
+public class CategoryReviewConfiguration : IEntityTypeConfiguration<CategoryReview>
 {
-    public void Configure(EntityTypeBuilder<StatusDelivery> builder)
+    public void Configure(EntityTypeBuilder<CategoryReview> builder)
     {
-        builder.ToTable("StatusDelivery");
+        builder.ToTable("CategoryReviews");
         builder.HasKey(k => k.Id);
 
         builder.Property(k => k.Id)
-            .HasColumnName("IdStatusDelivery")
+            .HasColumnName("IdCategoryReview")
             .HasColumnType("int")
             .ValueGeneratedOnAdd();
 
         builder.Property(p => p.Name)
-            .HasColumnName("NameStatusDelivery")
+            .HasColumnName("NameCategory")
             .HasColumnType("nvarchar(50)")
             .IsRequired();
     }

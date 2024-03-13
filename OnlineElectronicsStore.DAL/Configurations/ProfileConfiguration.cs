@@ -18,29 +18,29 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
 
         builder.Property(p => p.Name)
             .HasColumnName("Name")
-            .HasColumnType("varchar(50)")
+            .HasColumnType("nvarchar(50)")
             .IsRequired();
         
         builder.Property(p => p.Surname)
             .HasColumnName("Surname")
-            .HasColumnType("varchar(50)")
+            .HasColumnType("nvarchar(50)")
             .IsRequired();
 
         builder.Property(p => p.Middlename)
             .HasColumnName("Middlename")
-            .HasColumnType("varchar(50)");
+            .HasColumnType("nvarchar(50)");
         
         builder.Property(p => p.Phone)
             .HasColumnName("Phone")
-            .HasColumnType("varchar(15)");
+            .HasColumnType("nvarchar(15)");
         
         builder.Property(p => p.Email)
             .HasColumnName("Email")
-            .HasColumnType("varchar(50)")
+            .HasColumnType("nvarchar(50)")
             .IsRequired();
 
         builder.Property(p => p.Address)
             .HasColumnName("Address")
-            .HasColumnType("varchar(100)");
+            .HasColumnType("nvarchar(100)");
     }
 }

@@ -18,7 +18,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 
         builder.Property(p => p.Name)
             .HasColumnName("NameRole")
-            .HasColumnType("varchar(20)")
+            .HasColumnType("nvarchar(20)")
             .IsRequired();
     }
 }

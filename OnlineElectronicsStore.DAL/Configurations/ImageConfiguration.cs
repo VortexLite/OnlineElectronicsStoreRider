@@ -4,21 +4,19 @@ using OnlineElectronicsStore.Domain.Entity;
 
 namespace OnlineElectronicsStore.DAL.Configurations;
 
-public class StatusDeliveryConfiguration : IEntityTypeConfiguration<StatusDelivery>
+public class ImageConfiguration : IEntityTypeConfiguration<Image>
 {
-    public void Configure(EntityTypeBuilder<StatusDelivery> builder)
+    public void Configure(EntityTypeBuilder<Image> builder)
     {
-        builder.ToTable("StatusDelivery");
+        builder.ToTable("Images");
         builder.HasKey(k => k.Id);
 
         builder.Property(k => k.Id)
-            .HasColumnName("IdStatusDelivery")
+            .HasColumnName("IdImage")
             .HasColumnType("int")
             .ValueGeneratedOnAdd();
 
-        builder.Property(p => p.Name)
-            .HasColumnName("NameStatusDelivery")
-            .HasColumnType("nvarchar(50)")
+        builder.Property(p => p.ImageData)
             .IsRequired();
     }
 }

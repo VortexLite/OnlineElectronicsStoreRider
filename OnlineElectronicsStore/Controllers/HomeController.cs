@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Response;
+using OnlineElectronicsStore.Domain.Helpers;
 using OnlineElectronicsStore.Models;
 using OnlineElectronicsStore.Service.Interfaces;
 
@@ -25,10 +25,10 @@ public class HomeController : Controller
     {
         var response = await _navigationService.NavigationRowsById(1);
         var response2 = await _productService.GetProducts();
-        var tempResponse = new Temp()
+        var tempResponse = new Pair<IBaseResponse<List<string>>, IBaseResponse<List<Product>>>()
         {
-            DataString = response,
-            DataProduct = response2
+            First = response,
+            Second = response2
         };
         if (response.StatusCode == Domain.Enum.StatusCode.OK)
         {
@@ -55,25 +55,9 @@ public class HomeController : Controller
         return RedirectToAction("Error");
     }
 
-    public async Task<IActionResult> ProductsView()
-    {
-        /*if (response.StatusCode == Domain.Enum.StatusCode.OK)
-        {
-            return PartialView(response);
-        }*/
-
-        return RedirectToAction("Error");
-    }
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-}
-
-public class Temp
-{
-    public IBaseResponse<List<string>> DataString { get; set; }
-    public IBaseResponse<List<Product>> DataProduct { get; set; }
 }
