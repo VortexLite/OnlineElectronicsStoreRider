@@ -1,39 +1,68 @@
+using System.Collections;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using OnlineElectronicsStore.DAL.Interfaces;
+using OnlineElectronicsStore.Domain.Entity;
+using OnlineElectronicsStore.Domain.Response;
 using OnlineElectronicsStore.Models;
+using OnlineElectronicsStore.Service.Interfaces;
 
 namespace OnlineElectronicsStore.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly INavigationRepository _navigationRepository;
+    private readonly INavigationService _navigationService;
+    private readonly IProductService _productService;
     
-    public HomeController(ILogger<HomeController> logger, INavigationRepository navigationService)
+    public HomeController(ILogger<HomeController> logger, INavigationService navigationService, IProductService productService)
     {
         _logger = logger;
-        _navigationRepository = navigationService;
+        _navigationService = navigationService;
+        _productService = productService;
     }
     
     public async Task<IActionResult> Index()
     {
-        var nav = await _navigationRepository.NavigationRowsById(1);
-        
-        return View(nav);
+        var response = await _navigationService.NavigationRowsById(1);
+        var response2 = await _productService.GetProducts();
+        var tempResponse = new Temp()
+        {
+            DataString = response,
+            DataProduct = response2
+        };
+        if (response.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return View(tempResponse);
+        }
+
+        return RedirectToAction("Error");
     }
 
     public IActionResult Privacy()
     {
         return View();
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetNavigationByCategoryId(int id)
     {
-        var nav = await _navigationRepository.NavigationRowsById(id);
-        
-        return Json(nav);
+        var response = await _navigationService.NavigationRowsById(id);
+        if (response.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return Json(response.Data.ToList());
+        }
+
+        return RedirectToAction("Error");
+    }
+
+    public async Task<IActionResult> ProductsView()
+    {
+        /*if (response.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return PartialView(response);
+        }*/
+
+        return RedirectToAction("Error");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -41,4 +70,10 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+}
+
+public class Temp
+{
+    public IBaseResponse<List<string>> DataString { get; set; }
+    public IBaseResponse<List<Product>> DataProduct { get; set; }
 }

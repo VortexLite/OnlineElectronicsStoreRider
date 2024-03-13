@@ -111,6 +111,7 @@ public class CategoryService : ICategoryService
             }
 
             await _categoryRepository.Delete(category);
+            baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
             return baseResponse;
@@ -150,11 +151,6 @@ public class CategoryService : ICategoryService
         }
     }
 
-    public Task<IBaseResponse<Category>> EditCategory(int id, CategoryViewModel categoryViewModel)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<IBaseResponse<Category>> EditCategory(CategoryViewModel categoryViewModel)
     {
         var baseResponse = new BaseResponse<Category>();
@@ -171,6 +167,7 @@ public class CategoryService : ICategoryService
             category.Name = categoryViewModel.Name;
 
             await _categoryRepository.Update(category);
+            baseResponse.Data = category;
             baseResponse.StatusCode = StatusCode.OK;
 
             return baseResponse;

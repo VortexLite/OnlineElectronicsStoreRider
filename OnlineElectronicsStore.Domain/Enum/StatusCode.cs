@@ -11,6 +11,9 @@ public enum StatusCode
     //Navigation
     NavigationElementNotFound = 30,
     
+    //Product
+    ProductElementNotFound = 40,
+    
     //All
     OK = 200,
     InternalServerError = 500

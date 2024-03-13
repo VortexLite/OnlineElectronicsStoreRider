@@ -137,6 +137,7 @@ public class NavigationService : INavigationService
             }
 
             await _navigationRepository.Delete(navigation);
+            baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
             return baseResponse;

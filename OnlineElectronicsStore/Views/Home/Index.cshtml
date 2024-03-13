@@ -1,4 +1,4 @@
-﻿@model List<string>
+﻿@model OnlineElectronicsStore.Controllers.Temp
 @{
     ViewData["Title"] = "Головна сторінка";
 }
@@ -24,7 +24,7 @@
         <h2>Бренди</h2>
         
         <ul id="elementToUpdate">
-            @foreach (var item in Model)
+            @foreach (var item in Model.DataString.Data)
             {
                 <li>@item</li>
             }
@@ -34,9 +34,9 @@
         
     </nav>
 </nav>
-		
-<article>
 
+<article>
+    @await Html.PartialAsync("ProductsCard", Model.DataProduct.Data)
 </article>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
