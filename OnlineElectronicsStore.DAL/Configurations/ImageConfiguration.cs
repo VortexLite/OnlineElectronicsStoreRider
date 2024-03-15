@@ -15,8 +15,5 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             .HasColumnName("IdImage")
             .HasColumnType("int")
             .ValueGeneratedOnAdd();
-
-        builder.Property(p => p.ImageData)
-            .IsRequired();
     }
 }

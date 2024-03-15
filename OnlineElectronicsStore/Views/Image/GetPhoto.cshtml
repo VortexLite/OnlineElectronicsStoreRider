@@ -1,0 +1,9 @@
+﻿@model List<OnlineElectronicsStore.Domain.Entity.Image>
+
+<h2>GetPhoto</h2>
+
+@foreach (var photo in Model)
+    {
+        <img src="@Url.Action("GetPhoto", "Image", new { id = photo.Id })" alt="Фото">
+    }
+

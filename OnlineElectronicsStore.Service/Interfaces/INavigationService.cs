@@ -5,10 +5,8 @@ namespace OnlineElectronicsStore.Service.Interfaces;
 
 public interface INavigationService
 {
-    Task<IBaseResponse<IEnumerable<Navigation>>> GetNavigations();
+    Task<IBaseResponse<List<Navigation>>> GetNavigations();
     Task<IBaseResponse<Navigation>> GetNavigation(int id);
-    Task<IBaseResponse<List<string>>> NavigationByRows(string name);
-    Task<IBaseResponse<List<string>>> NavigationRowsById(int id);
     Task<IBaseResponse<bool>> DeleteNavigation(int id);
     
     //Доработка

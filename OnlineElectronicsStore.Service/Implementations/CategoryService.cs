@@ -15,9 +15,9 @@ public class CategoryService : ICategoryService
     {
         _categoryRepository = categoryRepository;
     }
-    public async Task<IBaseResponse<IEnumerable<Category>>> GetCategories()
+    public async Task<IBaseResponse<List<Category>>> GetCategories()
     {
-        var baseResponse = new BaseResponse<IEnumerable<Category>>();
+        var baseResponse = new BaseResponse<List<Category>>();
         try
         {
             var category = await _categoryRepository.Select();
@@ -35,7 +35,7 @@ public class CategoryService : ICategoryService
         }
         catch (Exception ex)
         {
-            return new BaseResponse<IEnumerable<Category>>()
+            return new BaseResponse<List<Category>>()
             {
                 Desription = $"[GetCategories] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
@@ -126,9 +126,9 @@ public class CategoryService : ICategoryService
         }
     }
     
-    public async Task<IBaseResponse<CategoryViewModel>> CreateCategory(CategoryViewModel categoryViewModel)
+    public async Task<IBaseResponse<bool>> CreateCategory(CategoryViewModel categoryViewModel)
     {
-        var baseResponse = new BaseResponse<CategoryViewModel>();
+        var baseResponse = new BaseResponse<bool>();
         try
         {
             var category = new Category()
@@ -137,13 +137,14 @@ public class CategoryService : ICategoryService
             };
 
             await _categoryRepository.Create(category);
+            baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
 
             return baseResponse;
         }
         catch (Exception ex)
         {
-            return new BaseResponse<CategoryViewModel>()
+            return new BaseResponse<bool>()
             {
                 Desription = $"[CreateCategory] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
@@ -176,7 +177,7 @@ public class CategoryService : ICategoryService
         {
             return new BaseResponse<Category>()
             {
-                Desription = $"[CreateCategory] : {ex.Message}",
+                Desription = $"[EditCategory] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

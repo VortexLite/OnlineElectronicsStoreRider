@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image Form</title>
+    <style>
+        form {
+            margin: 20px auto;
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="submit"] {
+            margin-top: 10px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<form method="post" asp-action="Upload" enctype="multipart/form-data">
+    <input type="file" name="uploadImage" accept="image/*" multiple required>
+    <input type="text" name="idProduct" placeholder="Enter Product ID" required>
+    <input type="submit" value="Upload Image">
+</form>
+
+</body>
+</html>

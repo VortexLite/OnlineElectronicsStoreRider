@@ -14,6 +14,12 @@ public enum StatusCode
     //Product
     ProductElementNotFound = 40,
     
+    //Producer
+    ProducerElementNotFound = 50,
+    
+    //Image
+    ImageElementNotFound = 60,
+    
     //All
     OK = 200,
     InternalServerError = 500

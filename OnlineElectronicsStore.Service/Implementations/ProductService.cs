@@ -2,6 +2,7 @@
 using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Enum;
 using OnlineElectronicsStore.Domain.Response;
+using OnlineElectronicsStore.Domain.ViewModels;
 using OnlineElectronicsStore.Domain.ViewModels.Product;
 using OnlineElectronicsStore.Service.Interfaces;
 
@@ -98,6 +99,33 @@ public class ProductService : IProductService
         }
     }
 
+    public async Task<IBaseResponse<List<ProductViewModel>>> GetProductWithImages()
+    {
+        var baseResponse = new BaseResponse<List<ProductViewModel>>();
+        try
+        {
+            var productWithImage = await _productRepository.GetProductWithImages();
+            if (productWithImage == null)
+            {
+                baseResponse.Desription = "Found 0 items";
+                baseResponse.StatusCode = StatusCode.ProductElementNotFound;
+                return baseResponse;
+            }
+
+            baseResponse.Data = productWithImage;
+            baseResponse.StatusCode = StatusCode.OK;
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<List<ProductViewModel>>()
+            {
+                Desription = $"[GetByNameProduct] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
     public async Task<IBaseResponse<bool>> DeleteProduct(int id)
     {
         var baseResponse = new BaseResponse<bool>();
@@ -122,6 +150,63 @@ public class ProductService : IProductService
             return new BaseResponse<bool>()
             {
                 Desription = $"[DeleteProduct] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse<bool>> CreateProduct(ProductViewModel productViewModel)
+    {
+        var baseResponse = new BaseResponse<bool>();
+        try
+        {
+            var product = new Product()
+            {
+                Name = productViewModel.Name
+            };
+
+            await _productRepository.Create(product);
+            baseResponse.Data = true;
+            baseResponse.StatusCode = StatusCode.OK;
+
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<bool>()
+            {
+                Desription = $"[CreateProduct] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse<Product>> EditProduct(ProductViewModel productViewModel)
+    {
+        var baseResponse = new BaseResponse<Product>();
+        try
+        {
+            var product = await _productRepository.Get(productViewModel.Id);
+            if (product == null)
+            {
+                baseResponse.Desription = $"Element with id:{productViewModel.Id} not found";
+                baseResponse.StatusCode = StatusCode.ProductElementNotFound;
+                return baseResponse;
+            }
+
+            product.Name = productViewModel.Name;
+
+            await _productRepository.Update(product);
+            baseResponse.Data = product;
+            baseResponse.StatusCode = StatusCode.OK;
+
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<Product>()
+            {
+                Desription = $"[EditProduct] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

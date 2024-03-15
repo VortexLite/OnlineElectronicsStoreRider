@@ -24,4 +24,13 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Product\Add.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\UploadImage.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Product\Add.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Product\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Product\UploadImage.cshtml" />
+    </ItemGroup>
+
 </Project>

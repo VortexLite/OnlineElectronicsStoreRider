@@ -1,4 +1,6 @@
-﻿@model OnlineElectronicsStore.Domain.Helpers.Pair<OnlineElectronicsStore.Domain.Response.IBaseResponse<List<string>>, OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.Entity.Product>>>
+﻿@model OnlineElectronicsStore.Domain.Helpers.Pair<
+    OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.Entity.Producer>>, 
+    OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Product.ProductViewModel>>>
 @{
     ViewData["Title"] = "Головна сторінка";
 }
@@ -26,7 +28,7 @@
         <ul id="elementToUpdate">
             @foreach (var item in Model.First.Data)
             {
-                <li>@item</li>
+                <li>@item.Name</li>
             }
         
             <li>Всі товари <i class="fa-solid fa-arrow-right-long"></i></li>
@@ -36,7 +38,7 @@
 </nav>
 
 <article>
-    @await Html.PartialAsync("ProductsCard", Model.Second.Data)
+    @await Html.PartialAsync("ProductsCard", Model.Second)
 </article>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -44,6 +46,7 @@
     $(document).ready(function () {
         $("#mainNav li").mouseout(function () {
             var categoryId = $(this).data('id');
+            
     
             $.ajax({
                 type: "GET",
@@ -66,7 +69,7 @@
     
         // Заповнюємо elementToUpdate з отриманими даними
         $.each(data, function(index, value) {
-            elementToUpdate.append('<li>' + value + '</li>');
+            elementToUpdate.append('<li>' + value.name + '</li>');
         });
     
         // Додаткові дії, якщо потрібно, наприклад, додати "Всі товари"

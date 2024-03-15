@@ -1,21 +1,21 @@
-﻿@model List<OnlineElectronicsStore.Domain.Entity.Product>
+﻿@model OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Product.ProductViewModel>>
 
-@foreach (var product in Model)
+@for (int i = 0; i < 5; i++)
 {
-	for (int i = 0; i < 5; i++)
-	{
-		<section>
-			<img src="">
-			<p class="nameProduct">
-				<a>@product.Name</a>
-			</p>
-			<div class="stars" data-rating="3"></div>
-			<button class="wishList"><i class="fa-solid fa-heart"></i></button>
-			<p class="priceProduct">@product.Price</p>
-			<button class="cart"><i class="fa-solid fa-cart-shopping"></i></button>
-		</section>
-	}
-}
+    @foreach (var product in Model.Data)
+    {
+        <section>
+            <img src="data:image;base64,@Convert.ToBase64String(@product.ImageBase64)" alt="@product.Name">
+            <p class="nameProduct">
+                <a>@product.Name</a>
+            </p>
+            <div class="stars" data-rating="3"></div>
+            <button class="wishList"><i class="fa-solid fa-heart"></i></button>
+            <p class="priceProduct">@product.Price ₴</p>
+            <button class="cart"><i class="fa-solid fa-cart-shopping"></i></button>
+        </section>
+    }
 
+}
 
 
