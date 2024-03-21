@@ -15,5 +15,9 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             .HasColumnName("IdImage")
             .HasColumnType("int")
             .ValueGeneratedOnAdd();
+        
+        builder.HasOne(i => i.Product)
+            .WithMany(p => p.Images)
+            .HasForeignKey(i => i.IdProduct);
     }
 }

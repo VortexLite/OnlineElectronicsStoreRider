@@ -9,13 +9,14 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        /*Database.EnsureDeleted();
-        Database.EnsureCreated();*/
+        Database.EnsureDeleted();
+        Database.EnsureCreated();
     }
     
     public DbSet<Role> Roles { get; set; }
     public DbSet<Profile> Profiles { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<DeliveryType> DeliveryTypes { get; set; }
     public DbSet<StatusDelivery> StatusDeliveries { get; set; }
     public DbSet<Category> Categories { get; set; }
@@ -44,6 +45,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new ProfileConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
         modelBuilder.ApplyConfiguration(new DeliveryTypeConfiguration());
         modelBuilder.ApplyConfiguration(new StatusDeliveryConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());

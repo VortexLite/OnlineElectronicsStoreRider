@@ -797,16 +797,6 @@ public class DbInitializer
         }
     }
     
-    /*public async Task SeedImages()
-    {
-        if (!_context.Images.Any())
-        {
-            
-            await _context.AddRangeAsync(images);
-            await _context.SaveChangesAsync();
-        }
-    }*/
-    
     public async Task SeedProducts()
     {
         if (!_context.Products.Any())
