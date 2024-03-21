@@ -5,6 +5,8 @@ using OnlineElectronicsStore.DAL.Repositories;
 using OnlineElectronicsStore.DAL.Seeds;
 using OnlineElectronicsStore.Service.Implementations;
 using OnlineElectronicsStore.Service.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using OnlineElectronicsStore.Domain.Entity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+    
 var app = builder.Build();
 
 SeedData(app);
@@ -68,6 +71,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

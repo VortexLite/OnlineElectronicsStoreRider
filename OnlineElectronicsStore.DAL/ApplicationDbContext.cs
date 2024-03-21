@@ -1,16 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OnlineElectronicsStore.DAL.Configurations;
 using OnlineElectronicsStore.Domain.Entity;
 
 namespace OnlineElectronicsStore.DAL;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
+        /*Database.EnsureDeleted();
+        Database.EnsureCreated();*/
     }
     
     public DbSet<Role> Roles { get; set; }

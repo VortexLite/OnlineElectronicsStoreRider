@@ -1,6 +1,8 @@
-﻿namespace OnlineElectronicsStore.Domain.Entity;
+﻿using Microsoft.AspNetCore.Identity;
 
-public class User
+namespace OnlineElectronicsStore.Domain.Entity;
+
+public class User : IdentityUser
 {
     public int Id { get; set; }
     public string Login { get; set; }

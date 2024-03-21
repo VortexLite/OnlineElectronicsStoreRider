@@ -1,6 +1,8 @@
-﻿namespace OnlineElectronicsStore.Domain.Entity;
+﻿using Microsoft.AspNetCore.Identity;
 
-public class Role
+namespace OnlineElectronicsStore.Domain.Entity;
+
+public class Role : IdentityRole
 { 
     public int Id { get; set; }
     public string Name { get; set; }
