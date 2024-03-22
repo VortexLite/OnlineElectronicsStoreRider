@@ -18,5 +18,4 @@ public class User : IdentityUser
     public List<ShoppingCartItem> ShoppingCartItems { get; set; }
     public List<WishList> WishLists { get; set; }
     public List<Review> Reviews { get; set; }
-    public List<UserRole> UserRoles { get; set; }
 }

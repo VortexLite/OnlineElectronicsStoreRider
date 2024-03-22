@@ -20,6 +20,9 @@ public enum StatusCode
     //Image
     ImageElementNotFound = 60,
     
+    //Authenticate
+    AuthenticateUserNotFound = 70,
+    
     //All
     OK = 200,
     InternalServerError = 500

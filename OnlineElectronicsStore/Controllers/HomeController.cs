@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineElectronicsStore.DAL;
 using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Response;
 using OnlineElectronicsStore.Domain.Helpers;
@@ -16,15 +18,16 @@ public class HomeController : Controller
     private readonly IProductService _productService;
     private readonly IImageService _imageService;
     
-    public HomeController(ILogger<HomeController> logger, IProducerService producerService, IProductService productService, IImageService imageService)
+    public HomeController(ILogger<HomeController> logger, IProducerService producerService, 
+        IProductService productService, IImageService imageService)
     {
         _logger = logger;
         _producerService = producerService;
         _productService = productService;
         _imageService = imageService;
     }
-    
-    public async Task<IActionResult> Index()
+    [Authorize]
+    public IActionResult Index()
     {
         /*var response = await _producerService.NavigationRowsById(1);
         var response2 = await _productService.GetProducts();
@@ -42,7 +45,7 @@ public class HomeController : Controller
         };*/
         
         
-        var responseNavigation = await _producerService.NavigationRowsById(14);
+        /*var responseNavigation = await _producerService.NavigationRowsById(14);
         var responseProductWithImage = await _productService.GetProductWithImages();
         
         var responseResult = new Pair<IBaseResponse<List<Producer>>, IBaseResponse<List<ProductViewModel>>>()
@@ -57,7 +60,8 @@ public class HomeController : Controller
             return View(responseResult);
         }
 
-        return RedirectToAction("Error");
+        return RedirectToAction("Error");*/
+        return Content(User.Identity.Name);
     }
     
     

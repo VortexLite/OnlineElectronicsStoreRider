@@ -1,0 +1,92 @@
+﻿article
+{
+    z-index: 2;
+    display: grid;
+    margin: 0 35vw;
+    grid-gap: 5px;
+    font-size: 18px;
+}
+
+#RegistrationAuthorization
+{
+    position: relative;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+    background: linear-gradient(180deg, #09165c, #6820c7);
+    background-size: 400% 400%;
+    animation: linerGradient 30s ease infinite;
+
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 50px);
+
+}
+
+@keyframes linerGradient {
+    0%{background-position:25% 0%}
+    50%{background-position:76% 100%}
+    100%{background-position:25% 0%}
+}
+
+h2 {
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#signIn
+{
+    grid-column: 1;
+    grid-row: 1;
+    text-decoration: underline #fff;
+}
+
+#signUp
+{
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.RegistrationAuthorization {
+    margin-top: 20px;
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    display: grid;
+}
+
+.RegistrationAuthorization label {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.RegistrationAuthorization input[type="text"],
+.RegistrationAuthorization input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.RegistrationAuthorization button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.RegistrationAuthorization button[type="submit"]:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}

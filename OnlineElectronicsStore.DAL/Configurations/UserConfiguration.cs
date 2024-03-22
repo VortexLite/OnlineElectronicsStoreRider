@@ -9,12 +9,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("Users");
-        builder.HasKey(k => k.Id);
-        
-        builder.Property(k => k.Id)
-            .HasColumnName("IdUser")
-            .HasColumnType("int")
-            .ValueGeneratedOnAdd();
 
         builder.Property(p => p.Login)
             .HasColumnName("Login")

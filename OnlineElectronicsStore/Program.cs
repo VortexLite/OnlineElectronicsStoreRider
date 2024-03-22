@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using OnlineElectronicsStore.DAL;
 using OnlineElectronicsStore.DAL.Interfaces;
@@ -29,15 +30,33 @@ builder.Services.AddScoped<IProducerService, ProducerService>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IAuthenticateRepository, AuthenticateRepository>();
+builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-    
+builder.Services.AddIdentity<User, Role>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+    });
+
+builder.Services.AddControllersWithViews();
+
+
+
 var app = builder.Build();
 
-SeedData(app);
+await SeedData(app);
 
 async Task SeedData(IHost app)
 {
@@ -54,7 +73,6 @@ async Task SeedData(IHost app)
         await service.SeedStatusDeliveries();
         await service.SeedCategoryReviews();
         await service.SeedProducts();
-        //await service.SeedImages();
     }
 }
 
@@ -76,6 +94,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}");
+    pattern: "{controller=Home}/{action=Index}/{id}");
 
 app.Run();
