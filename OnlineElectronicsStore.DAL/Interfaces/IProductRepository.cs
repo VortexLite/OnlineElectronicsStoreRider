@@ -8,4 +8,6 @@ public interface IProductRepository : IBaseRepository<Product>
     Task<Product> GetByName(string name);
 
     Task<List<ProductViewModel>> GetProductWithImages();
+
+    Task<List<ProductViewModel>> GetsByName(string name);
 }

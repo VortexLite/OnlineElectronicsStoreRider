@@ -18,7 +18,7 @@ public class HomeController : Controller
     private readonly IProductService _productService;
     
     public HomeController(ILogger<HomeController> logger, IProducerService producerService, 
-        IProductService productService, IImageService imageService)
+        IProductService productService)
     {
         _logger = logger;
         _producerService = producerService;
@@ -27,7 +27,7 @@ public class HomeController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> Index()
     { 
-        var responseNavigation = await _producerService.NavigationRowsById(14);
+        var responseNavigation = await _producerService.NavigationRowsById(1);
         var responseProductWithImage = await _productService.GetProductWithImages();
         
         var responseResult = new Pair<IBaseResponse<List<Producer>>, IBaseResponse<List<ProductViewModel>>>()
@@ -44,6 +44,26 @@ public class HomeController : Controller
 
         return RedirectToAction("Error");
     }
+    
+    public async Task<IActionResult> Search(string search)
+    {
+        if (string.IsNullOrEmpty(search))
+        {
+            return RedirectToAction("Index");
+        }
+
+        var responseNavigation = await _producerService.NavigationRowsById(1);
+        var searchResults = await _productService.GetsByName(search);
+
+        var responseResult = new Pair<IBaseResponse<List<Producer>>, IBaseResponse<List<ProductViewModel>>>()
+        {
+            First = responseNavigation,
+            Second = searchResults
+        };
+
+        return View("Index", responseResult);
+    }
+
     
     public IActionResult Privacy()
     {

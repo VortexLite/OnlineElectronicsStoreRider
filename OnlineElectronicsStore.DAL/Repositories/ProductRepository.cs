@@ -56,29 +56,50 @@ public class ProductRepository : IProductRepository
     public async Task<List<ProductViewModel>> GetProductWithImages()
     {
         var products = await _db.Products.ToListAsync();
-        var images = await _db.Images.ToListAsync();
-            
-        // Створюємо список ViewModel для продуктів
+        //var images = await _db.Images.ToListAsync();
+        
         var viewModels = new List<ProductViewModel>();
         foreach (var product in products)
         {
-            // Отримуємо перше зображення для кожного продукту
-            var firstImage = images.FirstOrDefault(i => i.Id == product.Id);
+            //var firstImage = images.FirstOrDefault(i => i.Id == product.Id);
+            var image = await _db.Images.FirstOrDefaultAsync(i => i.Id == product.Id);
             
-            // Створюємо ViewModel для продукту
             var viewModel = new ProductViewModel
             {
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
-                // Конвертуємо зображення у формат base64
-                ImageBase64 = firstImage.ImageData
+                ImageBase64 = image.ImageData
             };
             // Додаємо ViewModel до списку
             viewModels.Add(viewModel);
         }
+        
+        return viewModels;
+    }
 
-        // Передаємо список ViewModel у представлення для відображення
+    public async Task<List<ProductViewModel>> GetsByName(string name)
+    {
+        var products = await _db.Products
+            .Where(p => EF.Functions.Like(p.Name, "%" + name + "%"))
+            .ToListAsync();
+        
+        var viewModels = new List<ProductViewModel>();
+        foreach (var product in products)
+        {
+            var image = await _db.Images.FirstOrDefaultAsync(i => i.Id == product.Id);
+            
+            var viewModel = new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                ImageBase64 = image.ImageData
+            };
+            // Додаємо ViewModel до списку
+            viewModels.Add(viewModel);
+        }
+        
         return viewModels;
     }
 }

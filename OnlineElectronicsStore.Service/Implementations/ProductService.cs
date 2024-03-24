@@ -104,7 +104,34 @@ public class ProductService : IProductService
         var baseResponse = new BaseResponse<List<ProductViewModel>>();
         try
         {
-            var productWithImage = await _productRepository.GetProductWithImages();
+            var productsWithImage = await _productRepository.GetProductWithImages();
+            if (productsWithImage == null)
+            {
+                baseResponse.Desription = "Found 0 items";
+                baseResponse.StatusCode = StatusCode.ProductElementNotFound;
+                return baseResponse;
+            }
+
+            baseResponse.Data = productsWithImage;
+            baseResponse.StatusCode = StatusCode.OK;
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<List<ProductViewModel>>()
+            {
+                Desription = $"[GetProductWithImages] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse<List<ProductViewModel>>> GetsByName(string name)
+    {
+        var baseResponse = new BaseResponse<List<ProductViewModel>>();
+        try
+        {
+            var productWithImage = await _productRepository.GetsByName(name);
             if (productWithImage == null)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -120,7 +147,7 @@ public class ProductService : IProductService
         {
             return new BaseResponse<List<ProductViewModel>>()
             {
-                Desription = $"[GetByNameProduct] : {ex.Message}",
+                Desription = $"[GetsByName] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

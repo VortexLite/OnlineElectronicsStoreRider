@@ -18,26 +18,37 @@
     				Каталог
     			</button>
     
-    			<form class="search">
+    			<form class="search" method="get" asp-controller="Home" asp-action="Search">
     				<input type="text" placeholder="Пошук товарів" maxlength="128" name="search" autocomplete="off">
-    				<button  type="submit" >
+    				<button  type="submit">
     					<i class="fa-solid fa-magnifying-glass"></i>
     				</button>
     			</form>
-    			
-    			<ul class="listHeader">
-					<li class="userIcon"><i class="fa-solid fa-user"></i>
-                		<ul class="userMenu">
-                			<li>Мої замовлення</li>
-                	        <li>Мої відгуки</li>
-                	        <li>Особиста інформація</li>
-                	        <hr color="lightgray">
-                	        <li>Вийти з акаунта</li>
-                	    </ul>
-                	</li>
-                	<li><i class="fa-solid fa-heart"></i></li>
-                	<li><i class="fa-solid fa-cart-shopping"></i></li>
-                </ul>
+			    
+			    @if (User.Identity.IsAuthenticated)
+			    {
+				    <ul class="listHeader">
+					    <li class="userIcon"><i class="fa-solid fa-user"></i>
+						    <ul class="userMenu">
+							    <li><i class="fa-solid fa-user"></i>Особиста інформація</li>
+							    <li><i class="fa-solid fa-list-ul"></i>Мої замовлення</li>
+							    <li><i class="fa-solid fa-comment"></i>Мої відгуки</li>
+							    <hr color="lightgray">
+							    <li><i class="fa-solid fa-right-from-bracket"></i>Вийти з акаунта</li>
+						    </ul>
+					    </li>
+					    <li><i class="fa-solid fa-heart"></i></li>
+					    <li><i class="fa-solid fa-cart-shopping"></i></li>
+				    </ul>
+			    }
+			    else
+			    {
+				    <ul class="listHeader">
+					    <a asp-controller="Account" asp-action="Login"><li class="userIcon"><i class="fa-solid fa-user"></i></li></a>
+					    <li><i class="fa-solid fa-heart"></i></li>
+					    <li><i class="fa-solid fa-cart-shopping"></i></li>
+				    </ul>
+			    }
     		</nav>
     	</header>
     

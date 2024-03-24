@@ -127,7 +127,8 @@ header nav
     display: none;
 }
 
-.listHeader li:hover
+.listHeader li:hover,
+.userMenu li:hover
 {
     background-color: #919996;
     transition: 0.4s ease-out;
@@ -143,6 +144,19 @@ header nav
 .listHeader li:hover .userMenu 
 {
     display: block;
+}
+
+.listHeader a,
+.userMenu a
+{
+    text-decoration: none;
+    color: black;
+}
+
+.listHeader a:visited,
+.userMenu a:visited
+{
+    text-decoration: none;
 }
 
 .userMenu 
@@ -169,6 +183,11 @@ header nav
 {
     background-color: #f0f0f0;
     border-radius: 0;
+}
+
+.userMenu li i
+{
+    margin-right: 5px;
 }
 
 #navigationFull
