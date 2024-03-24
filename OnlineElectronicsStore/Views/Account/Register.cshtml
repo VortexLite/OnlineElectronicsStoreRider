@@ -1,12 +1,14 @@
 ﻿@model OnlineElectronicsStore.Domain.ViewModels.Account.RegisterViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Реєстрація";
     Layout = "_Layout";
 }
 
+
 <style>
-	article
+        
+    article
     {
         z-index: 2;
         display: grid;
@@ -20,8 +22,9 @@
     {
         position: relative;
         padding: 20px;
+        
         border-radius: 20px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
         color: white;
         background: linear-gradient(180deg, #09165c, #6820c7);
         background-size: 400% 400%;
@@ -30,14 +33,13 @@
         display: grid;
         grid-gap: 10px;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(4, 50px);
     
     }
     
     @@keyframes linerGradient {
-        0%{background-position:25% 0}
+        0%{background-position:25% 0%}
         50%{background-position:76% 100%}
-        100%{background-position:25% 0}
+        100%{background-position:25% 0%}
     }
     
     #RegistrationAuthorization a
@@ -45,8 +47,8 @@
         text-decoration: none;
         color: white;
     }
-    
-    #RegistrationAuthorization a:visited
+        
+        #RegistrationAuthorization a:visited
         {
             text-decoration: none;
         }
@@ -88,8 +90,9 @@
     }
     
     .RegistrationAuthorization input[type="text"],
+    .RegistrationAuthorization input[type="email"],
     .RegistrationAuthorization input[type="password"] {
-        width: 100%;
+        width: calc(100% - 20px);
         padding: 10px;
         margin-bottom: 10px;
         border: none;
@@ -110,26 +113,32 @@
     .RegistrationAuthorization button[type="submit"]:hover {
         background-color: rgba(255, 255, 255, 0.8);
     }
+
 </style>
 
 <article>
     <div id="RegistrationAuthorization">
         <a asp-action="Login"><h2 id="signIn">Авторизація</h2></a>
     	<h2 id="signUp">Реєстрація</h2>
-    
+		    
         <form id="Registration" class="RegistrationAuthorization"
               asp-action="Register" asp-controller="Account"
               asp-antiforgery="true">
-    	    <label asp-for="Login">Логін</label>
-    		<input type="text" asp-for="Login">
-    
-    		<label asp-for="Password">Пароль</label>
-    		<input type="Password" asp-for="Password">
-    
-    		<label asp-for="ConfirmPassword">Підтвердження пароля</label>
-    		<input type="Password" asp-for="ConfirmPassword">
-    
-    		<button type="submit" class="btnFormRegAuth">Зареєструватися</button>
-    	</form>
+            <label asp-for="Email">Email</label>
+            <input type="email" asp-for="Email">
+	            
+            <label asp-for="Login">Логін</label>
+            <input type="text" asp-for="Login">
+
+            <label asp-for="Password">Пароль</label>
+            <input type="Password" asp-for="Password">
+
+            <label asp-for="ConfirmPassword">Підтвердження пароля</label>
+            <input type="Password" asp-for="ConfirmPassword">
+
+            <br>
+
+            <button type="submit" class="btnFormRegAuth">Зареєструватися</button>
+        </form>
     </div>
 </article>

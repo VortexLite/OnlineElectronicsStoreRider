@@ -31,9 +31,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasColumnType("nvarchar(100)")
             .IsRequired();
         
-        builder.HasOne(o => o.User)
+        builder.HasOne(o => o.Profile)
             .WithMany(u => u.Orders)
-            .HasForeignKey(o => o.IdUser);
+            .HasForeignKey(o => o.IdProfile);
 
         builder.HasOne(o => o.DeliveryType)
             .WithOne(d => d.Orders)

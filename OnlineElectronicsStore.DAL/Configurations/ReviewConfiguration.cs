@@ -21,9 +21,9 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
             .HasColumnType("nvarchar(max)")
             .IsRequired();
         
-        builder.HasOne(r => r.User)
+        builder.HasOne(r => r.Profile)
             .WithMany(u => u.Reviews)
-            .HasForeignKey(r => r.IdUser);
+            .HasForeignKey(r => r.IdProfile);
         
         builder.HasOne(r => r.Product)
             .WithMany(p => p.Reviews)

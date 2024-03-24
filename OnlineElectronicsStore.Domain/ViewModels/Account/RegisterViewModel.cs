@@ -4,6 +4,10 @@ namespace OnlineElectronicsStore.Domain.ViewModels.Account;
 
 public class RegisterViewModel
 {
+    [Required(ErrorMessage ="Не вказаний email")]
+    
+    public string Email { get; set; }
+    
     [Required(ErrorMessage ="Не вказаний логін")]
     public string Login { get; set; }
          

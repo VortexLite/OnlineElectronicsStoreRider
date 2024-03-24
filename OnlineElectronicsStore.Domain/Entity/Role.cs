@@ -2,8 +2,8 @@
 
 namespace OnlineElectronicsStore.Domain.Entity;
 
-public class Role : IdentityRole
-{ 
+public class Role
+{
     public int Id { get; set; }
     public string Name { get; set; }
     

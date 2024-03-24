@@ -10,10 +10,12 @@ namespace OnlineElectronicsStore.Service.Implementations;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IProfileRepository _profileRepository;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IProfileRepository profileRepository)
     {
         _userRepository = userRepository;
+        _profileRepository = profileRepository;
     }
     public async Task<IBaseResponse<List<User>>> GetUsers()
     {
@@ -107,9 +109,24 @@ public class UserService : IUserService
             var user = new User()
             {
                 Login = registerViewModel.Login,
-                Password = registerViewModel.Password
+                Password = registerViewModel.Password,
+                IdRole = 3
             };
 
+            var profile = new Profile
+            {
+                Name = null,
+                Surname = null,
+                Middlename = null,
+                Phone = null,
+                Email = registerViewModel.Email,
+                Address = null
+            };
+
+            await _profileRepository.Create(profile);
+            
+            user.IdProfile = profile.Id;
+            
             await _userRepository.Create(user);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;

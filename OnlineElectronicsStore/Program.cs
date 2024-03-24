@@ -6,8 +6,6 @@ using OnlineElectronicsStore.DAL.Repositories;
 using OnlineElectronicsStore.DAL.Seeds;
 using OnlineElectronicsStore.Service.Implementations;
 using OnlineElectronicsStore.Service.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using OnlineElectronicsStore.Domain.Entity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,18 +34,19 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthenticateRepository, AuthenticateRepository>();
 builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
 
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddIdentity<User, Role>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+        options.LoginPath = new PathString("/Account/Login");
+        options.AccessDeniedPath = new PathString("/Account/Login");
     });
 
 builder.Services.AddControllersWithViews();
@@ -73,6 +72,9 @@ async Task SeedData(IHost app)
         await service.SeedStatusDeliveries();
         await service.SeedCategoryReviews();
         await service.SeedProducts();
+        await service.SeedRoles();
+        await service.SeedProfile();
+        await service.SeedUsers();
     }
 }
 
@@ -94,6 +96,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id}");
+    pattern: "{controller=Home}/{action=Index}");
 
 app.Run();

@@ -23,6 +23,9 @@ public enum StatusCode
     //Authenticate
     AuthenticateUserNotFound = 70,
     
+    //Profile
+    ProfileUserNotFound = 80,
+    
     //All
     OK = 200,
     InternalServerError = 500

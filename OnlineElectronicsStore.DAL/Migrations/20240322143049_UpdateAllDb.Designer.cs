@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineElectronicsStore.DAL;
 
@@ -11,9 +12,11 @@ using OnlineElectronicsStore.DAL;
 namespace OnlineElectronicsStore.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240322143049_UpdateAllDb")]
+    partial class UpdateAllDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,8 +35,10 @@ namespace OnlineElectronicsStore.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("NameRole");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
@@ -47,6 +52,8 @@ namespace OnlineElectronicsStore.DAL.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -137,6 +144,8 @@ namespace OnlineElectronicsStore.DAL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -510,6 +519,7 @@ namespace OnlineElectronicsStore.DAL.Migrations
                         .HasColumnName("Middlename");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("Name");
 
@@ -518,6 +528,7 @@ namespace OnlineElectronicsStore.DAL.Migrations
                         .HasColumnName("Phone");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("Surname");
 
@@ -605,25 +616,6 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.ToTable("Reviews", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("IdRole");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("NameRole");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles", (string)null);
-                });
-
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.ShoppingCartItem", b =>
                 {
                     b.Property<int>("Id")
@@ -675,42 +667,6 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.ToTable("StatusDelivery", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("IdUser");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("IdProfile")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdRole")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("Login");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("Password");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdProfile")
-                        .IsUnique()
-                        .HasFilter("[IdProfile] IS NOT NULL");
-
-                    b.HasIndex("IdRole");
-
-                    b.ToTable("Users", (string)null);
-                });
-
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.WishList", b =>
                 {
                     b.Property<int>("Id")
@@ -728,6 +684,42 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.HasIndex("IdProfile");
 
                     b.ToTable("WishLists", (string)null);
+                });
+
+            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Role", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.ToTable("Roles", (string)null);
+                });
+
+            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<int>("IdProfile")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Login");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Password");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("IdProfile")
+                        .IsUnique()
+                        .HasFilter("[IdProfile] IS NOT NULL");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -964,21 +956,6 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.User", b =>
-                {
-                    b.HasOne("OnlineElectronicsStore.Domain.Entity.Profile", "Profile")
-                        .WithOne("User")
-                        .HasForeignKey("OnlineElectronicsStore.Domain.Entity.User", "IdProfile");
-
-                    b.HasOne("OnlineElectronicsStore.Domain.Entity.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("IdRole");
-
-                    b.Navigation("Profile");
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.WishList", b =>
                 {
                     b.HasOne("OnlineElectronicsStore.Domain.Entity.Profile", "Profile")
@@ -986,6 +963,36 @@ namespace OnlineElectronicsStore.DAL.Migrations
                         .HasForeignKey("IdProfile")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Role", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithOne()
+                        .HasForeignKey("OnlineElectronicsStore.Domain.Entity.Role", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.User", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("OnlineElectronicsStore.Domain.Entity.User", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineElectronicsStore.Domain.Entity.Profile", "Profile")
+                        .WithOne("User")
+                        .HasForeignKey("OnlineElectronicsStore.Domain.Entity.User", "IdProfile")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineElectronicsStore.Domain.Entity.Role", null)
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Profile");
                 });
@@ -1051,11 +1058,6 @@ namespace OnlineElectronicsStore.DAL.Migrations
                     b.Navigation("WishLists");
                 });
 
-            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Role", b =>
-                {
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.StatusDelivery", b =>
                 {
                     b.Navigation("Orders");
@@ -1066,6 +1068,11 @@ namespace OnlineElectronicsStore.DAL.Migrations
             modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.WishList", b =>
                 {
                     b.Navigation("ProductWishLists");
+                });
+
+            modelBuilder.Entity("OnlineElectronicsStore.Domain.Entity.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

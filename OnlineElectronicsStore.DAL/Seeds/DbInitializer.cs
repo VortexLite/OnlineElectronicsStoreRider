@@ -853,5 +853,64 @@ public class DbInitializer
             await _context.SaveChangesAsync();
         }
     }
+    
+    public async Task SeedRoles()
+    {
+        if (!_context.Roles.Any())
+        {
+            var roles = new List<Role>()
+            {
+                new Role()
+                {
+                    Name = "Admin"
+                },
+                new Role()
+                {
+                    Name = "Worker"
+                },
+                new Role()
+                {
+                    Name = "User"
+                }
+            };
+            await _context.AddRangeAsync(roles);
+            await _context.SaveChangesAsync();
+        }
+    }
+    
+    public async Task SeedProfile()
+    {
+        if (!_context.Profiles.Any())
+        {
+            var users = new List<Profile>()
+            {
+                new Profile()
+                {
+                    Email = "admin@email.com"
+                }
+            };
+            await _context.AddRangeAsync(users);
+            await _context.SaveChangesAsync();
+        }
+    }
+    
+    public async Task SeedUsers()
+    {
+        if (!_context.Users.Any())
+        {
+            var users = new List<User>()
+            {
+                new User()
+                {
+                    Login = "admin",
+                    Password = "admin",
+                    IdProfile = 1,
+                    IdRole = 1
+                }
+            };
+            await _context.AddRangeAsync(users);
+            await _context.SaveChangesAsync();
+        }
+    }
 }
 

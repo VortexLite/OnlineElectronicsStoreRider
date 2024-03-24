@@ -31,7 +31,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var user = await _authenticateService.AuthenticateLoginPasswordUser(loginViewModel.Login, loginViewModel.Password);
-            if (user != null)
+            if (user.Data != null)
             {
                 await Authenticate(loginViewModel.Login);
  
@@ -56,14 +56,18 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var user = await _authenticateService.AuthenticateLoginUser(registerViewModel.Login);
-            if (user == null)
+            if (user.Data == null)
             {
-                // добавляем пользователя в бд
-                await _userService.CreateUser(registerViewModel);
- 
-                await Authenticate(registerViewModel.Login);
- 
-                return RedirectToAction("Index", "Home");
+                var checkUser = await _userService.CreateUser(registerViewModel);
+                if (checkUser.Data)
+                {
+                    await Authenticate(registerViewModel.Login);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return Content("Error reg model");
+                }
             }
             else
                 ModelState.AddModelError("", "Некоректні логін і пароль");
@@ -80,7 +84,7 @@ public class AccountController : Controller
         };
         
         ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-        // установка аутентификационных куки
+        
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
     }
 

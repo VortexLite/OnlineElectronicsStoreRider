@@ -7,8 +7,8 @@ public class Order
     public decimal TotalCost { get; set; }
     public string Address { get; set; }
 
-    public int IdUser { get; set; }
-    public User User { get; set; }
+    public int IdProfile { get; set; }
+    public Profile Profile { get; set; }
 
     public int IdDeliveryType { get; set; }
     public DeliveryType DeliveryType { get; set; }

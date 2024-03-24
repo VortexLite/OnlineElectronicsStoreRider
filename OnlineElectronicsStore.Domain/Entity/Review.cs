@@ -7,8 +7,8 @@ public class Review
     
     public string Rating { get; set; }
     
-    public int? IdUser { get; set; }
-    public User User { get; set; }
+    public int? IdProfile { get; set; }
+    public Profile Profile { get; set; }
     
     public int? IdOrder { get; set; }
     public Order Order { get; set; }

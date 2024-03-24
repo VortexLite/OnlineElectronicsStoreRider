@@ -16,8 +16,8 @@ public class WishListConfiguration : IEntityTypeConfiguration<WishList>
             .HasColumnType("int")
             .ValueGeneratedOnAdd();
         
-        builder.HasOne(wh => wh.User)
+        builder.HasOne(wh => wh.Profile)
             .WithMany(u => u.WishLists)
-            .HasForeignKey(wh => wh.IdUser);
+            .HasForeignKey(wh => wh.IdProfile);
     }
 }

@@ -18,13 +18,11 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
 
         builder.Property(p => p.Name)
             .HasColumnName("Name")
-            .HasColumnType("nvarchar(50)")
-            .IsRequired();
-        
+            .HasColumnType("nvarchar(50)");
+
         builder.Property(p => p.Surname)
             .HasColumnName("Surname")
-            .HasColumnType("nvarchar(50)")
-            .IsRequired();
+            .HasColumnType("nvarchar(50)");
 
         builder.Property(p => p.Middlename)
             .HasColumnName("Middlename")

@@ -1,11 +1,16 @@
 ﻿@model OnlineElectronicsStore.Domain.ViewModels.Account.LoginViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Авторизація";
     Layout = "_Layout";
 }
 
 <style>
+    main
+    {
+        margin: 6vh 0;
+    }
+    
 	article
     {
         z-index: 2;
@@ -13,8 +18,8 @@
         margin: 0 35vw;
         grid-gap: 5px;
         font-size: 18px;
+        height: 50vh;
     }
-    
     
     #RegistrationAuthorization
     {
@@ -47,9 +52,9 @@
     }
     
     #RegistrationAuthorization a:visited
-        {
-            text-decoration: none;
-        }
+    {
+        text-decoration: none;
+    }
     
     h2 {
         margin: 0;
@@ -112,22 +117,24 @@
     }
 </style>
 
-<article>
-    <div id="RegistrationAuthorization">
-    	<h2 id="signIn">Авторизація</h2>
-    	<a asp-action="Register" asp-controller="Account"><h2 id="signUp">Реєстрація</h2></a>
-    
-        <form id="Authorization" class="RegistrationAuthorization" 
-              asp-action="Login" asp-controller="Account"
-              asp-antiforgery="true">
-    		<label asp-for="Login">Логін</label>
-    		<input type="text" asp-for="Login">
-    
-    		<label asp-for="Password">Пароль</label>
-    		<input type="Password" asp-for="Password">
-    
-    		<button type="submit" class="btnFormRegAuth">Авторизуватися</button>
-    	</form>
-    				
-    </div>
-</article>
+<main>
+    <article>
+        <div id="RegistrationAuthorization">
+        	<h2 id="signIn">Авторизація</h2>
+        	<a asp-action="Register" asp-controller="Account"><h2 id="signUp">Реєстрація</h2></a>
+        
+            <form id="Authorization" class="RegistrationAuthorization" 
+                  asp-action="Login" asp-controller="Account"
+                  asp-antiforgery="true">
+        		<label asp-for="Login">Логін</label>
+        		<input type="text" asp-for="Login">
+        
+        		<label asp-for="Password">Пароль</label>
+        		<input type="Password" asp-for="Password">
+        
+        		<button type="submit" class="btnFormRegAuth">Авторизуватися</button>
+        	</form>
+        				
+        </div>
+    </article>
+</main>

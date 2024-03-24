@@ -26,9 +26,9 @@ public class ShoppingCartItemConfiguration : IEntityTypeConfiguration<ShoppingCa
             .HasColumnType("decimal")
             .IsRequired();
         
-        builder.HasOne(sci => sci.User)
+        builder.HasOne(sci => sci.Profile)
             .WithMany(u => u.ShoppingCartItems)
-            .HasForeignKey(sci => sci.IdUser);
+            .HasForeignKey(sci => sci.IdProfile);
 
         builder.HasOne(sci => sci.Product)
             .WithMany(p => p.ShoppingCartItems)
