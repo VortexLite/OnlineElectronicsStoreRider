@@ -56,7 +56,6 @@ public class ProductRepository : IProductRepository
     public async Task<List<ProductViewModel>> GetProductWithImages()
     {
         var products = await _db.Products.ToListAsync();
-        //var images = await _db.Images.ToListAsync();
         
         var viewModels = new List<ProductViewModel>();
         foreach (var product in products)
@@ -101,5 +100,14 @@ public class ProductRepository : IProductRepository
         }
         
         return viewModels;
+    }
+
+    public async Task<Product> GetProdutWithImageById(int id)
+    {
+        var product = await _db.Products.
+            Include(i => i.Images).
+            FirstOrDefaultAsync(x => x.Id == id);
+
+        return product;
     }
 }

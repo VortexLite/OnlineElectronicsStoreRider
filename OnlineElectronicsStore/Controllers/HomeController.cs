@@ -10,7 +10,7 @@ using OnlineElectronicsStore.Service.Interfaces;
 
 namespace OnlineElectronicsStore.Controllers;
 
-[Authorize]
+//[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -24,7 +24,6 @@ public class HomeController : Controller
         _producerService = producerService;
         _productService = productService;
     }
-    [AllowAnonymous]
     public async Task<IActionResult> Index()
     { 
         var responseNavigation = await _producerService.NavigationRowsById(1);

@@ -1,4 +1,5 @@
-﻿using OnlineElectronicsStore.Domain.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineElectronicsStore.Domain.Entity;
 namespace OnlineElectronicsStore.DAL.Seeds;
 
 public class DbInitializer
@@ -809,7 +810,6 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 4499,
                     Amount = 1,
-                    IdCategory = 2,
                     IdProducer = 5
                 },
                 new Product
@@ -818,7 +818,6 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 8499,
                     Amount = 1,
-                    IdCategory = 5,
                     IdProducer = 5
                 },
                 new Product
@@ -827,7 +826,6 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 4999,
                     Amount = 1,
-                    IdCategory = 3,
                     IdProducer = 6
                 },
                 new Product
@@ -836,7 +834,6 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 7999,
                     Amount = 1,
-                    IdCategory = 7,
                     IdProducer = 5
                 },
                 new Product
@@ -845,10 +842,10 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 3999,
                     Amount = 1,
-                    IdCategory = 5,
                     IdProducer = 5
                 }
             };
+            var categories = await _context.Categories.ToListAsync();
             await _context.AddRangeAsync(products);
             await _context.SaveChangesAsync();
         }

@@ -111,7 +111,7 @@ header nav
     position: relative;
 }
 
-.listHeader li:after 
+.listHeader li:after
 {
     content: '';
     position: absolute;
@@ -122,7 +122,8 @@ header nav
     background-color: white;
 }
 
-.listHeader li:last-child:after 
+
+.listHeader > li:last-child:after 
 {
     display: none;
 }
@@ -136,7 +137,7 @@ header nav
     cursor: pointer;
 }
 
-.listHeader .userMenu li:after
+.userMenu li:after
 {
     display: none;
 }
@@ -157,6 +158,11 @@ header nav
 .userMenu a:visited
 {
     text-decoration: none;
+}
+
+.userIcon
+{
+    color: white;
 }
 
 .userMenu 

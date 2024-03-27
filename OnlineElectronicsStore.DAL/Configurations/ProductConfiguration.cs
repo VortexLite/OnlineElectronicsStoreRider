@@ -35,10 +35,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnType("decimal")
             .IsRequired();
         
-        builder.HasOne(p => p.Category)
-            .WithMany(c => c.Products)
-            .HasForeignKey(p => p.IdCategory);
-        
         builder.HasOne(p => p.Producer)
             .WithMany(pr => pr.Products)
             .HasForeignKey(p => p.IdProducer);
