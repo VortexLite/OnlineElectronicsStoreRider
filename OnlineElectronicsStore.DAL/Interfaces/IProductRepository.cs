@@ -12,4 +12,6 @@ public interface IProductRepository : IBaseRepository<Product>
     Task<List<ProductViewModel>> GetsByName(string name);
 
     Task<Product> GetProdutWithImageById(int id);
+    
+    Task<ProductDetailViewModel> GetProductDetail(int id);
 }

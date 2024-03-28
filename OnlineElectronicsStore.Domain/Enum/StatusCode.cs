@@ -26,6 +26,12 @@ public enum StatusCode
     //Profile
     ProfileUserNotFound = 80,
     
+    //CategoryCharacteristic
+    CategoryCharacteristicElementNotFound = 90,
+    
+    //ProductCharacteristic
+    ProductCharacteristicElementNotFound = 100,
+    
     //All
     OK = 200,
     InternalServerError = 500

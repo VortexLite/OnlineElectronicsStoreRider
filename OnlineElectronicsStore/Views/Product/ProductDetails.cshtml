@@ -1,4 +1,4 @@
-﻿@model OnlineElectronicsStore.Domain.Entity.Product
+﻿@model OnlineElectronicsStore.Domain.ViewModels.Product.ProductDetailViewModel
 
 @{
     ViewBag.Title = "title";
@@ -11,42 +11,54 @@
             <div class="col-md-4">
                 <div class="product-image">
                     <h1>@Model.Name</h1>
-                    <img src="img/xioma.jpg" alt="Xiaomi 14 512GB Black" >
+                    <img src="data:image;base64,@Convert.ToBase64String(@Model.Images[1].ImageData)" alt="@Model.Name">
+                    @*@foreach (var image in Model.Images)
+                    {
+                        if (image.ImageData != null)
+                        {
+                            <img src="data:image;base64,@Convert.ToBase64String(@image.ImageData)" alt="@Model.Name">
+                        }
+                        else
+                        {
+                            <img src="~/Resources/NullImage.png" alt="@Model.Name">
+                        }
+                    }*@
                     <div class="features mt-3">
-                        <h3>Specifications</h3>
+                        <h3>Характеристики</h3>
                         <div class="row">
-                            <div class="col"><p><strong>Screen Size:</strong><br> 6.5 inches</p></div>
-                            <div class="col"><p><strong>RAM:</strong><br> 12GB</p></div>
-                            <div class="col"> <p><strong>Internal Storage:</strong><br> 512GB</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><p><strong>Battery:</strong><br> 5000mAh</p></div>
-                            <div class="col"><p><strong>Camera:</strong><br> 48MP + 12MP</p></div>
-                            <div class="col"> <p><strong>Color:</strong><br> Black</p></div>
+                        @foreach (var productCharacteristics in Model.ProductCharacteristics)
+                        {
+                            <div class="col">
+                                <p>
+                                    <strong>@productCharacteristics.CharacteristicName</strong>
+                                    <br>
+                                    @productCharacteristics.Value
+                                </p>
+                            </div>
+                        }
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-8 d-flex align-items-center justify-content-center">
                 <div class="product-details">
-                    <p class="price">$999.99</p>
-                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id nulla vel quam convallis ultricies. Donec tincidunt, ipsum ac dapibus condimentum, est dolor viverra sem, in fermentum ex libero vel magna.</p>
-                    <button class="btn btn-primary">Add to Cart</button>
+                    <p class="price">$@Model.Price</p>
+                    <p class="description">@Model.ShortDescription</p>
+                    <button class="btn btn-primary">Додати до корзини</button>
                 </div>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-md">
                 <div class="description">
-                    <h3>Description</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id nulla vel quam convallis ultricies. Donec tincidunt, ipsum ac dapibus condimentum, est dolor viverra sem, in fermentum ex libero vel magna.</p>
-                    <!-- Тут можна додати додатковий опис товару -->
+                    <h3>Опис</h3>
+                    <p>@Model.LongDescription</p>
                 </div>
             </div>
         </div>
         <div class="col-md">
             <div class="reviews mt-3">
-                <h3>Reviews</h3>
+                <h3>Відгуки</h3>
                 <div class="review">
                     <h4>John Doe</h4>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id nulla vel quam convallis ultricies. Donec tincidunt, ipsum ac dapibus condimentum, est dolor viverra sem, in fermentum ex libero vel magna.</p>

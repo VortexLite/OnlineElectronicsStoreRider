@@ -12,6 +12,7 @@ public interface IProductService
     Task<IBaseResponse<Product>> GetByNameProduct(string name);
     Task<IBaseResponse<List<ProductViewModel>>> GetProductWithImages();
     Task<IBaseResponse<Product>> GetProductWithImagesById(int id);
+    Task<IBaseResponse<ProductDetailViewModel>> GetProductDetail(int id);
     Task<IBaseResponse<List<ProductViewModel>>> GetsByName(string name);
     Task<IBaseResponse<bool>> DeleteProduct(int id);
     Task<IBaseResponse<bool>> CreateProduct(ProductViewModel productViewModel);

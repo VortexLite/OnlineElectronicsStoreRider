@@ -32,7 +32,6 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<CategoryReview> CategoryReviews { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<Review> Reviews { get; set; }
-    public DbSet<CategoryCharacteristic> CategoryCharacteristics { get; set; }
     public DbSet<ProductCharacteristic> ProductCharacteristics { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -62,7 +61,6 @@ public class ApplicationDbContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new CategoryReviewConfiguration());
         modelBuilder.ApplyConfiguration(new ImageConfiguration());
         modelBuilder.ApplyConfiguration(new ReviewConfiguration());
-        modelBuilder.ApplyConfiguration(new CategoryCharacteristicConfiguration());
         modelBuilder.ApplyConfiguration(new ProductCharacteristicConfiguration());
     }
 }

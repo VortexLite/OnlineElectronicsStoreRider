@@ -153,6 +153,33 @@ public class ProductService : IProductService
         }
     }
 
+    public async Task<IBaseResponse<ProductDetailViewModel>> GetProductDetail(int id)
+    {
+        var baseResponse = new BaseResponse<ProductDetailViewModel>();
+        try
+        {
+            var product = await _productRepository.GetProductDetail(id);
+            if (product == null)
+            {
+                baseResponse.Desription = $"Element with id:{id} not found";
+                baseResponse.StatusCode = StatusCode.ProductElementNotFound;
+                return baseResponse;
+            }
+
+            baseResponse.Data = product;
+            baseResponse.StatusCode = StatusCode.OK;
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<ProductDetailViewModel>()
+            {
+                Desription = $"[GetProductDetail] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
     public async Task<IBaseResponse<List<ProductViewModel>>> GetsByName(string name)
     {
         var baseResponse = new BaseResponse<List<ProductViewModel>>();

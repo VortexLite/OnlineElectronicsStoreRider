@@ -35,4 +35,8 @@
       <_ContentIncludedByDefault Remove="Views\Category\GetCategory.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="wwwroot\Resources\NullImage.png" />
+    </ItemGroup>
+
 </Project>

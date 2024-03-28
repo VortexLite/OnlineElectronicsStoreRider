@@ -60,7 +60,6 @@ public class ProductRepository : IProductRepository
         var viewModels = new List<ProductViewModel>();
         foreach (var product in products)
         {
-            //var firstImage = images.FirstOrDefault(i => i.Id == product.Id);
             var image = await _db.Images.FirstOrDefaultAsync(i => i.Id == product.Id);
             
             var viewModel = new ProductViewModel
@@ -70,7 +69,7 @@ public class ProductRepository : IProductRepository
                 Price = product.Price,
                 ImageBase64 = image.ImageData
             };
-            // Додаємо ViewModel до списку
+            
             viewModels.Add(viewModel);
         }
         
@@ -95,7 +94,7 @@ public class ProductRepository : IProductRepository
                 Price = product.Price,
                 ImageBase64 = image.ImageData
             };
-            // Додаємо ViewModel до списку
+            
             viewModels.Add(viewModel);
         }
         
@@ -109,5 +108,32 @@ public class ProductRepository : IProductRepository
             FirstOrDefaultAsync(x => x.Id == id);
 
         return product;
+    }
+
+    public async Task<ProductDetailViewModel> GetProductDetail(int id)
+    {
+        var product = await _db.Products
+            .FirstOrDefaultAsync(i => i.Id == id);
+
+        var images = await _db.Images
+            .Where(i => i.IdProduct == id)
+            .ToListAsync();
+
+        var details = await _db.ProductCharacteristics
+            .Where(i => i.IdProduct == id)
+            .ToListAsync();
+        
+        var viewModel = new ProductDetailViewModel()
+        {
+            Name = product.Name,
+            ShortDescription = product.ShortDescription,
+            LongDescription = product.LongDescription,
+            Price = product.Price,
+            Amount = product.Amount,
+            ProductCharacteristics = details,
+            Images = images
+        };
+        
+        return viewModel;
     }
 }

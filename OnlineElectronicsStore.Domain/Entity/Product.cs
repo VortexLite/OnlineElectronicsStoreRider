@@ -9,6 +9,9 @@ public class Product
     public decimal Price { get; set; }
     public int Amount { get; set; }
 
+    public int IdCategory { get; set; }
+    public Category Category { get; set; }
+    
     public int IdProducer { get; set; }
     public Producer Producer { get; set; }
 

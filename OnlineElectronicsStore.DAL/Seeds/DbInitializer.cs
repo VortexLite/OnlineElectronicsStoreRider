@@ -810,7 +810,8 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 4499,
                     Amount = 1,
-                    IdProducer = 5
+                    IdProducer = 5,
+                    IdCategory = 1
                 },
                 new Product
                 {
@@ -818,7 +819,8 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 8499,
                     Amount = 1,
-                    IdProducer = 5
+                    IdProducer = 5,
+                    IdCategory = 1
                 },
                 new Product
                 {
@@ -826,7 +828,8 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 4999,
                     Amount = 1,
-                    IdProducer = 6
+                    IdProducer = 6,
+                    IdCategory = 1
                 },
                 new Product
                 {
@@ -834,7 +837,8 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 7999,
                     Amount = 1,
-                    IdProducer = 5
+                    IdProducer = 5,
+                    IdCategory = 1
                 },
                 new Product
                 {
@@ -842,7 +846,8 @@ public class DbInitializer
                     ShortDescription = "test",
                     Price = 3999,
                     Amount = 1,
-                    IdProducer = 5
+                    IdProducer = 5,
+                    IdCategory = 1
                 }
             };
             var categories = await _context.Categories.ToListAsync();

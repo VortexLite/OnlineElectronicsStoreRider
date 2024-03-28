@@ -9,6 +9,4 @@ public class ProductCharacteristic
     
     public string CharacteristicName { get; set; }
     public string Value { get; set; }
-    
-    public List<CategoryCharacteristic> CategoryCharacteristics { get; set; }
 }
