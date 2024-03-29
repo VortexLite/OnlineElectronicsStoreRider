@@ -1,6 +1,4 @@
-﻿using OnlineElectronicsStore.Domain.Entity;
-
-namespace OnlineElectronicsStore.Domain.ViewModels.Product;
+﻿namespace OnlineElectronicsStore.Domain.ViewModels.Product;
 
 public class ProductViewModel
 {

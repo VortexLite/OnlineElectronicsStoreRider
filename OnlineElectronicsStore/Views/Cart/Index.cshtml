@@ -1,0 +1,23 @@
+﻿@model OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Cart.CartViewModel>>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+@foreach (var item in Model.Data)
+{
+    <div style="background-color: #0d6efd">
+        @if (item.ImageData != null)
+        {
+            <img src="data:image;base64,@Convert.ToBase64String(@item.ImageData)" alt="@item.Name">
+        }
+        else
+        {
+            <img src="~/Resources/NullImage.png" alt="@item.Name">
+        }
+        <p>@item.Name</p>
+        <p>@item.Price</p>
+    </div>
+    <br/>
+}

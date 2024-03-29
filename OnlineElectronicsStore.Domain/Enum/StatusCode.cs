@@ -32,6 +32,9 @@ public enum StatusCode
     //ProductCharacteristic
     ProductCharacteristicElementNotFound = 100,
     
+    //ShoppingCartItem
+    ShoppingCartItemElementNotFound = 110,
+    
     //All
     OK = 200,
     InternalServerError = 500

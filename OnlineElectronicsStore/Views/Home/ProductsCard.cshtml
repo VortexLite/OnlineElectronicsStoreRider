@@ -123,6 +123,27 @@
     }
 </style>
 
+<nav class="cartMenu">
+    <ul class="cartItem">
+		<li>Кошик</li>
+
+		<li>
+			<img src="https://i.allo.ua/media/catalog/product/cache/3/image/524x494/602f0fa2c1f0d1ba5e241f914e856ff9/_/g/_global_version_sm-s918_galaxys23ultra_front_lavender_221122.jpg"
+			class="cartImage">
+			<p class="cartName">Samsung Galaxy S23 Ultra 12/256 PINK (SM-S918BLIGSEK)</p>
+			<p class="cartAmount">1шт</p>
+			<p class="cartPrice">49999 ₴</p>
+		</li>
+							
+		<li class="order">
+			<hr>
+			<p>Разом, без доставки</p>
+			<p>49999 ₴</p>
+			<button type="submit" class="orderBtn">Перейти до кошика</button>
+		</li>
+	</ul>
+</nav>
+
 @for (int i = 0; i < 5; i++)
 {
     @foreach (var product in Model.Data)
@@ -142,7 +163,24 @@
             <div class="stars" data-rating="3"></div>
             <button class="wishList"><i class="fa-solid fa-heart"></i></button>
             <p class="priceProduct">@product.Price ₴</p>
-            <button class="cart"><i class="fa-solid fa-cart-shopping"></i></button>
+            <button class="cart" onclick="addToCart(@product.Id)">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </button>
         </section>
     }
 }
+
+<script>
+    function addToCart(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/Cart/AddCart',
+            data: { id: id },
+            success: function (response) {
+            },
+            error: function () {
+
+            }
+        });
+    }
+</script>

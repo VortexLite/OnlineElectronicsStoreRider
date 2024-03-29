@@ -39,6 +39,7 @@
 </nav>
 
 <article>
+    @await Html.PartialAsync("_CartPartialView")
     @await Html.PartialAsync("ProductsCard", Model.Second)
 </article>
 

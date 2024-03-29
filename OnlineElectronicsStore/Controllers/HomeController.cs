@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Response;
@@ -16,18 +15,28 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IProducerService _producerService;
     private readonly IProductService _productService;
+    private readonly IShoppingCartItemService _shoppingCartItemService;
+    private readonly IProfileService _profileService;
+    
+    private IBaseResponse<int> profile;
     
     public HomeController(ILogger<HomeController> logger, IProducerService producerService, 
-        IProductService productService)
+        IProductService productService,
+        IShoppingCartItemService shoppingCartItemService,
+        IProfileService profileService)
     {
         _logger = logger;
         _producerService = producerService;
         _productService = productService;
+        _shoppingCartItemService = shoppingCartItemService;
+        _profileService = profileService;
     }
     public async Task<IActionResult> Index()
     { 
         var responseNavigation = await _producerService.NavigationRowsById(1);
         var responseProductWithImage = await _productService.GetProductWithImages();
+        profile = await _profileService.GetByName(User.Identity.Name);
+        var responseCart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
         
         var responseResult = new Pair<IBaseResponse<List<Producer>>, IBaseResponse<List<ProductViewModel>>>()
         {
@@ -62,7 +71,6 @@ public class HomeController : Controller
 
         return View("Index", responseResult);
     }
-
     
     public IActionResult Privacy()
     {
@@ -86,6 +94,4 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-    
-    
 }

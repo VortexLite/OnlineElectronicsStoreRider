@@ -69,6 +69,33 @@ public class ProfileService : IProfileService
         }
     }
 
+    public async Task<IBaseResponse<int>> GetByName(string? name)
+    {
+        var baseResponse = new BaseResponse<int>();
+        try
+        {
+            var profile = await _profileRepository.GetByName(name);
+            if (profile == null)
+            {
+                baseResponse.Desription = $"Element with name:{name} not found";
+                baseResponse.StatusCode = StatusCode.ProfileUserNotFound;
+                return baseResponse;
+            }
+
+            baseResponse.Data = profile;
+            baseResponse.StatusCode = StatusCode.OK;
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<int>()
+            {
+                Desription = $"[GetByName] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
     public async Task<IBaseResponse<bool>> DeleteProfile(int id)
     {
         var baseResponse = new BaseResponse<bool>();

@@ -45,4 +45,48 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
 
         return entity;
     }
+
+    public Task<List<ShoppingCartItem>> GetShoppingCartBy(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<ShoppingCartItem>> GetShoppingCartBy(int idProfile)
+    {
+        var shoppingCartItems = await _db.ShoppingCartItems
+            .Where(i => i.IdProfile == idProfile)
+            .Include(i => i.Product)
+            .ThenInclude(i => i.Images)
+            .ToListAsync();
+
+        return shoppingCartItems;
+    }
+
+    public async Task<bool> AddProductInCart(int idProduct, int idProfile)
+    {
+        var shoppingcart = await _db.ShoppingCartItems
+            .Include(i => i.Product)
+            .FirstOrDefaultAsync(i => i.IdProduct == idProduct && i.IdProfile == idProfile);
+        if (shoppingcart != null)
+        {
+            shoppingcart.Quantity++;
+            await _db.SaveChangesAsync();
+            return true;
+        }
+        else
+        {
+            var product = await _db.Products
+                .FirstOrDefaultAsync(i => i.Id == idProduct);
+            var item = new ShoppingCartItem()
+            {
+                IdProfile = idProfile,
+                IdProduct = idProduct,
+                Quantity = 1,
+                Price = product.Price
+            };
+
+            await Create(item);
+            return true;
+        }
+    }
 }

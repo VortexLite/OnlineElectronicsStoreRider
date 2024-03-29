@@ -46,4 +46,12 @@ public class ProfileRepository : IProfileRepository
 
         return entity;
     }
+
+    public async Task<int> GetByName(string? name)
+    {
+        var profile = await _db.Profiles
+            .FirstOrDefaultAsync(i => i.User.Login == name);
+
+        return profile.Id;
+    }
 }
