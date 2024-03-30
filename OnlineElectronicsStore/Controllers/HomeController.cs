@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Response;
 using OnlineElectronicsStore.Domain.Helpers;
+using OnlineElectronicsStore.Domain.ViewModels.Cart;
 using OnlineElectronicsStore.Domain.ViewModels.Product;
 using OnlineElectronicsStore.Models;
 using OnlineElectronicsStore.Service.Interfaces;
@@ -38,10 +39,12 @@ public class HomeController : Controller
         profile = await _profileService.GetByName(User.Identity.Name);
         var responseCart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
         
-        var responseResult = new Pair<IBaseResponse<List<Producer>>, IBaseResponse<List<ProductViewModel>>>()
+        var responseResult = new Triple<IBaseResponse<List<Producer>>, 
+            IBaseResponse<List<ProductViewModel>>, IBaseResponse<List<CartViewModel>>>()
         {
             First = responseNavigation,
-            Second = responseProductWithImage
+            Second = responseProductWithImage,
+            Third = responseCart
         };
         
         if (responseNavigation.StatusCode == Domain.Enum.StatusCode.OK &&
@@ -62,11 +65,14 @@ public class HomeController : Controller
 
         var responseNavigation = await _producerService.NavigationRowsById(1);
         var searchResults = await _productService.GetsByName(search);
-
-        var responseResult = new Pair<IBaseResponse<List<Producer>>, IBaseResponse<List<ProductViewModel>>>()
+        var responseCart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
+        
+        var responseResult = new Triple<IBaseResponse<List<Producer>>, 
+            IBaseResponse<List<ProductViewModel>>, IBaseResponse<List<CartViewModel>>>()
         {
             First = responseNavigation,
-            Second = searchResults
+            Second = searchResults,
+            Third = responseCart
         };
 
         return View("Index", responseResult);

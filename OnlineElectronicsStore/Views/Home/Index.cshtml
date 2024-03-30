@@ -1,6 +1,4 @@
-﻿@model OnlineElectronicsStore.Domain.Helpers.Pair<
-    OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.Entity.Producer>>, 
-    OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Product.ProductViewModel>>>
+﻿@model OnlineElectronicsStore.Domain.Helpers.Triple<OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.Entity.Producer>>, OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Product.ProductViewModel>>, OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Cart.CartViewModel>>>
 @{
     ViewData["Title"] = "Головна сторінка";
     Layout = "_Layout";
@@ -39,7 +37,7 @@
 </nav>
 
 <article>
-    @await Html.PartialAsync("_CartPartialView")
+    @await Html.PartialAsync("_CartPartialView", Model.Third)
     @await Html.PartialAsync("ProductsCard", Model.Second)
 </article>
 

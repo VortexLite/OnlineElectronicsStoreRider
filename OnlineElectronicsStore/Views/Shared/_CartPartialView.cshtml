@@ -1,17 +1,25 @@
-﻿@model List<OnlineElectronicsStore.Domain.ViewModels.Cart.CartViewModel>
+﻿@model OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Cart.CartViewModel>>
 
 <style>
+    #cartMenuContainer
+    {
+        display: none;
+        position: absolute;
+        right: 1vw;
+        border-radius: 10px;
+        top: -1.5%;
+        box-shadow: 0 0 10px 1px rgba(0,0,0,0.2);
+    }
+    
     .cartMenu 
     {
-        display: block;
-        position: absolute;
-        right: 5vw;
         width: 30vw;
-        padding: 10px 10px 10px 0px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.2);
+        max-height: 50vh;
         z-index: 999;
+        overflow-y: auto;
+        border-radius: 10px;
+        padding: 10px 10px 10px 0;
+        background-color: white;
         color: black;
         font-size: 16px;
     }
@@ -77,7 +85,9 @@
     {
         display: grid;
         grid-auto-flow: column;
-        grid-template-columns: 1% 1fr 30% 30%;
+        grid-template-columns: 1fr 30% 30%;
+        align-items: center;
+        justify-items: center;
     }
     
     .orderBtn
@@ -89,23 +99,65 @@
     }
 </style>
 
-<nav class="cartMenu">
-    <ul class="cartItem">
-        <li>Кошик</li>
-
-        <li>
-            <img src="https://i.allo.ua/media/catalog/product/cache/3/image/524x494/602f0fa2c1f0d1ba5e241f914e856ff9/_/g/_global_version_sm-s918_galaxys23ultra_front_lavender_221122.jpg"
-                 class="cartImage">
-            <p class="cartName">Samsung Galaxy S23 Ultra 12/256 PINK (SM-S918BLIGSEK)</p>
-            <p class="cartAmount">1шт</p>
-            <p class="cartPrice">49999 ₴</p>
-        </li>
-							
-        <li class="order">
-            <hr>
-            <p>Разом, без доставки</p>
-            <p>49999 ₴</p>
-            <button type="submit" class="orderBtn">Перейти до кошика</button>
-        </li>
-    </ul>
+<nav id="cartMenuContainer" >
+    <nav  class="cartMenu">
+        <ul class="cartItem" style="">
+            <li>Кошик</li>
+    
+            @foreach (var item in Model.Data)
+            {
+                <li>
+                    @if (@item.ImageData != null)
+                    {
+                        <img src="data:image;base64,@Convert.ToBase64String(@item.ImageData)" alt="@item.Name" class="cartImage">
+                    }
+                    else
+                    {
+                        <img alt="@item.Name" src="~/Resources/NullImage.png" class="cartImage">
+                    }
+                    <p class="cartName">@item.Name</p>
+                    <p class="cartAmount">@item.Quantity шт.</p>
+                    <p class="cartPrice">@item.Price ₴</p>
+                </li>
+            }
+            <hr style="color: gray">
+            <li class="order">
+                
+                <p>Разом, без доставки</p>
+                @{
+                    decimal price = 0;
+                }
+                @foreach (var item in Model.Data)
+                {
+                    price += item.Price * item.Quantity;
+                }
+                <p>@price ₴</p>
+                <button type="submit" class="orderBtn">Перейти до кошика</button>
+            </li>
+        </ul>
+    </nav>
 </nav>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var cartIcon = document.getElementById('cartIcon');
+        var cartMenuContainer = document.getElementById('cartMenuContainer');
+    
+        cartIcon.addEventListener('click', function() {
+            if (cartMenuContainer.style.display === 'none' || cartMenuContainer.style.display === '') {
+                cartMenuContainer.style.display = 'block';
+            } else {
+                cartMenuContainer.style.display = 'none';
+            }
+        });
+        
+        cartIcon.addEventListener('mouseenter', function() {
+            cartMenuContainer.style.display = 'block';
+        });
+            
+        cartMenuContainer.addEventListener('mouseleave', function() {
+            this.style.display = 'none';
+        });
+    });
+</script>

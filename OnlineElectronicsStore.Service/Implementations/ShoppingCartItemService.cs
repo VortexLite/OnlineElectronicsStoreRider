@@ -92,6 +92,7 @@ public class ShoppingCartItemService : IShoppingCartItemService
                 {
                     Name = shoppingCartItem.Product.Name,
                     Price = shoppingCartItem.Product.Price,
+                    Quantity = shoppingCartItem.Quantity,
                     ImageData = shoppingCartItem.Product.Images
                         .FirstOrDefault(i => i.IdProduct == idImage)
                         ?.ImageData

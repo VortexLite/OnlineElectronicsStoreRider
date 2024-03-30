@@ -24,7 +24,7 @@ public class CartController : Controller
         profile = await _profileService.GetByName(User.Identity.Name);
         var cart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
         
-        return PartialView("_CartPartialView", cart.Data);
+        return PartialView("_CartPartialView", cart);
     }
     
     [HttpPost]
@@ -32,7 +32,9 @@ public class CartController : Controller
     {
         profile = await _profileService.GetByName(User.Identity.Name);
         var product = await _shoppingCartItemService.AddProductInCart(id, profile.Data);
+        var cart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
 
-        return RedirectToAction("Index", "Cart");
+        //return RedirectToAction("Index", "Cart");
+        return PartialView("_CartPartialView", cart);
     }
 }
