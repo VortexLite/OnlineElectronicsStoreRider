@@ -1,0 +1,181 @@
+﻿@model OnlineElectronicsStore.Domain.Helpers.Pair<OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Cart.CartViewModel>>, OnlineElectronicsStore.Domain.Response.IBaseResponse<OnlineElectronicsStore.Domain.Entity.Profile>>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<style>
+	article
+    {
+        margin: 0 20vw;
+    }
+    
+    .orderPlacement
+    {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 30% 70%;
+        grid-gap: 20px;
+    }
+    
+    .contact
+    {
+        display: grid;
+        grid-gap: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 0 10px 10px 10px;
+        height: 80%;
+    }
+    
+    .smallFont
+    {
+        font-size: 14px;
+        color: #929292;
+    }
+    
+    .contact input
+    {
+        border-radius: 5px;
+        border: 1px solid #929292;
+        width: 95%;
+        height: 20px;
+    }
+    
+    .contact button
+    {
+        background-color: #e00027;
+        color: white;
+        border: 0;
+        border-radius: 5px;
+        padding: 10px;
+        width: 97%;
+    }
+    
+    .cart
+    {
+        display: grid;
+        grid-gap: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 0 10px 10px 10px;
+    }
+    
+    .split
+    {
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: space-between;
+        padding-left: 10px;
+        padding-right: 10px;
+    
+    }
+    
+    .split button
+    {
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+    }
+    
+    .cartItem
+    {
+        list-style-type: none;
+    }
+    
+    .cartItem li
+    {
+        display: grid;
+        grid-template-columns: 15% 60% 20%;
+        align-items: center;
+        grid-gap: 10px;
+    }
+    
+    .cartItem img
+    {
+        grid-row: 1 / span 2;
+        width: 100%;
+    }
+    
+    .quantity
+    {
+        grid-row: 2;
+        grid-column: 2;
+    }
+    
+    .price
+    {
+        grid-row: 1 / span 2;
+        grid-column: 3;
+    }
+   
+</style>
+
+<article>
+	<h2>Оформлення замовлення</h2>
+	<h3 id="test">1. Контактна інформація</h3>
+	<section class="orderPlacement">
+		<section class="contact">
+			<form>
+				<p class="smallFont">Номер телефону</p>
+				@if (Model.Second.Data.Phone != null)
+				{
+					<p>@Model.Second.Data.Phone</p>
+				}
+				else
+				{
+					<input type="text" name="">
+				}
+
+				<p class="smallFont">Ім'я</p>
+				<input type="text" name="" value="@Model.Second.Data.Name">
+
+				<p class="smallFont">Прізвище</p>
+				<input type="text" name="" value="@Model.Second.Data.Surname">
+
+				<br><br>
+				<button>Вибрати доставку і оплату</button>
+			</form>
+		</section>
+		<section class="cart">
+			<div class="split">
+				<h3>Кошик</h3>
+				<button>
+					<a asp-controller="Menu" asp-action="Cart">
+						Редагувати
+					</a>
+				</button>
+			</div>
+			<ul class="cartItem">
+				@{
+					decimal price = 0;
+				}
+				@foreach (var item in Model.First.Data)
+				{
+					<li>
+						@if (item.ImageData != null)
+						{
+							<img src="data:image;base64,@Convert.ToBase64String(@item.ImageData)" alt="@item.Name">
+						}
+						else
+						{
+							<img alt="@item.Name" src="~/Resources/NullImage.png">
+						}
+						<p class="name">@item.Name</p>
+						<p class="quantity">@item.Quantity шт</p>
+						<p class="price">@item.Price ₴</p>
+					</li>
+					price += @item.Price * @item.Quantity;
+				}
+			</ul>
+			<hr width="100%" color="lightgray">
+			<div class="split">
+				<h3>Вартість:</h3>
+				<h3>@price ₴</h3>
+			</div>
+		</section>
+	</section>
+</article>

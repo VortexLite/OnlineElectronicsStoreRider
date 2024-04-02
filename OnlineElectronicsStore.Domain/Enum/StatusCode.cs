@@ -35,6 +35,18 @@ public enum StatusCode
     //ShoppingCartItem
     ShoppingCartItemElementNotFound = 110,
     
+    //WishList
+    WishListElementNotFound = 120,
+    
+    //Order
+    OrderElementNotFound = 130,
+    
+    //OrderDetail
+    OrderDetailElementNotFound = 140,
+    
+    //DeliveryType
+    DeliveryTypeElementNotFound = 140,
+    
     //All
     OK = 200,
     InternalServerError = 500

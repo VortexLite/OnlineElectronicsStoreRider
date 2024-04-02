@@ -1,0 +1,309 @@
+﻿@model OnlineElectronicsStore.Domain.Helpers.Triple<OnlineElectronicsStore.Domain.Response.IBaseResponse<OnlineElectronicsStore.Domain.Entity.Profile>, OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Cart.CartViewModel>>, OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.Entity.DeliveryType>>>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<style>
+    article
+    {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 50% 50%;
+        margin: 0 10vw;
+        grid-gap: 20px;
+        
+    }
+    h2
+    {
+    	font-size: 24px;
+    }
+    h3
+    {
+    	font-size: 18px;
+    }
+    
+    .left
+    {
+        display: grid;
+    
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 0 10px 10px 10px;
+        grid-gap: 15px;
+    }
+    
+    .contact
+    {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 10px;
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        grid-template-rows: auto auto;
+    }
+    
+    .contact p
+    {
+    	margin: 0;
+    }
+    
+    .contact button
+    {
+        grid-row: 2;
+        background-color: transparent;
+        border: 0;
+        text-align: right;
+    }
+    
+    .deliveryPayment
+    {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 10px 10px 10px 10px;
+    }
+    
+    .comboBox select
+    {
+        border-radius: 5px;
+        padding: 10px;
+    }
+    
+    .cart ul
+    {
+        list-style-type: none;
+        display: grid;
+        grid-gap: 10px;
+    }
+    
+    .cart ul li
+    {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 20% 65% 15%;
+        grid-template-rows: auto auto;
+        align-items: center;
+    }
+    
+    .cart ul li img
+    {
+        width: 100%;
+        grid-row: 1 / span 2;
+    }
+    
+    .price
+    {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+    }
+    
+    .split
+    {
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: space-between;
+    
+    }
+    
+    .delivery
+    {
+        display: grid;
+        grid-auto-flow: row;
+    }
+    
+    .right
+    {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 10px 10px 10px 10px;
+        height: 30%;
+    
+        display: grid;
+        grid-template-rows: auto auto 30px auto auto;
+        grid-template-columns: auto auto;
+        justify-content: space-between;
+    }
+    
+    .right .split
+    {
+        grid-column: 1 / span 2;
+    }
+    
+    .hrLine
+    {
+        grid-column: 1 / span 2;
+        grid-row: 3;
+    }
+    
+    .formOrder
+    {
+    	grid-column: 1 / span 2;
+    	display: grid;
+    }
+    
+    .btnOrder
+    {
+        width: 100%;
+        background-color: #e00027;
+        color: white;
+        border-radius: 5px;
+        border: 0;
+    }
+    
+    .btnOrder a
+    {
+        color: white;
+        text-decoration: none;
+    }
+    
+    .btnOrder a:hover
+    {
+        color: white;
+        text-decoration: none;
+    }
+    
+    .btnOrder a:visited
+    {
+        color: white;
+        text-decoration: none;
+    }
+    
+    
+</style>
+
+<article>
+	<section class="left">
+		<h2>Оформлення замовлення</h2>
+		<section class="contact">
+			<h3>1. Контактна інформація </h3>
+			<p>@Model.First.Data.Name @Model.First.Data.Surname @Model.First.Data.Phone</p>
+			<button>
+				<a asp-controller="Order" asp-action="Contact">
+					Змінити
+				</a>
+			</button>
+		</section>
+		<section class="deliveryPayment">
+			<h2>2. Виберіть спосіб доставки і оплати</h2>
+			<br/>
+			<section class="comboBox">
+				<label for="cities">Місто</label>
+				<select id="cities">
+					<option value="kiev">Київ</option>
+					<option value="kiev">Чернігів</option>
+					<option value="kiev">Прилуки</option>
+					<option value="kiev">Житомир</option>
+				</select>
+			</section>
+			<br/>
+			<h3>Замовлення</h3>
+			<section class="cart">
+				<ul>
+					@{
+						decimal price = 0;
+					}
+					@foreach (var item in Model.Second.Data)
+					{
+						<li>
+							@if (@item.ImageData != null)
+							{
+								<img src="data:image;base64,@Convert.ToBase64String(@item.ImageData)" alt="@item.Name">
+							}
+							else
+							{
+								<img alt="@item.Name" src="~/Resources/NullImage.png">
+							}
+							<p>@item.Name</p>
+							<p>@item.Quantity шт</p>
+							<p class="price">@item.Price ₴</p>
+						</li>
+						price += item.Price;
+					}
+				</ul>
+
+				<hr width="100%" style="color: lightgray;">
+
+				<div class="split">
+					<h3>Вартість:</h3>
+					<h3>@price ₴</h3>
+				</div>
+
+				<hr width="100%" style="color: lightgray;">
+
+				<h4>Спосіб доставки</h4>
+				<section class="delivery">
+					@foreach (var item in Model.Third.Data)
+					{
+						@*<input type="radio" name="">
+							<label>@item.Name</label>*@
+						<label for="@item.Id">
+							<input type="radio" id="@item.Id" name="delivery">@item.Name
+						</label>
+						<br>
+					}
+				</section>
+			</section>
+
+			<hr width="100%" style="color: lightgray;">
+
+			<section class="comboBox">
+				<h3>Спосіб оплати</h3>
+				<select id="payment">
+					<option value="GooglePay">GooglePay</option>
+					<option value="Online">Оплата банківською карткою</option>
+					<option value="Offline">Оплата при отриманні замовлення</option>
+					<option value="Credit">Кредит</option>
+				</select>
+			</section>
+		</section>
+	</section>
+	
+	<section class="right">
+		<div class="split">
+			<h2>Кошик</h2>
+			<h3>Редагувати</h3>
+		</div>
+		<p>@Model.Second.Data.Count товари на суму</p>
+		<p class="priceLast">@price ₴</p>
+
+		<hr width="100%" class="hrLine" style="color: lightgray;">
+
+		<h3>Сума до сплати:</h3>
+		<h3>@price ₴</h3>
+		<form asp-controller="Order" asp-action="CreateOrder" method="post" class="formOrder">
+			<input type="text" name="IdProfile" value="@Model.First.Data.Id" hidden="hidden"/>
+			<input type="text" name="IdDeliveryType" value="" id="deliveryOptionInput" hidden="hidden"/>
+			<input type="text" name="TotalCost" value="@price" hidden="hidden"/>
+			<button class="btnOrder" type="submit" disabled="disabled">Підтвердити замовлення</button>
+		</form>
+	</section>
+</article>
+
+<script>
+    // Отримати всі radio кнопки з класом "delivery"
+    var deliveryOptions = document.querySelectorAll('.delivery input[type="radio"]');
+    var btnOrder = document.querySelector('.btnOrder');
+
+    // Додати обробник подій для кожної кнопки
+    deliveryOptions.forEach(function(option) {
+        option.addEventListener('change', function() {
+            // Якщо кнопка вибрана, записати її значення у поле "deliveryOptionInput"
+            if (this.checked) {
+                document.getElementById('deliveryOptionInput').value = this.id;
+                btnOrder.disabled = false; // Робимо кнопку доступною
+            } else {
+                btnOrder.disabled = true; // Робимо кнопку недоступною
+            }
+        });
+    });
+</script>
+
+
+
+

@@ -12,6 +12,6 @@ public interface IShoppingCartItemService
     Task<IBaseResponse<List<CartViewModel>>> GetShoppingCartBy(int idProfile);
     Task<IBaseResponse<bool>> DeleteShoppingCartItem(int id);
     Task<IBaseResponse<bool>> AddProductInCart(int idProduct, int idProfile);
-    /*Task<IBaseResponse<bool>> CreateCategory(CategoryViewModel categoryViewModel);
-    Task<IBaseResponse<Category>> EditCategory(CategoryViewModel categoryViewModel);*/
+    Task<IBaseResponse<bool>> EditCart(int currentValue, int IdCart);
+    /*Task<IBaseResponse<bool>> CreateCategory(CategoryViewModel categoryViewModel);*/
 }

@@ -30,12 +30,14 @@
 				    <ul class="listHeader">
 					    <li class="userIcon"><i class="fa-solid fa-user"></i>
 						    <ul class="userMenu">
-							    <li><i class="fa-solid fa-user"></i>Особиста інформація</li>
+							    <a asp-controller="Menu" asp-action="Cart">
+								    <li><i class="fa-solid fa-user"></i>Особиста інформація</li>
+							    </a>
 							    <li><i class="fa-solid fa-list-ul"></i>Мої замовлення</li>
 							    <li><i class="fa-solid fa-comment"></i>Мої відгуки</li>
 							    <hr color="lightgray">
 							    <a asp-controller="Account" asp-action="Logout">
-								    <li><i class="fa-solid fa-right-from-bracket"></i>Вийти з акаунта</li>
+								    <li><i class="fa-solid fa-right-from-bracket" style="transform: rotate(180deg)"></i>Вийти з акаунта</li>
 							    </a>
 						    </ul>
 					    </li>

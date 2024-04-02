@@ -46,11 +46,6 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
         return entity;
     }
 
-    public Task<List<ShoppingCartItem>> GetShoppingCartBy(string name)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<List<ShoppingCartItem>> GetShoppingCartBy(int idProfile)
     {
         var shoppingCartItems = await _db.ShoppingCartItems
@@ -60,6 +55,13 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
             .ToListAsync();
 
         return shoppingCartItems;
+    }
+
+    public async Task<ShoppingCartItem> GetCartProduct(int id)
+    {
+        return await _db.ShoppingCartItems
+            .Include(i => i.Product)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<bool> AddProductInCart(int idProduct, int idProfile)

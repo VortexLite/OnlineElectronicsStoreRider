@@ -90,6 +90,7 @@ public class ShoppingCartItemService : IShoppingCartItemService
                 int idImage = shoppingCartItem.Product.Id;
                 var cartItem = new CartViewModel()
                 {
+                    Id = shoppingCartItem.Id,
                     Name = shoppingCartItem.Product.Name,
                     Price = shoppingCartItem.Product.Price,
                     Quantity = shoppingCartItem.Quantity,
@@ -166,6 +167,48 @@ public class ShoppingCartItemService : IShoppingCartItemService
             return new BaseResponse<bool>()
             {
                 Desription = $"[AddProductInCart] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse<bool>> EditCart(int updateValue, int IdCart)
+    {
+        var baseResponse = new BaseResponse<bool>();
+        try
+        {
+            var cart = await _shoppingCartItemRepository.GetCartProduct(IdCart);
+            if (cart == null)
+            {
+                baseResponse.Desription = $"Element with id:{IdCart} not found";
+                baseResponse.StatusCode = StatusCode.ShoppingCartItemElementNotFound;
+                
+                return baseResponse;
+            }
+            
+            if (cart.Product.Amount >= updateValue)
+            {
+                cart.Quantity = updateValue;
+                await _shoppingCartItemRepository.Update(cart);
+                
+                baseResponse.Data = true;
+                baseResponse.StatusCode = StatusCode.OK;
+            }
+            else
+            {
+                baseResponse.Data = false;
+                baseResponse.StatusCode = StatusCode.OK;
+
+                return baseResponse;
+            }
+
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<bool>()
+            {
+                Desription = $"[EditCart] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

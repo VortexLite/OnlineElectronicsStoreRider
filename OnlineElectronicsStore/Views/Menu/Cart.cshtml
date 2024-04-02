@@ -1,0 +1,272 @@
+﻿@model OnlineElectronicsStore.Domain.Helpers.Pair<OnlineElectronicsStore.Domain.Response.IBaseResponse<List<OnlineElectronicsStore.Domain.ViewModels.Cart.CartViewModel>>, OnlineElectronicsStore.Domain.Response.IBaseResponse<OnlineElectronicsStore.Domain.Entity.Profile>>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<style>
+	article
+    {
+        z-index: 2;
+        display: grid;
+        margin: 0 5vw;
+        grid-gap: 5px;
+        font-size: 18px;
+        grid-template-rows: auto 1fr;
+    
+    }
+    
+    
+    article nav
+    {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 300px 1fr;
+        grid-gap: 10px;
+    }
+    
+    .navigationLeft
+    {
+        list-style-type: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 0;
+        display: grid;
+        height: 50vh;
+    }
+    
+    #activeLI
+    {
+        background-color: #f0f0f0;
+    }
+    
+    #activeI
+    {
+        color: #e00027;
+    }
+    
+    .navigationLeft li
+    {
+        padding: 10px;
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: start;
+        align-items: center;
+    }
+    
+    .navigationLeft li:hover
+    {
+        background-color: #f7f7f7;
+    }
+    
+    .navigationLeft li i
+    {
+        margin: 0 10px 0 0;
+    }
+    
+    .cartItem
+    {
+        display: grid;
+        grid-gap: 10px;
+        list-style-type: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 10px;
+        text-align: center;
+    }
+    
+    .cartItem li:not(li:last-child)
+    {
+        display: grid;
+        grid-template-columns: 5% 8% 30% 5% 25% 22%;
+        align-items: center;
+        grid-gap: 10px;
+    }
+    
+    .cartItem button
+    {
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    .x:hover
+    {
+        color: #e00027;
+    }
+    
+    .cartImage
+    {
+        width: 100%;
+    }
+    
+    .blueBtn
+    {
+        color: #7fb5ff;
+    }
+    
+    p
+    {
+        margin: 0;
+    }
+    
+    .addQuantity
+    {
+        display: grid;
+        grid-auto-flow: column;
+        
+    }
+    
+    .cartItem input
+    {
+        border: 1px #f0f0f0 solid;
+        text-align: center;
+    }
+    
+    .orderPlacement
+    {
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: end;
+        align-items: center;
+        margin-right: 15%;
+    }
+    
+    .order
+    {
+        background-color: #e00027 !important;
+        color: white !important;
+        padding: 10px;
+        border-radius: 5px;
+        margin-left: 20px;
+    }
+    
+    .order:hover
+    {
+        background-color: #f03a59 !important;
+        transition: all 0.3s  ease-out !important;
+        cursor: pointer;
+    }
+    
+    hr
+    {
+        width: 85%;
+        margin-left: 5%;
+    }
+    
+    ul > a,
+    li button a
+    {
+        text-decoration: none;
+        color: white;
+    }
+    
+    ul > a:visited,
+    li button a:visited
+    {
+        text-decoration: none;
+    }
+    
+    ul > a:hover,
+    li button a:hover
+    {
+        color: white;
+    }
+</style>
+
+<article>
+    @if (Model.Second.Data.Surname != null && Model.Second.Data.Name != null)
+    {
+        <h2>Вітаємо, @Model.Second.Data.Surname @Model.Second.Data.Name</h2>
+    }
+    else if (Model.Second.Data.Surname != null)
+    {
+        <h2>Вітаємо, @Model.Second.Data.Surname</h2>
+    }
+    else if (Model.Second.Data.Name != null)
+    {
+        <h2>Вітаємо, @Model.Second.Data.Name</h2>
+    }
+    else
+    {
+        <h2>Вітаємо</h2>
+    }
+    
+    <nav>
+        <ul class="navigationLeft">
+            <li id="activeLI"><i class="fa-solid fa-cart-shopping" id="activeI"></i>Корзина</li>
+            <li><i class="fa-solid fa-user"></i>Особиста інформація</li>
+            <li><i class="fa-solid fa-list-ul"></i>Мої замовлення</li>
+            <li><i class="fa-solid fa-heart"></i>Обране</li>
+            <li><i class="fa-solid fa-comment"></i>Мої відгуки</li>
+            <a asp-controller="Account" asp-action="Logout">
+                <li>
+                    <i class="fa-solid fa-right-from-bracket" style="transform: rotate(180deg);"></i>Вихід
+                </li>
+            </a>
+        </ul>
+        <div class="contentMenu">
+            <ul class="cartItem">
+                @{
+                    decimal price = 0;
+                }
+                @foreach (var item in Model.First.Data)
+                {
+                    <li>
+                        <a href="@Url.Action("DeleteCartProduct", "Menu", new { id = @item.Id })">
+                            <button class="x"><i class="fa-solid fa-x"></i></button>
+                        </a>
+                        
+                        @if (@item.ImageData != null)
+                        {
+                            <img src="data:image;base64,@Convert.ToBase64String(@item.ImageData)" alt="@item.Name" class="cartImage">
+                        }
+                        else
+                        {
+                            <img alt="@item.Name" src="~/Resources/NullImage.png" class="cartImage">
+                        }
+                        <p class="cartName">@item.Name</p>
+                        <form asp-controller="Menu" asp-action="DelQuantityProduct">
+                            @if (item.Quantity == 1)
+                            {
+                                <button disabled="disabled"><i class="fa-solid fa-minus"></i></button>
+                            }
+                            else
+                            {
+                                <input type="text" hidden="hidden" name="IdCart" value="@item.Id"/>
+                                <input type="text" hidden="hidden" name="currentValue" value="@item.Quantity"/>
+                                <button class="blueBtn"><i class="fa-solid fa-minus"></i></button>
+                            }
+                        </form>
+                        
+                        <form asp-controller="Menu" asp-action="AddQuantityProduct" class="addQuantity">
+                            <input type="text" hidden="hidden" name="IdCart" value="@item.Id"/>
+                            <input type="text" name="currentValue" value="@item.Quantity"/>
+                            <button class="blueBtn">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </form>
+                        <p class="cartPrice">@item.Price ₴</p>
+                    </li>
+                    <hr/>
+                    price += @item.Price;
+                }
+
+                <li class="orderPlacement">
+                    <p>Разом: @price ₴</p>
+                    <button class="order" type="submit">
+                        <a asp-controller="Order" asp-action="Contact">
+                            Оформити замовлення
+                        </a>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</article>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
