@@ -14,8 +14,7 @@ public class MenuController : Controller
 
     private IBaseResponse<int> IdProfile;
     public MenuController(IProfileService profileService, 
-        IShoppingCartItemService shoppingCartItemService,
-        IProductService productService)
+        IShoppingCartItemService shoppingCartItemService)
     {
         _profileService = profileService;
         _shoppingCartItemService = shoppingCartItemService;

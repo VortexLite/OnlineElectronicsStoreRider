@@ -8,16 +8,13 @@ public class CartController : Controller
 {
     private readonly IProfileService _profileService;
     private readonly IShoppingCartItemService _shoppingCartItemService;
-    private readonly IProductService _productService;
 
     private IBaseResponse<int> profile;
     public CartController(IProfileService profileService, 
-        IShoppingCartItemService shoppingCartItemService,
-        IProductService productService)
+        IShoppingCartItemService shoppingCartItemService)
     {
         _profileService = profileService;
         _shoppingCartItemService = shoppingCartItemService;
-        _productService = productService;
     }
     public async Task<IActionResult> Index()
     {
@@ -33,6 +30,9 @@ public class CartController : Controller
         profile = await _profileService.GetByName(User.Identity.Name);
         var product = await _shoppingCartItemService.AddProductInCart(id, profile.Data);
         var cart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
+        
+        /*var product = await _shoppingCartItemService.AddProductInCart(id, 1);
+        var cart = await _shoppingCartItemService.GetShoppingCartBy(1);*/
 
         //return RedirectToAction("Index", "Cart");
         return PartialView("_CartPartialView", cart);
