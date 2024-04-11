@@ -14,12 +14,12 @@ public class NavigationService : INavigationService
     {
         _navigationRepository = navigationRepository;
     }
-    public async Task<IBaseResponse<List<Navigation>>> GetNavigations()
+    public async Task<IBaseResponse<List<Navigation>>> GetNavigationsAsync()
     {
         var baseResponse = new BaseResponse<List<Navigation>>();
         try
         {
-            var navigation = await _navigationRepository.Select();
+            var navigation = await _navigationRepository.SelectAsync();
             if (navigation.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -36,18 +36,18 @@ public class NavigationService : INavigationService
         {
             return new BaseResponse<List<Navigation>>()
             {
-                Desription = $"[GetNavigations] : {ex.Message}",
+                Desription = $"[GetNavigationsAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<Navigation>> GetNavigation(int id)
+    public async Task<IBaseResponse<Navigation>> GetNavigationAsync(int id)
     {
         var baseResponse = new BaseResponse<Navigation>();
         try
         {
-            var navigation = await _navigationRepository.Get(id);
+            var navigation = await _navigationRepository.GetAsync(id);
             if (navigation == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -63,18 +63,18 @@ public class NavigationService : INavigationService
         {
             return new BaseResponse<Navigation>()
             {
-                Desription = $"[GetNavigation] : {ex.Message}",
+                Desription = $"[GetNavigationAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteNavigation(int id)
+    public async Task<IBaseResponse<bool>> DeleteNavigationAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var navigation = await _navigationRepository.Get(id);
+            var navigation = await _navigationRepository.GetAsync(id);
             if (navigation == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -82,7 +82,7 @@ public class NavigationService : INavigationService
                 return baseResponse;
             }
 
-            await _navigationRepository.Delete(navigation);
+            await _navigationRepository.DeleteAsync(navigation);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -92,7 +92,7 @@ public class NavigationService : INavigationService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteNavigation] : {ex.Message}",
+                Desription = $"[DeleteNavigationAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

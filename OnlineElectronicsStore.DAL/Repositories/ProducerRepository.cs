@@ -13,7 +13,7 @@ public class ProducerRepository : IProducerRepository
         _db = db;
     }
     
-    public async Task<bool> Create(Producer entity)
+    public async Task<bool> CreateAsync(Producer entity)
     {
         await _db.Producers.AddAsync(entity);
         await _db.SaveChangesAsync();
@@ -21,17 +21,17 @@ public class ProducerRepository : IProducerRepository
         return true;
     }
 
-    public async Task<Producer> Get(int id)
+    public async Task<Producer> GetAsync(int id)
     {
         return await _db.Producers.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<List<Producer>> Select()
+    public async Task<List<Producer>> SelectAsync()
     {
         return await _db.Producers.ToListAsync();
     }
 
-    public async Task<bool> Delete(Producer entity)
+    public async Task<bool> DeleteAsync(Producer entity)
     {
         _db.Producers.Remove(entity);
         await _db.SaveChangesAsync();
@@ -39,7 +39,7 @@ public class ProducerRepository : IProducerRepository
         return true;
     }
 
-    public async Task<Producer> Update(Producer entity)
+    public async Task<Producer> UpdateAsync(Producer entity)
     {
         _db.Producers.Update(entity);
         await _db.SaveChangesAsync();
@@ -47,7 +47,7 @@ public class ProducerRepository : IProducerRepository
         return entity;
     }
 
-    public async Task<List<Producer>> NavigationByRows(string name)
+    public async Task<List<Producer>> NavigationByRowsAsync(string name)
     {
         var producers = await _db.Categories
             .Where(c => c.Name == name) // find the category by name
@@ -58,7 +58,7 @@ public class ProducerRepository : IProducerRepository
         return producers;
     }
     
-    public async Task<List<Producer>> NavigationRowsById(int id)
+    public async Task<List<Producer>> NavigationRowsByIdAsync(int id)
     {
         var producers = await _db.Categories
             .Where(c => c.Id == id)

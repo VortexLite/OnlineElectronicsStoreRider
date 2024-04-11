@@ -5,13 +5,13 @@ namespace OnlineElectronicsStore.DAL.Interfaces;
 
 public interface IProductRepository : IBaseRepository<Product>
 {
-    Task<Product> GetByName(string name);
+    Task<Product> GetByNameAsync(string name);
 
-    Task<List<ProductViewModel>> GetProductWithImages();
+    Task<List<ProductViewModel>> GetProductWithImagesAsync();
 
-    Task<List<ProductViewModel>> GetsByName(string name);
+    Task<List<ProductViewModel>> GetsByNameAsync(string name);
 
-    Task<Product> GetProdutWithImageById(int id);
+    Task<Product> GetProdutWithImageByIdAsync(int id);
     
-    Task<ProductDetailViewModel> GetProductDetail(int id);
+    Task<ProductDetailViewModel> GetProductDetailAsync(int id);
 }

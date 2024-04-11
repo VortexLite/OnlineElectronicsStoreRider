@@ -13,7 +13,7 @@ public class ProductController : Controller
     }
     public async Task<IActionResult> ProductDetails(int id)
     {
-        var product = await _productService.GetProductDetail(id);
+        var product = await _productService.GetProductDetailAsync(id);
         if (product == null)
         {
             return NotFound();

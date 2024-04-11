@@ -6,8 +6,8 @@ namespace OnlineElectronicsStore.Service.Interfaces;
 
 public interface IOrderDetailService
 {
-    Task<IBaseResponse<List<OrderDetail>>> GetOrderDetails();
-    Task<IBaseResponse<OrderDetail>> GetOrderDetail(int id);
-    Task<IBaseResponse<bool>> DeleteOrderDetail(int id);
-    Task<IBaseResponse<bool>> CreateOrderDetail(int idOrder, OrderViewModel orderViewModel);
+    Task<IBaseResponse<List<OrderDetail>>> GetOrderDetailsAsync();
+    Task<IBaseResponse<OrderDetail>> GetOrderDetailAsync(int id);
+    Task<IBaseResponse<bool>> DeleteOrderDetailAsync(int id);
+    Task<IBaseResponse<bool>> CreateOrderDetailAsync(int idOrder, OrderViewModel orderViewModel);
 }

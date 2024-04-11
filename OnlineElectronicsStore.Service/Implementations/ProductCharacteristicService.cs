@@ -14,12 +14,12 @@ public class ProductCharacteristicService : IProductCharacteristicService
     {
         _productCharacteristicRepository = _productCharacteristicRepository;
     }
-    public async Task<IBaseResponse<List<ProductCharacteristic>>> GetProductCharacteristics()
+    public async Task<IBaseResponse<List<ProductCharacteristic>>> GetProductCharacteristicsAsync()
     {
         var baseResponse = new BaseResponse<List<ProductCharacteristic>>();
         try
         {
-            var productCharacteristics = await _productCharacteristicRepository.Select();
+            var productCharacteristics = await _productCharacteristicRepository.SelectAsync();
             if (productCharacteristics.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -36,18 +36,18 @@ public class ProductCharacteristicService : IProductCharacteristicService
         {
             return new BaseResponse<List<ProductCharacteristic>>()
             {
-                Desription = $"[GetProductCharacteristics] : {ex.Message}",
+                Desription = $"[GetProductCharacteristicsAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<ProductCharacteristic>> GetProductCharacteristic(int id)
+    public async Task<IBaseResponse<ProductCharacteristic>> GetProductCharacteristicAsync(int id)
     {
         var baseResponse = new BaseResponse<ProductCharacteristic>();
         try
         {
-            var productCharacteristic = await _productCharacteristicRepository.Get(id);
+            var productCharacteristic = await _productCharacteristicRepository.GetAsync(id);
             if (productCharacteristic == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -63,18 +63,18 @@ public class ProductCharacteristicService : IProductCharacteristicService
         {
             return new BaseResponse<ProductCharacteristic>()
             {
-                Desription = $"[GetProductCharacteristic] : {ex.Message}",
+                Desription = $"[GetProductCharacteristicAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteProductCharacteristic(int id)
+    public async Task<IBaseResponse<bool>> DeleteProductCharacteristicAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var productCharacteristic = await _productCharacteristicRepository.Get(id);
+            var productCharacteristic = await _productCharacteristicRepository.GetAsync(id);
             if (productCharacteristic == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -82,7 +82,7 @@ public class ProductCharacteristicService : IProductCharacteristicService
                 return baseResponse;
             }
 
-            await _productCharacteristicRepository.Delete(productCharacteristic);
+            await _productCharacteristicRepository.DeleteAsync(productCharacteristic);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -92,7 +92,7 @@ public class ProductCharacteristicService : IProductCharacteristicService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteProductCharacteristic] : {ex.Message}",
+                Desription = $"[DeleteProductCharacteristicAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

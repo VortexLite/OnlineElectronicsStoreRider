@@ -5,9 +5,9 @@ namespace OnlineElectronicsStore.Service.Interfaces;
 
 public interface IProducerService
 {
-    Task<IBaseResponse<List<Producer>>> GetProducers();
-    Task<IBaseResponse<Producer>> GetProducer(int id);
-    Task<IBaseResponse<List<Producer>>> NavigationByRows(string name);
-    Task<IBaseResponse<List<Producer>>> NavigationRowsById(int id);
-    Task<IBaseResponse<bool>> DeleteProducer(int id);
+    Task<IBaseResponse<List<Producer>>> GetProducersAsync();
+    Task<IBaseResponse<Producer>> GetProducerAsync(int id);
+    Task<IBaseResponse<List<Producer>>> NavigationByRowsAsync(string name);
+    Task<IBaseResponse<List<Producer>>> NavigationRowsByIdAsync(int id);
+    Task<IBaseResponse<bool>> DeleteProducerAsync(int id);
 }

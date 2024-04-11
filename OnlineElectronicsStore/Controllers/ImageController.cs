@@ -40,7 +40,7 @@ public class ImageController : Controller
                 ImageData = imageData
             };
 
-             await _imageService.CreateImage(image);
+             await _imageService.CreateImageAsync(image);
 
             return RedirectToAction("Upload");
         }
@@ -50,7 +50,7 @@ public class ImageController : Controller
     [HttpGet]
     public async Task<IActionResult> GetPhoto(int id)
     {
-        var photo = await _imageService.GetImage(id);
+        var photo = await _imageService.GetImageAsync(id);
 
         if (photo == null)
         {

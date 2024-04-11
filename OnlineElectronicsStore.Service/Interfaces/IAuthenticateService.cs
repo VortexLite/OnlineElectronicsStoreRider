@@ -5,6 +5,6 @@ namespace OnlineElectronicsStore.Service.Interfaces;
 
 public interface IAuthenticateService 
 {
-    Task<IBaseResponse<User>> AuthenticateLoginPasswordUser(string login, string password);
-    Task<IBaseResponse<User>> AuthenticateLoginUser(string login);
+    Task<IBaseResponse<User>> AuthenticateLoginPasswordUserAsync(string login, string password);
+    Task<IBaseResponse<User>> AuthenticateLoginUserAsync(string login);
 }

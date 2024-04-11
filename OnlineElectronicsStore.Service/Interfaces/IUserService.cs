@@ -7,9 +7,9 @@ namespace OnlineElectronicsStore.Service.Interfaces;
 
 public interface IUserService
 {
-    Task<IBaseResponse<List<User>>> GetUsers();
-    Task<IBaseResponse<User>> GetUser(int id);
-    Task<IBaseResponse<bool>> DeleteUser(int id);
-    Task<IBaseResponse<bool>> CreateUser(RegisterViewModel registerViewModel);
+    Task<IBaseResponse<List<User>>> GetUsersAsync();
+    Task<IBaseResponse<User>> GetUserAsync(int id);
+    Task<IBaseResponse<bool>> DeleteUserAsync(int id);
+    Task<IBaseResponse<bool>> CreateUserAsync(RegisterViewModel registerViewModel);
     //Task<IBaseResponse<User>> EditProduct(ProductViewModel productViewModel);
 }

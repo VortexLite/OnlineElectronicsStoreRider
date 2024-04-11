@@ -15,12 +15,12 @@ public class ShoppingCartItemService : IShoppingCartItemService
     {
         _shoppingCartItemRepository = shoppingCartItemRepository;
     }
-    public async Task<IBaseResponse<List<ShoppingCartItem>>> GetShoppingCartItems()
+    public async Task<IBaseResponse<List<ShoppingCartItem>>> GetShoppingCartItemsAsync()
     {
         var baseResponse = new BaseResponse<List<ShoppingCartItem>>();
         try
         {
-            var shoppingCartItems = await _shoppingCartItemRepository.Select();
+            var shoppingCartItems = await _shoppingCartItemRepository.SelectAsync();
             if (shoppingCartItems.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -37,18 +37,18 @@ public class ShoppingCartItemService : IShoppingCartItemService
         {
             return new BaseResponse<List<ShoppingCartItem>>()
             {
-                Desription = $"[GetShoppingCartItems] : {ex.Message}",
+                Desription = $"[GetShoppingCartItemsAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<ShoppingCartItem>> GetShoppingCartItem(int id)
+    public async Task<IBaseResponse<ShoppingCartItem>> GetShoppingCartItemAsync(int id)
     {
         var baseResponse = new BaseResponse<ShoppingCartItem>();
         try
         {
-            var shoppingCartItem = await _shoppingCartItemRepository.Get(id);
+            var shoppingCartItem = await _shoppingCartItemRepository.GetAsync(id);
             if (shoppingCartItem == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -64,18 +64,18 @@ public class ShoppingCartItemService : IShoppingCartItemService
         {
             return new BaseResponse<ShoppingCartItem>()
             {
-                Desription = $"[GetShoppingCartItem] : {ex.Message}",
+                Desription = $"[GetShoppingCartItemAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<List<CartViewModel>>> GetShoppingCartBy(int idProfile)
+    public async Task<IBaseResponse<List<CartViewModel>>> GetShoppingCartByAsync(int idProfile)
     {
         var baseResponse = new BaseResponse<List<CartViewModel>>();
         try
         {
-            var shoppingCartItems = await _shoppingCartItemRepository.GetShoppingCartBy(idProfile);
+            var shoppingCartItems = await _shoppingCartItemRepository.GetShoppingCartByAsync(idProfile);
             if (shoppingCartItems == null)
             {
                 baseResponse.Desription = $"Element with idProfile:{idProfile} not found";
@@ -109,18 +109,18 @@ public class ShoppingCartItemService : IShoppingCartItemService
         {
             return new BaseResponse<List<CartViewModel>>()
             {
-                Desription = $"[GetShoppingCartBy] : {ex.Message}",
+                Desription = $"[GetShoppingCartByAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteShoppingCartItem(int id)
+    public async Task<IBaseResponse<bool>> DeleteShoppingCartItemAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var shoppingCartItem = await _shoppingCartItemRepository.Get(id);
+            var shoppingCartItem = await _shoppingCartItemRepository.GetAsync(id);
             if (shoppingCartItem == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -128,7 +128,7 @@ public class ShoppingCartItemService : IShoppingCartItemService
                 return baseResponse;
             }
 
-            await _shoppingCartItemRepository.Delete(shoppingCartItem);
+            await _shoppingCartItemRepository.DeleteAsync(shoppingCartItem);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -144,12 +144,42 @@ public class ShoppingCartItemService : IShoppingCartItemService
         }
     }
 
-    public async Task<IBaseResponse<bool>> AddProductInCart(int idProduct, int idProfile)
+    public async Task<IBaseResponse<bool>> DeleteShoppingCartItemsAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var shoppingCartItem = await _shoppingCartItemRepository.AddProductInCart(idProduct, idProfile);
+            var shoppingCartItem = await _shoppingCartItemRepository.GetShoppingCartByAsync(id);
+            if (shoppingCartItem == null)
+            {
+                baseResponse.Desription = $"Element with id:{id} not found";
+                baseResponse.StatusCode = StatusCode.ShoppingCartItemElementNotFound;
+                return baseResponse;
+            }
+
+            await _shoppingCartItemRepository.DeleteColectionsAsync(shoppingCartItem);
+            
+            baseResponse.Data = true;
+            baseResponse.StatusCode = StatusCode.OK;
+            
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<bool>()
+            {
+                Desription = $"[DeleteShoppingCartItemsAsync] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse<bool>> AddProductInCartAsync(int idProduct, int idProfile)
+    {
+        var baseResponse = new BaseResponse<bool>();
+        try
+        {
+            var shoppingCartItem = await _shoppingCartItemRepository.AddProductInCartAsync(idProduct, idProfile);
             if (shoppingCartItem == null)
             {
                 baseResponse.Desription = $"Element with id:{idProduct} not found";
@@ -166,18 +196,18 @@ public class ShoppingCartItemService : IShoppingCartItemService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[AddProductInCart] : {ex.Message}",
+                Desription = $"[AddProductInCartAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> EditCart(int updateValue, int IdCart)
+    public async Task<IBaseResponse<bool>> EditCartAsync(int updateValue, int IdCart)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var cart = await _shoppingCartItemRepository.GetCartProduct(IdCart);
+            var cart = await _shoppingCartItemRepository.GetCartProductAsync(IdCart);
             if (cart == null)
             {
                 baseResponse.Desription = $"Element with id:{IdCart} not found";
@@ -189,7 +219,7 @@ public class ShoppingCartItemService : IShoppingCartItemService
             if (cart.Product.Amount >= updateValue)
             {
                 cart.Quantity = updateValue;
-                await _shoppingCartItemRepository.Update(cart);
+                await _shoppingCartItemRepository.UpdateAsync(cart);
                 
                 baseResponse.Data = true;
                 baseResponse.StatusCode = StatusCode.OK;
@@ -208,7 +238,7 @@ public class ShoppingCartItemService : IShoppingCartItemService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[EditCart] : {ex.Message}",
+                Desription = $"[EditCartAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

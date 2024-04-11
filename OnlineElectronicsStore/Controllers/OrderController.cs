@@ -15,7 +15,7 @@ public class OrderController : Controller
     private readonly IDeliveryTypeService _deliveryTypeService;
     private readonly IOrderService _orderService;
 
-    private IBaseResponse<int> IdProfile;
+    private IBaseResponse<int> _idProfile = null;
     public OrderController(IProfileService profileService, 
         IShoppingCartItemService shoppingCartItemService,
         IDeliveryTypeService deliveryTypeService,
@@ -28,10 +28,14 @@ public class OrderController : Controller
     }
     public async Task<IActionResult> Index()
     {
-        IdProfile = await _profileService.GetByName(User.Identity.Name);
-        var profile = await _profileService.GetProfile(IdProfile.Data);
-        var cart = await _shoppingCartItemService.GetShoppingCartBy(IdProfile.Data);
-        var deliveryType = await _deliveryTypeService.GetDeliveryTypes();
+        if (_idProfile == null)
+        {
+            _idProfile = await _profileService.GetByNameAsync(User.Identity.Name);
+        }
+        
+        var profile = await _profileService.GetProfileAsync(_idProfile.Data);
+        var cart = await _shoppingCartItemService.GetShoppingCartByAsync(_idProfile.Data);
+        var deliveryType = await _deliveryTypeService.GetDeliveryTypesAsync();
 
         var response = new Triple<IBaseResponse<Profile>, IBaseResponse<List<CartViewModel>>, IBaseResponse<List<DeliveryType>>>()
         {
@@ -45,9 +49,13 @@ public class OrderController : Controller
     
     public async Task<IActionResult> Contact()
     {
-        IdProfile = await _profileService.GetByName(User.Identity.Name);
-        var cart = await _shoppingCartItemService.GetShoppingCartBy(IdProfile.Data);
-        var profile = await _profileService.GetProfile(IdProfile.Data);
+        if (_idProfile == null)
+        {
+            _idProfile = await _profileService.GetByNameAsync(User.Identity.Name);
+        }
+        
+        var cart = await _shoppingCartItemService.GetShoppingCartByAsync(_idProfile.Data);
+        var profile = await _profileService.GetProfileAsync(_idProfile.Data);
 
         if (cart.StatusCode == Domain.Enum.StatusCode.OK &&
             profile.StatusCode == Domain.Enum.StatusCode.OK )
@@ -57,17 +65,44 @@ public class OrderController : Controller
                 First = cart,
                 Second = profile
             };
+            
             return View(response);
         }
         
         return RedirectToAction("Index", "Home");
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> SaveContact(ContactViewModel contactViewModel)
+    {
+        if (_idProfile == null)
+        {
+            _idProfile = await _profileService.GetByNameAsync(User.Identity.Name);
+        }
+        
+        var editprofile = await _profileService.EditProfileByContactAsync(contactViewModel, _idProfile.Data);
+
+        return RedirectToAction("Index");
+    }
 
     [HttpPost]
     public async Task<IActionResult> CreateOrder(OrderViewModel orderViewModel)
     {
-        var createOrder = await _orderService.CreateOrder(orderViewModel);
+        if (_idProfile == null)
+        {
+            _idProfile = await _profileService.GetByNameAsync(User.Identity.Name);
+        }
+
+        var createOrder = await _orderService.CreateOrderAsync(orderViewModel);
+        var deleteCart = await _shoppingCartItemService.DeleteShoppingCartItemsAsync(_idProfile.Data);
+
+        if (createOrder.StatusCode == Domain.Enum.StatusCode.OK &&
+            deleteCart.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return RedirectToAction("Index", "Home");
+        }
         
+        //Доробить
         return RedirectToAction("Index", "Home");
     }
 }

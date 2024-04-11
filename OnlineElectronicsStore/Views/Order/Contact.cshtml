@@ -119,22 +119,36 @@
 	<h3 id="test">1. Контактна інформація</h3>
 	<section class="orderPlacement">
 		<section class="contact">
-			<form>
+			<form asp-controller="Order" asp-action="SaveContact" method="post">
 				<p class="smallFont">Номер телефону</p>
 				@if (Model.Second.Data.Phone != null)
 				{
-					<p>@Model.Second.Data.Phone</p>
+					<input type="text" name="PhoneNumber" value="@Model.Second.Data.Phone">
 				}
 				else
 				{
-					<input type="text" name="">
+					<input type="text" name="PhoneNumber">
 				}
 
 				<p class="smallFont">Ім'я</p>
-				<input type="text" name="" value="@Model.Second.Data.Name">
-
+				@if (Model.Second.Data.Name != null)
+				{
+					<input type="text" name="FirstName" value="@Model.Second.Data.Name">
+				}
+				else
+				{
+					<input type="text" name="FirstName">
+				}
+				
 				<p class="smallFont">Прізвище</p>
-				<input type="text" name="" value="@Model.Second.Data.Surname">
+				@if (Model.Second.Data.Surname != null)
+				{
+					<input type="text" name="LastName" value="@Model.Second.Data.Surname">
+				}
+				else
+				{
+					<input type="text" name="LastName">
+				}
 
 				<br><br>
 				<button>Вибрати доставку і оплату</button>

@@ -25,7 +25,7 @@ public class RepositoryTests : IDisposable
 
         var repository = new AuthenticateRepository(_context);
 
-        var user = await repository.AuthenticateLoginPasswordUser("testuser", "testpassword");
+        var user = await repository.AuthenticateLoginPasswordUserAsync("testuser", "testpassword");
 
         Assert.NotNull(user);
         Assert.Equal("testuser", user.Login);
@@ -40,7 +40,7 @@ public class RepositoryTests : IDisposable
             var category = new Category { Name = "Test Category" };
 
             // Act
-            var result = await repository.Create(category);
+            var result = await repository.CreateAsync(category);
 
             // Assert
             Assert.True(result);
@@ -70,7 +70,7 @@ public class RepositoryTests : IDisposable
             };
 
             // Act
-            var result = await repository.Create(order);
+            var result = await repository.CreateAsync(order);
 
             // Assert
             Assert.True(result);
@@ -102,7 +102,7 @@ public class RepositoryTests : IDisposable
             await context.SaveChangesAsync();
 
             // Act
-            var result = await repository.Get(order.Id);
+            var result = await repository.GetAsync(order.Id);
 
             // Assert
             Assert.NotNull(result);
@@ -148,7 +148,7 @@ public class RepositoryTests : IDisposable
             await context.SaveChangesAsync();
 
             // Act
-            var result = await repository.Select();
+            var result = await repository.SelectAsync();
 
             // Assert
             Assert.NotNull(result);
@@ -175,7 +175,7 @@ public class RepositoryTests : IDisposable
             await context.SaveChangesAsync();
 
             // Act
-            var result = await repository.Delete(orderDetail);
+            var result = await repository.DeleteAsync(orderDetail);
 
             // Assert
             Assert.True(result);
@@ -206,7 +206,7 @@ public class RepositoryTests : IDisposable
             };
 
             // Act
-            var result = await repository.Create(user);
+            var result = await repository.CreateAsync(user);
 
             // Assert
             Assert.True(result);
@@ -234,7 +234,7 @@ public class RepositoryTests : IDisposable
                 };
 
                 // Act
-                var result = await repository.Create(wishList);
+                var result = await repository.CreateAsync(wishList);
 
                 // Assert
                 Assert.True(result);
@@ -264,7 +264,7 @@ public class RepositoryTests : IDisposable
                 await context.SaveChangesAsync();
 
                 // Act
-                var result = await repository.Get(wishList.Id);
+                var result = await repository.GetAsync(wishList.Id);
 
                 // Assert
                 Assert.NotNull(result);
@@ -292,7 +292,7 @@ public class RepositoryTests : IDisposable
                 await context.SaveChangesAsync();
 
                 // Act
-                var result = await repository.Delete(wishList);
+                var result = await repository.DeleteAsync(wishList);
 
                 // Assert
                 Assert.True(result);

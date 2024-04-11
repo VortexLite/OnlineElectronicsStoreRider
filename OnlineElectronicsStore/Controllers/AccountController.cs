@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.ViewModels.Account;
 using OnlineElectronicsStore.Service.Interfaces;
 
@@ -30,7 +31,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _authenticateService.AuthenticateLoginPasswordUser(loginViewModel.Login, loginViewModel.Password);
+            var user = await _authenticateService.AuthenticateLoginPasswordUserAsync(loginViewModel.Login, loginViewModel.Password);
             if (user.Data != null)
             {
                 await Authenticate(loginViewModel.Login);
@@ -55,10 +56,10 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _authenticateService.AuthenticateLoginUser(registerViewModel.Login);
+            var user = await _authenticateService.AuthenticateLoginUserAsync(registerViewModel.Login);
             if (user.Data == null)
             {
-                var checkUser = await _userService.CreateUser(registerViewModel);
+                var checkUser = await _userService.CreateUserAsync(registerViewModel);
                 if (checkUser.Data)
                 {
                     await Authenticate(registerViewModel.Login);
@@ -80,7 +81,8 @@ public class AccountController : Controller
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimsIdentity.DefaultNameClaimType, username)
+            new Claim(ClaimsIdentity.DefaultNameClaimType, username),
+            new Claim(ClaimsIdentity.DefaultRoleClaimType, "User")
         };
         
         ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

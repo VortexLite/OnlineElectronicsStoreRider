@@ -12,7 +12,7 @@ public class ProductCharacteristicRepository : IProductCharacteristicRepository
         _db = db;
     }
     
-    public async Task<bool> Create(ProductCharacteristic entity)
+    public async Task<bool> CreateAsync(ProductCharacteristic entity)
     {
         await _db.ProductCharacteristics.AddAsync(entity);
         await _db.SaveChangesAsync();
@@ -20,17 +20,17 @@ public class ProductCharacteristicRepository : IProductCharacteristicRepository
         return true;
     }
 
-    public async Task<ProductCharacteristic> Get(int id)
+    public async Task<ProductCharacteristic> GetAsync(int id)
     {
         return await _db.ProductCharacteristics.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<List<ProductCharacteristic>> Select()
+    public async Task<List<ProductCharacteristic>> SelectAsync()
     {
         return await _db.ProductCharacteristics.ToListAsync();
     }
 
-    public async Task<bool> Delete(ProductCharacteristic entity)
+    public async Task<bool> DeleteAsync(ProductCharacteristic entity)
     {
         _db.ProductCharacteristics.Remove(entity);
         await _db.SaveChangesAsync();
@@ -38,7 +38,7 @@ public class ProductCharacteristicRepository : IProductCharacteristicRepository
         return true;
     }
 
-    public async Task<ProductCharacteristic> Update(ProductCharacteristic entity)
+    public async Task<ProductCharacteristic> UpdateAsync(ProductCharacteristic entity)
     {
         _db.ProductCharacteristics.Update(entity);
         await _db.SaveChangesAsync();
@@ -46,7 +46,7 @@ public class ProductCharacteristicRepository : IProductCharacteristicRepository
         return entity;
     }
 
-    public async Task<Category> GetByName(string name)
+    public async Task<Category> GetByNameAsync(string name)
     {
         return await _db.Categories.FirstOrDefaultAsync(x => x.Name == name);
     }

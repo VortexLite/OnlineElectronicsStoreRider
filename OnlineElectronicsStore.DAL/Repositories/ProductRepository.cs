@@ -14,7 +14,7 @@ public class ProductRepository : IProductRepository
         _db = db;
     }
     
-    public async Task<bool> Create(Product entity)
+    public async Task<bool> CreateAsync(Product entity)
     {
         await _db.Products.AddAsync(entity);
         await _db.SaveChangesAsync();
@@ -22,17 +22,17 @@ public class ProductRepository : IProductRepository
         return true;
     }
 
-    public async Task<Product> Get(int id)
+    public async Task<Product> GetAsync(int id)
     {
         return await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<List<Product>> Select()
+    public async Task<List<Product>> SelectAsync()
     {
         return await _db.Products.ToListAsync();
     }
 
-    public async Task<bool> Delete(Product entity)
+    public async Task<bool> DeleteAsync(Product entity)
     {
         _db.Products.Remove(entity);
         await _db.SaveChangesAsync();
@@ -40,7 +40,7 @@ public class ProductRepository : IProductRepository
         return true;
     }
 
-    public async Task<Product> Update(Product entity)
+    public async Task<Product> UpdateAsync(Product entity)
     {
         _db.Products.Update(entity);
         await _db.SaveChangesAsync();
@@ -48,12 +48,12 @@ public class ProductRepository : IProductRepository
         return entity;
     }
 
-    public async Task<Product> GetByName(string name)
+    public async Task<Product> GetByNameAsync(string name)
     {
         return await _db.Products.FirstOrDefaultAsync(x => x.Name == name);
     }
 
-    public async Task<List<ProductViewModel>> GetProductWithImages()
+    public async Task<List<ProductViewModel>> GetProductWithImagesAsync()
     {
         var products = await _db.Products.ToListAsync();
         
@@ -76,7 +76,7 @@ public class ProductRepository : IProductRepository
         return viewModels;
     }
 
-    public async Task<List<ProductViewModel>> GetsByName(string name)
+    public async Task<List<ProductViewModel>> GetsByNameAsync(string name)
     {
         var products = await _db.Products
             .Where(p => EF.Functions.Like(p.Name, "%" + name + "%"))
@@ -101,7 +101,7 @@ public class ProductRepository : IProductRepository
         return viewModels;
     }
 
-    public async Task<Product> GetProdutWithImageById(int id)
+    public async Task<Product> GetProdutWithImageByIdAsync(int id)
     {
         var product = await _db.Products.
             Include(i => i.Images).
@@ -110,7 +110,7 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    public async Task<ProductDetailViewModel> GetProductDetail(int id)
+    public async Task<ProductDetailViewModel> GetProductDetailAsync(int id)
     {
         var product = await _db.Products
             .FirstOrDefaultAsync(i => i.Id == id);

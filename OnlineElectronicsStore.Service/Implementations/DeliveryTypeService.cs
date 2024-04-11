@@ -14,12 +14,12 @@ public class DeliveryTypeService : IDeliveryTypeService
     {
         _deliveryTypeRepository = deliveryTypeRepository;
     }
-    public async Task<IBaseResponse<List<DeliveryType>>> GetDeliveryTypes()
+    public async Task<IBaseResponse<List<DeliveryType>>> GetDeliveryTypesAsync()
     {
         var baseResponse = new BaseResponse<List<DeliveryType>>();
         try
         {
-            var deliveryTypes = await _deliveryTypeRepository.Select();
+            var deliveryTypes = await _deliveryTypeRepository.SelectAsync();
             if (deliveryTypes.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -36,18 +36,18 @@ public class DeliveryTypeService : IDeliveryTypeService
         {
             return new BaseResponse<List<DeliveryType>>()
             {
-                Desription = $"[GetDeliveryTypes] : {ex.Message}",
+                Desription = $"[GetDeliveryTypesAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<DeliveryType>> GetDeliveryType(int id)
+    public async Task<IBaseResponse<DeliveryType>> GetDeliveryTypeAsync(int id)
     {
         var baseResponse = new BaseResponse<DeliveryType>();
         try
         {
-            var deliveryType = await _deliveryTypeRepository.Get(id);
+            var deliveryType = await _deliveryTypeRepository.GetAsync(id);
             if (deliveryType == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -63,18 +63,18 @@ public class DeliveryTypeService : IDeliveryTypeService
         {
             return new BaseResponse<DeliveryType>()
             {
-                Desription = $"[GetDeliveryType] : {ex.Message}",
+                Desription = $"[GetDeliveryTypeAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteDeliveryType(int id)
+    public async Task<IBaseResponse<bool>> DeleteDeliveryTypeAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var deliveryType = await _deliveryTypeRepository.Get(id);
+            var deliveryType = await _deliveryTypeRepository.GetAsync(id);
             if (deliveryType == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -82,7 +82,7 @@ public class DeliveryTypeService : IDeliveryTypeService
                 return baseResponse;
             }
 
-            await _deliveryTypeRepository.Delete(deliveryType);
+            await _deliveryTypeRepository.DeleteAsync(deliveryType);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -92,7 +92,7 @@ public class DeliveryTypeService : IDeliveryTypeService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteDeliveryType] : {ex.Message}",
+                Desription = $"[DeleteDeliveryTypeAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

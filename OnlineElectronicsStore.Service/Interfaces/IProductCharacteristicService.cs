@@ -5,7 +5,7 @@ namespace OnlineElectronicsStore.Service.Interfaces;
 
 public interface IProductCharacteristicService
 {
-    Task<IBaseResponse<List<ProductCharacteristic>>> GetProductCharacteristics();
-    Task<IBaseResponse<ProductCharacteristic>> GetProductCharacteristic(int id);
-    Task<IBaseResponse<bool>> DeleteProductCharacteristic(int id);
+    Task<IBaseResponse<List<ProductCharacteristic>>> GetProductCharacteristicsAsync();
+    Task<IBaseResponse<ProductCharacteristic>> GetProductCharacteristicAsync(int id);
+    Task<IBaseResponse<bool>> DeleteProductCharacteristicAsync(int id);
 }

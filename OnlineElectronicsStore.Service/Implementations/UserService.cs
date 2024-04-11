@@ -17,12 +17,12 @@ public class UserService : IUserService
         _userRepository = userRepository;
         _profileRepository = profileRepository;
     }
-    public async Task<IBaseResponse<List<User>>> GetUsers()
+    public async Task<IBaseResponse<List<User>>> GetUsersAsync()
     {
         var baseResponse = new BaseResponse<List<User>>();
         try
         {
-            var users = await _userRepository.Select();
+            var users = await _userRepository.SelectAsync();
             if (users.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -39,18 +39,18 @@ public class UserService : IUserService
         {
             return new BaseResponse<List<User>>()
             {
-                Desription = $"[GetUsers] : {ex.Message}",
+                Desription = $"[GetUsersAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<User>> GetUser(int id)
+    public async Task<IBaseResponse<User>> GetUserAsync(int id)
     {
         var baseResponse = new BaseResponse<User>();
         try
         {
-            var user = await _userRepository.Get(id);
+            var user = await _userRepository.GetAsync(id);
             if (user == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -66,18 +66,18 @@ public class UserService : IUserService
         {
             return new BaseResponse<User>()
             {
-                Desription = $"[GetUser] : {ex.Message}",
+                Desription = $"[GetUserAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteUser(int id)
+    public async Task<IBaseResponse<bool>> DeleteUserAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var user = await _userRepository.Get(id);
+            var user = await _userRepository.GetAsync(id);
             if (user == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -85,7 +85,7 @@ public class UserService : IUserService
                 return baseResponse;
             }
 
-            await _userRepository.Delete(user);
+            await _userRepository.DeleteAsync(user);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -95,13 +95,13 @@ public class UserService : IUserService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteUser] : {ex.Message}",
+                Desription = $"[DeleteUserAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> CreateUser(RegisterViewModel registerViewModel)
+    public async Task<IBaseResponse<bool>> CreateUserAsync(RegisterViewModel registerViewModel)
     {
         var baseResponse = new BaseResponse<bool>();
         try
@@ -123,11 +123,11 @@ public class UserService : IUserService
                 Address = null
             };
 
-            await _profileRepository.Create(profile);
+            await _profileRepository.CreateAsync(profile);
             
             user.IdProfile = profile.Id;
             
-            await _userRepository.Create(user);
+            await _userRepository.CreateAsync(user);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
 
@@ -137,7 +137,7 @@ public class UserService : IUserService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[CreateUser] : {ex.Message}",
+                Desription = $"[CreateUserAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

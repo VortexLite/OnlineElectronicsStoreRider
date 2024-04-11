@@ -12,7 +12,7 @@ public class CategoryRepository : ICategoryRepository
         _db = db;
     }
     
-    public async Task<bool> Create(Category entity)
+    public async Task<bool> CreateAsync(Category entity)
     {
         await _db.Categories.AddAsync(entity);
         await _db.SaveChangesAsync();
@@ -20,17 +20,17 @@ public class CategoryRepository : ICategoryRepository
         return true;
     }
 
-    public async Task<Category> Get(int id)
+    public async Task<Category> GetAsync(int id)
     {
         return await _db.Categories.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<List<Category>> Select()
+    public async Task<List<Category>> SelectAsync()
     {
         return await _db.Categories.ToListAsync();
     }
 
-    public async Task<bool> Delete(Category entity)
+    public async Task<bool> DeleteAsync(Category entity)
     {
         _db.Categories.Remove(entity);
         await _db.SaveChangesAsync();
@@ -38,7 +38,7 @@ public class CategoryRepository : ICategoryRepository
         return true;
     }
 
-    public async Task<Category> Update(Category entity)
+    public async Task<Category> UpdateAsync(Category entity)
     {
         _db.Categories.Update(entity);
         await _db.SaveChangesAsync();
@@ -46,7 +46,7 @@ public class CategoryRepository : ICategoryRepository
         return entity;
     }
 
-    public async Task<Category> GetByName(string name)
+    public async Task<Category> GetByNameAsync(string name)
     {
         return await _db.Categories.FirstOrDefaultAsync(x => x.Name == name);
     }

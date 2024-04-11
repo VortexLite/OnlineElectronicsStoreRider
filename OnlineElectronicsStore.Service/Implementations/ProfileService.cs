@@ -2,6 +2,7 @@
 using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Enum;
 using OnlineElectronicsStore.Domain.Response;
+using OnlineElectronicsStore.Domain.ViewModels.OrderViewModel;
 using OnlineElectronicsStore.Service.Interfaces;
 
 namespace OnlineElectronicsStore.Service.Implementations;
@@ -14,12 +15,12 @@ public class ProfileService : IProfileService
     {
         _profileRepository = profileRepository;
     }
-    public async Task<IBaseResponse<List<Profile>>> GetProfiles()
+    public async Task<IBaseResponse<List<Profile>>> GetProfilesAsync()
     {
         var baseResponse = new BaseResponse<List<Profile>>();
         try
         {
-            var profiles = await _profileRepository.Select();
+            var profiles = await _profileRepository.SelectAsync();
             if (profiles.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -36,18 +37,18 @@ public class ProfileService : IProfileService
         {
             return new BaseResponse<List<Profile>>()
             {
-                Desription = $"[GetProfiles] : {ex.Message}",
+                Desription = $"[GetProfilesAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<Profile>> GetProfile(int id)
+    public async Task<IBaseResponse<Profile>> GetProfileAsync(int id)
     {
         var baseResponse = new BaseResponse<Profile>();
         try
         {
-            var profile = await _profileRepository.Get(id);
+            var profile = await _profileRepository.GetAsync(id);
             if (profile == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -63,18 +64,18 @@ public class ProfileService : IProfileService
         {
             return new BaseResponse<Profile>()
             {
-                Desription = $"[GetProfile] : {ex.Message}",
+                Desription = $"[GetProfileAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<int>> GetByName(string? name)
+    public async Task<IBaseResponse<int>> GetByNameAsync(string? name)
     {
         var baseResponse = new BaseResponse<int>();
         try
         {
-            var profile = await _profileRepository.GetByName(name);
+            var profile = await _profileRepository.GetByNameAsync(name);
             if (profile == null)
             {
                 baseResponse.Desription = $"Element with name:{name} not found";
@@ -90,18 +91,18 @@ public class ProfileService : IProfileService
         {
             return new BaseResponse<int>()
             {
-                Desription = $"[GetByName] : {ex.Message}",
+                Desription = $"[GetByNameAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteProfile(int id)
+    public async Task<IBaseResponse<bool>> DeleteProfileAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var profile = await _profileRepository.Get(id);
+            var profile = await _profileRepository.GetAsync(id);
             if (profile == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -109,7 +110,7 @@ public class ProfileService : IProfileService
                 return baseResponse;
             }
 
-            await _profileRepository.Delete(profile);
+            await _profileRepository.DeleteAsync(profile);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -119,7 +120,40 @@ public class ProfileService : IProfileService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteProfile] : {ex.Message}",
+                Desription = $"[DeleteProfileAsync] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse<bool>> EditProfileByContactAsync(ContactViewModel contactViewModel, int id)
+    {
+        var baseResponse = new BaseResponse<bool>();
+        try
+        {
+            var profile = await _profileRepository.GetAsync(id);
+            if (profile == null)
+            {
+                baseResponse.Desription = $"Element with id:{id} not found";
+                baseResponse.StatusCode = StatusCode.ProfileUserNotFound;
+                return baseResponse;
+            }
+
+            profile.Name = contactViewModel.FirstName;
+            profile.Surname = contactViewModel.LastName;
+            profile.Phone = contactViewModel.PhoneNumber;
+
+            await _profileRepository.UpdateAsync(profile);
+            baseResponse.Data = true;
+            baseResponse.StatusCode = StatusCode.OK;
+
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<bool>()
+            {
+                Desription = $"[EditProfileByIdAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

@@ -12,7 +12,7 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
         _db = db;
     }
     
-    public async Task<bool> Create(ShoppingCartItem entity)
+    public async Task<bool> CreateAsync(ShoppingCartItem entity)
     {
         await _db.ShoppingCartItems.AddAsync(entity);
         await _db.SaveChangesAsync();
@@ -20,17 +20,17 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
         return true;
     }
 
-    public async Task<ShoppingCartItem> Get(int id)
+    public async Task<ShoppingCartItem> GetAsync(int id)
     {
         return await _db.ShoppingCartItems.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<List<ShoppingCartItem>> Select()
+    public async Task<List<ShoppingCartItem>> SelectAsync()
     {
         return await _db.ShoppingCartItems.ToListAsync();
     }
 
-    public async Task<bool> Delete(ShoppingCartItem entity)
+    public async Task<bool> DeleteAsync(ShoppingCartItem entity)
     {
         _db.ShoppingCartItems.Remove(entity);
         await _db.SaveChangesAsync();
@@ -38,7 +38,7 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
         return true;
     }
 
-    public async Task<ShoppingCartItem> Update(ShoppingCartItem entity)
+    public async Task<ShoppingCartItem> UpdateAsync(ShoppingCartItem entity)
     {
         _db.ShoppingCartItems.Update(entity);
         await _db.SaveChangesAsync();
@@ -46,7 +46,7 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
         return entity;
     }
 
-    public async Task<List<ShoppingCartItem>> GetShoppingCartBy(int idProfile)
+    public async Task<List<ShoppingCartItem>> GetShoppingCartByAsync(int idProfile)
     {
         var shoppingCartItems = await _db.ShoppingCartItems
             .Where(i => i.IdProfile == idProfile)
@@ -57,14 +57,14 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
         return shoppingCartItems;
     }
 
-    public async Task<ShoppingCartItem> GetCartProduct(int id)
+    public async Task<ShoppingCartItem> GetCartProductAsync(int id)
     {
         return await _db.ShoppingCartItems
             .Include(i => i.Product)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<bool> AddProductInCart(int idProduct, int idProfile)
+    public async Task<bool> AddProductInCartAsync(int idProduct, int idProfile)
     {
         var shoppingcart = await _db.ShoppingCartItems
             .Include(i => i.Product)
@@ -87,8 +87,16 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
                 Price = product.Price
             };
 
-            await Create(item);
+            await CreateAsync(item);
             return true;
         }
+    }
+
+    public async Task<bool> DeleteColectionsAsync(List<ShoppingCartItem> entity)
+    {
+        _db.ShoppingCartItems.RemoveRange(entity);
+        await _db.SaveChangesAsync();
+
+        return true;
     }
 }

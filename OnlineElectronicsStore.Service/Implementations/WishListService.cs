@@ -14,12 +14,12 @@ public class WishListService : IWishListService
     {
         _wishListRepository = wishListRepository;
     }
-    public async Task<IBaseResponse<List<WishList>>> GetWishLists()
+    public async Task<IBaseResponse<List<WishList>>> GetWishListsAsync()
     {
         var baseResponse = new BaseResponse<List<WishList>>();
         try
         {
-            var wishLists = await _wishListRepository.Select();
+            var wishLists = await _wishListRepository.SelectAsync();
             if (wishLists.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -36,18 +36,18 @@ public class WishListService : IWishListService
         {
             return new BaseResponse<List<WishList>>()
             {
-                Desription = $"[GetWishLists] : {ex.Message}",
+                Desription = $"[GetWishListsAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<WishList>> GetWishList(int id)
+    public async Task<IBaseResponse<WishList>> GetWishListAsync(int id)
     {
         var baseResponse = new BaseResponse<WishList>();
         try
         {
-            var wishList = await _wishListRepository.Get(id);
+            var wishList = await _wishListRepository.GetAsync(id);
             if (wishList == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -63,18 +63,18 @@ public class WishListService : IWishListService
         {
             return new BaseResponse<WishList>()
             {
-                Desription = $"[GetWishList] : {ex.Message}",
+                Desription = $"[GetWishListAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteWishList(int id)
+    public async Task<IBaseResponse<bool>> DeleteWishListAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var wishList = await _wishListRepository.Get(id);
+            var wishList = await _wishListRepository.GetAsync(id);
             if (wishList == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -82,7 +82,7 @@ public class WishListService : IWishListService
                 return baseResponse;
             }
 
-            await _wishListRepository.Delete(wishList);
+            await _wishListRepository.DeleteAsync(wishList);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -92,7 +92,7 @@ public class WishListService : IWishListService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteWishList] : {ex.Message}",
+                Desription = $"[DeleteWishListAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

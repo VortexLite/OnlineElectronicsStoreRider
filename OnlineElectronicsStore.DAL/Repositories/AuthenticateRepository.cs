@@ -12,12 +12,12 @@ public class AuthenticateRepository : IAuthenticateRepository
     {
         _db = db;
     }
-    public async Task<User> AuthenticateLoginPasswordUser(string login, string password)
+    public async Task<User> AuthenticateLoginPasswordUserAsync(string login, string password)
     {
         return await _db.Users.FirstOrDefaultAsync(u => u.Login == login && u.Password == password);
     }
 
-    public async Task<User> AuthenticateLoginUser(string login)
+    public async Task<User> AuthenticateLoginUserAsync(string login)
     {
         return await _db.Users.FirstOrDefaultAsync(u => u.Login == login);
     }

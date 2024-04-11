@@ -223,7 +223,7 @@
 							<p>@item.Quantity шт</p>
 							<p class="price">@item.Price ₴</p>
 						</li>
-						price += item.Price;
+						price += item.Price * item.Quantity;
 					}
 				</ul>
 

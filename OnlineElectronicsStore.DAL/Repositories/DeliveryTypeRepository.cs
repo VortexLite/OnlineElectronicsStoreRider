@@ -12,7 +12,7 @@ public class DeliveryTypeRepository : IDeliveryTypeRepository
         _db = db;
     }
     
-    public async Task<bool> Create(DeliveryType entity)
+    public async Task<bool> CreateAsync(DeliveryType entity)
     {
         await _db.DeliveryTypes.AddAsync(entity);
         await _db.SaveChangesAsync();
@@ -20,17 +20,17 @@ public class DeliveryTypeRepository : IDeliveryTypeRepository
         return true;
     }
 
-    public async Task<DeliveryType> Get(int id)
+    public async Task<DeliveryType> GetAsync(int id)
     {
         return await _db.DeliveryTypes.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<List<DeliveryType>> Select()
+    public async Task<List<DeliveryType>> SelectAsync()
     {
         return await _db.DeliveryTypes.ToListAsync();
     }
 
-    public async Task<bool> Delete(DeliveryType entity)
+    public async Task<bool> DeleteAsync(DeliveryType entity)
     {
         _db.DeliveryTypes.Remove(entity);
         await _db.SaveChangesAsync();
@@ -38,7 +38,7 @@ public class DeliveryTypeRepository : IDeliveryTypeRepository
         return true;
     }
 
-    public async Task<DeliveryType> Update(DeliveryType entity)
+    public async Task<DeliveryType> UpdateAsync(DeliveryType entity)
     {
         _db.DeliveryTypes.Update(entity);
         await _db.SaveChangesAsync();

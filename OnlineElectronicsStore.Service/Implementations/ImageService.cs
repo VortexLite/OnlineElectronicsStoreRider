@@ -15,12 +15,12 @@ public class ImageService : IImageService
         _imageRepository = imageRepository;
     }
     
-    public async Task<IBaseResponse<List<Image>>> GetImages()
+    public async Task<IBaseResponse<List<Image>>> GetImagesAsync()
     {
         var baseResponse = new BaseResponse<List<Image>>();
         try
         {
-            var images = await _imageRepository.Select();
+            var images = await _imageRepository.SelectAsync();
             if (images.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -37,18 +37,18 @@ public class ImageService : IImageService
         {
             return new BaseResponse<List<Image>>()
             {
-                Desription = $"[GetImages] : {ex.Message}",
+                Desription = $"[GetImagesAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<Image>> GetImage(int id)
+    public async Task<IBaseResponse<Image>> GetImageAsync(int id)
     {
         var baseResponse = new BaseResponse<Image>();
         try
         {
-            var images = await _imageRepository.Get(id);
+            var images = await _imageRepository.GetAsync(id);
             if (images == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -64,18 +64,18 @@ public class ImageService : IImageService
         {
             return new BaseResponse<Image>()
             {
-                Desription = $"[GetImage] : {ex.Message}",
+                Desription = $"[GetImageAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteImage(int id)
+    public async Task<IBaseResponse<bool>> DeleteImageAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var images = await _imageRepository.Get(id);
+            var images = await _imageRepository.GetAsync(id);
             if (images == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -83,7 +83,7 @@ public class ImageService : IImageService
                 return baseResponse;
             }
 
-            await _imageRepository.Delete(images);
+            await _imageRepository.DeleteAsync(images);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -93,13 +93,13 @@ public class ImageService : IImageService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteImage] : {ex.Message}",
+                Desription = $"[DeleteImageAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> CreateImage(Image image)
+    public async Task<IBaseResponse<bool>> CreateImageAsync(Image image)
     {
         var baseResponse = new BaseResponse<bool>();
         try
@@ -110,7 +110,7 @@ public class ImageService : IImageService
                 ImageData = image.ImageData
             };
 
-            await _imageRepository.Create(category);
+            await _imageRepository.CreateAsync(category);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
 
@@ -120,7 +120,7 @@ public class ImageService : IImageService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[CreateImage] : {ex.Message}",
+                Desription = $"[CreateImageAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

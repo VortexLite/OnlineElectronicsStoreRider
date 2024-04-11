@@ -13,7 +13,7 @@ public class ImageRepository : IImageRepository
         _db = db;
     }
     
-    public async Task<bool> Create(Image entity)
+    public async Task<bool> CreateAsync(Image entity)
     {
         await _db.Images.AddAsync(entity);
         await _db.SaveChangesAsync();
@@ -21,17 +21,17 @@ public class ImageRepository : IImageRepository
         return true;
     }
 
-    public async Task<Image> Get(int id)
+    public async Task<Image> GetAsync(int id)
     {
         return await _db.Images.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<List<Image>> Select()
+    public async Task<List<Image>> SelectAsync()
     {
         return await _db.Images.ToListAsync();
     }
 
-    public async Task<bool> Delete(Image entity)
+    public async Task<bool> DeleteAsync(Image entity)
     {
         _db.Images.Remove(entity);
         await _db.SaveChangesAsync();
@@ -39,7 +39,7 @@ public class ImageRepository : IImageRepository
         return true;
     }
 
-    public async Task<Image> Update(Image entity)
+    public async Task<Image> UpdateAsync(Image entity)
     {
         _db.Images.Update(entity);
         await _db.SaveChangesAsync();

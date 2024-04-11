@@ -4,6 +4,7 @@ using OnlineElectronicsStore.DAL;
 using OnlineElectronicsStore.DAL.Interfaces;
 using OnlineElectronicsStore.DAL.Repositories;
 using OnlineElectronicsStore.DAL.Seeds;
+using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Service.Implementations;
 using OnlineElectronicsStore.Service.Interfaces;
 
@@ -56,6 +57,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddIdentity<User, Role>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

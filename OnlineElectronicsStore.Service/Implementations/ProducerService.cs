@@ -15,12 +15,12 @@ public class ProducerService : IProducerService
         _producerRepository = producerRepository;
     }
     
-    public async Task<IBaseResponse<List<Producer>>> GetProducers()
+    public async Task<IBaseResponse<List<Producer>>> GetProducersAsync()
     {
         var baseResponse = new BaseResponse<List<Producer>>();
         try
         {
-            var producers = await _producerRepository.Select();
+            var producers = await _producerRepository.SelectAsync();
             if (producers.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -37,18 +37,18 @@ public class ProducerService : IProducerService
         {
             return new BaseResponse<List<Producer>>()
             {
-                Desription = $"[GetProducers] : {ex.Message}",
+                Desription = $"[GetProducersAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<Producer>> GetProducer(int id)
+    public async Task<IBaseResponse<Producer>> GetProducerAsync(int id)
     {
         var baseResponse = new BaseResponse<Producer>();
         try
         {
-            var producers = await _producerRepository.Get(id);
+            var producers = await _producerRepository.GetAsync(id);
             if (producers == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -64,17 +64,17 @@ public class ProducerService : IProducerService
         {
             return new BaseResponse<Producer>()
             {
-                Desription = $"[GetProducer] : {ex.Message}",
+                Desription = $"[GetProducerAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
-    public async Task<IBaseResponse<List<Producer>>> NavigationByRows(string name)
+    public async Task<IBaseResponse<List<Producer>>> NavigationByRowsAsync(string name)
     {
         var baseResponse = new BaseResponse<List<Producer>>();
         try
         {
-            var producer = await _producerRepository.NavigationByRows(name);
+            var producer = await _producerRepository.NavigationByRowsAsync(name);
             if (producer == null)
             {
                 baseResponse.Desription = $"Element with name:{name} not found";
@@ -90,18 +90,18 @@ public class ProducerService : IProducerService
         {
             return new BaseResponse<List<Producer>>()
             {
-                Desription = $"[NavigationByRows] : {ex.Message}",
+                Desription = $"[NavigationByRowsAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
     
-    public async Task<IBaseResponse<List<Producer>>> NavigationRowsById(int id)
+    public async Task<IBaseResponse<List<Producer>>> NavigationRowsByIdAsync(int id)
     {
         var baseResponse = new BaseResponse<List<Producer>>();
         try
         {
-            var producer = await _producerRepository.NavigationRowsById(id);
+            var producer = await _producerRepository.NavigationRowsByIdAsync(id);
             if (producer == null)
             {
                 baseResponse.Desription = $"Element with name:{id} not found";
@@ -117,18 +117,18 @@ public class ProducerService : IProducerService
         {
             return new BaseResponse<List<Producer>>()
             {
-                Desription = $"[NavigationRowsById] : {ex.Message}",
+                Desription = $"[NavigationRowsByIdAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteProducer(int id)
+    public async Task<IBaseResponse<bool>> DeleteProducerAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var producer = await _producerRepository.Get(id);
+            var producer = await _producerRepository.GetAsync(id);
             if (producer == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -136,7 +136,7 @@ public class ProducerService : IProducerService
                 return baseResponse;
             }
 
-            await _producerRepository.Delete(producer);
+            await _producerRepository.DeleteAsync(producer);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -146,7 +146,7 @@ public class ProducerService : IProducerService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteProducer] : {ex.Message}",
+                Desription = $"[DeleteProducerAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

@@ -17,10 +17,10 @@ public class Tests
     {
         // Arrange
         var profileServiceMock = new Mock<IProfileService>();
-        profileServiceMock.Setup(x => x.GetByName(It.IsAny<string>())).ReturnsAsync(new BaseResponse<int> { Data = 1 });
+        profileServiceMock.Setup(x => x.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(new BaseResponse<int> { Data = 1 });
 
         var shoppingCartItemServiceMock = new Mock<IShoppingCartItemService>();
-        shoppingCartItemServiceMock.Setup(x => x.GetShoppingCartBy(It.IsAny<int>())).ReturnsAsync(new BaseResponse<List<CartViewModel>>());
+        shoppingCartItemServiceMock.Setup(x => x.GetShoppingCartByAsync(It.IsAny<int>())).ReturnsAsync(new BaseResponse<List<CartViewModel>>());
 
         var controller = new CartController(profileServiceMock.Object, shoppingCartItemServiceMock.Object);
 
@@ -37,7 +37,7 @@ public class Tests
     {
         // Arrange
         var profileServiceMock = new Mock<IProfileService>();
-        profileServiceMock.Setup(x => x.GetByName(It.IsAny<string>())).ThrowsAsync(new System.Exception("Simulated error"));
+        profileServiceMock.Setup(x => x.GetByNameAsync(It.IsAny<string>())).ThrowsAsync(new System.Exception("Simulated error"));
 
         var shoppingCartItemServiceMock = new Mock<IShoppingCartItemService>();
 
@@ -58,7 +58,7 @@ public class Tests
         var productDetailViewModel = new ProductDetailViewModel { Id = 1, Name = "Test Product", Price = 100 };
         var baseresponse = new BaseResponse<ProductDetailViewModel>
             { Data = productDetailViewModel, StatusCode = StatusCode.OK };
-        productServiceMock.Setup(service => service.GetProductDetail(It.IsAny<int>()))
+        productServiceMock.Setup(service => service.GetProductDetailAsync(It.IsAny<int>()))
             .ReturnsAsync(baseresponse);
         var controller = new ProductController(productServiceMock.Object);
 
@@ -76,7 +76,7 @@ public class Tests
     {
         // Arrange
         var productServiceMock = new Mock<IProductService>();
-        productServiceMock.Setup(service => service.GetProductDetail(It.IsAny<int>()))
+        productServiceMock.Setup(service => service.GetProductDetailAsync(It.IsAny<int>()))
             .ReturnsAsync((BaseResponse<ProductDetailViewModel>)null);
         var controller = new ProductController(productServiceMock.Object);
 
@@ -104,7 +104,7 @@ public class Tests
                 StatusCode = StatusCode.OK,
                 Data = expectedProducers
             };
-            mockProducerService.Setup(service => service.NavigationRowsById(categoryId))
+            mockProducerService.Setup(service => service.NavigationRowsByIdAsync(categoryId))
                                .ReturnsAsync(response);
             var controller = new HomeController(null, mockProducerService.Object, null, null, null);
 
@@ -133,7 +133,7 @@ public class Tests
             {
                 StatusCode = StatusCode.InternalServerError
             };
-            mockProducerService.Setup(service => service.NavigationRowsById(categoryId))
+            mockProducerService.Setup(service => service.NavigationRowsByIdAsync(categoryId))
                                .ReturnsAsync(response);
             var controller = new HomeController(null, mockProducerService.Object, null, null, null);
 

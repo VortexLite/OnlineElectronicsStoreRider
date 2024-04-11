@@ -18,8 +18,8 @@ public class CartController : Controller
     }
     public async Task<IActionResult> Index()
     {
-        profile = await _profileService.GetByName(User.Identity.Name);
-        var cart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
+        profile = await _profileService.GetByNameAsync(User.Identity.Name);
+        var cart = await _shoppingCartItemService.GetShoppingCartByAsync(profile.Data);
         
         return PartialView("_CartPartialView", cart);
     }
@@ -27,9 +27,9 @@ public class CartController : Controller
     [HttpPost]
     public async Task<IActionResult> AddCart(int id)
     {
-        profile = await _profileService.GetByName(User.Identity.Name);
-        var product = await _shoppingCartItemService.AddProductInCart(id, profile.Data);
-        var cart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
+        profile = await _profileService.GetByNameAsync(User.Identity.Name);
+        var product = await _shoppingCartItemService.AddProductInCartAsync(id, profile.Data);
+        var cart = await _shoppingCartItemService.GetShoppingCartByAsync(profile.Data);
         
         /*var product = await _shoppingCartItemService.AddProductInCart(id, 1);
         var cart = await _shoppingCartItemService.GetShoppingCartBy(1);*/

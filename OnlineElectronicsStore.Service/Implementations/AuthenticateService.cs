@@ -14,12 +14,12 @@ public class AuthenticateService : IAuthenticateService
     {
         _authenticateRepository = authenticateRepository;
     }
-    public async Task<IBaseResponse<User>> AuthenticateLoginPasswordUser(string login, string password)
+    public async Task<IBaseResponse<User>> AuthenticateLoginPasswordUserAsync(string login, string password)
     {
         var baseResponse = new BaseResponse<User>();
         try
         {
-            var user = await _authenticateRepository.AuthenticateLoginPasswordUser(login, password);
+            var user = await _authenticateRepository.AuthenticateLoginPasswordUserAsync(login, password);
             if (user == null)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -36,18 +36,18 @@ public class AuthenticateService : IAuthenticateService
         {
             return new BaseResponse<User>()
             {
-                Desription = $"[AuthenticateLoginPasswordUser] : {ex.Message}",
+                Desription = $"[AuthenticateLoginPasswordUserAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<User>> AuthenticateLoginUser(string login)
+    public async Task<IBaseResponse<User>> AuthenticateLoginUserAsync(string login)
     {
         var baseResponse = new BaseResponse<User>();
         try
         {
-            var user = await _authenticateRepository.AuthenticateLoginUser(login);
+            var user = await _authenticateRepository.AuthenticateLoginUserAsync(login);
             if (user == null)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -64,7 +64,7 @@ public class AuthenticateService : IAuthenticateService
         {
             return new BaseResponse<User>()
             {
-                Desription = $"[AuthenticateLoginUser] : {ex.Message}",
+                Desription = $"[AuthenticateLoginUserAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

@@ -12,7 +12,7 @@ public class OrderDetailsRepository : IOrderDetailsRepository
         _db = db;
     }
     
-    public async Task<bool> Create(OrderDetail entity)
+    public async Task<bool> CreateAsync(OrderDetail entity)
     {
         await _db.OrderDetails.AddAsync(entity);
         await _db.SaveChangesAsync();
@@ -20,17 +20,17 @@ public class OrderDetailsRepository : IOrderDetailsRepository
         return true;
     }
 
-    public async Task<OrderDetail> Get(int id)
+    public async Task<OrderDetail> GetAsync(int id)
     {
         return await _db.OrderDetails.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<List<OrderDetail>> Select()
+    public async Task<List<OrderDetail>> SelectAsync()
     {
         return await _db.OrderDetails.ToListAsync();
     }
 
-    public async Task<bool> Delete(OrderDetail entity)
+    public async Task<bool> DeleteAsync(OrderDetail entity)
     {
         _db.OrderDetails.Remove(entity);
         await _db.SaveChangesAsync();
@@ -38,7 +38,7 @@ public class OrderDetailsRepository : IOrderDetailsRepository
         return true;
     }
 
-    public async Task<OrderDetail> Update(OrderDetail entity)
+    public async Task<OrderDetail> UpdateAsync(OrderDetail entity)
     {
         _db.OrderDetails.Update(entity);
         await _db.SaveChangesAsync();

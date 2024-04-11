@@ -5,7 +5,7 @@ namespace OnlineElectronicsStore.Service.Interfaces;
 
 public interface IWishListService
 {
-    Task<IBaseResponse<List<WishList>>> GetWishLists();
-    Task<IBaseResponse<WishList>> GetWishList(int id);
-    Task<IBaseResponse<bool>> DeleteWishList(int id);
+    Task<IBaseResponse<List<WishList>>> GetWishListsAsync();
+    Task<IBaseResponse<WishList>> GetWishListAsync(int id);
+    Task<IBaseResponse<bool>> DeleteWishListAsync(int id);
 }

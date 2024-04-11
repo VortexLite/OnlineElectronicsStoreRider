@@ -5,7 +5,7 @@ namespace OnlineElectronicsStore.Service.Interfaces;
 
 public interface IDeliveryTypeService
 {
-    Task<IBaseResponse<List<DeliveryType>>> GetDeliveryTypes();
-    Task<IBaseResponse<DeliveryType>> GetDeliveryType(int id);
-    Task<IBaseResponse<bool>> DeleteDeliveryType(int id);
+    Task<IBaseResponse<List<DeliveryType>>> GetDeliveryTypesAsync();
+    Task<IBaseResponse<DeliveryType>> GetDeliveryTypeAsync(int id);
+    Task<IBaseResponse<bool>> DeleteDeliveryTypeAsync(int id);
 }

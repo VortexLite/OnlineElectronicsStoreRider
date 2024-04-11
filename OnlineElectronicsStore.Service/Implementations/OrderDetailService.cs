@@ -18,12 +18,12 @@ public class OrderDetailService : IOrderDetailService
         _orderDetailsRepository = orderDetailsRepository;
         _shoppingCartItemRepository = shoppingCartItemRepository;
     }
-    public async Task<IBaseResponse<List<OrderDetail>>> GetOrderDetails()
+    public async Task<IBaseResponse<List<OrderDetail>>> GetOrderDetailsAsync()
     {
         var baseResponse = new BaseResponse<List<OrderDetail>>();
         try
         {
-            var orderDetails = await _orderDetailsRepository.Select();
+            var orderDetails = await _orderDetailsRepository.SelectAsync();
             if (orderDetails.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -40,18 +40,18 @@ public class OrderDetailService : IOrderDetailService
         {
             return new BaseResponse<List<OrderDetail>>()
             {
-                Desription = $"[GetOrderDetails] : {ex.Message}",
+                Desription = $"[GetOrderDetailsAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<OrderDetail>> GetOrderDetail(int id)
+    public async Task<IBaseResponse<OrderDetail>> GetOrderDetailAsync(int id)
     {
         var baseResponse = new BaseResponse<OrderDetail>();
         try
         {
-            var orderDetail = await _orderDetailsRepository.Get(id);
+            var orderDetail = await _orderDetailsRepository.GetAsync(id);
             if (orderDetail == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -67,18 +67,18 @@ public class OrderDetailService : IOrderDetailService
         {
             return new BaseResponse<OrderDetail>()
             {
-                Desription = $"[GetOrderDetail] : {ex.Message}",
+                Desription = $"[GetOrderDetailAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteOrderDetail(int id)
+    public async Task<IBaseResponse<bool>> DeleteOrderDetailAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var orderDetail = await _orderDetailsRepository.Get(id);
+            var orderDetail = await _orderDetailsRepository.GetAsync(id);
             if (orderDetail == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -86,7 +86,7 @@ public class OrderDetailService : IOrderDetailService
                 return baseResponse;
             }
 
-            await _orderDetailsRepository.Delete(orderDetail);
+            await _orderDetailsRepository.DeleteAsync(orderDetail);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -96,18 +96,18 @@ public class OrderDetailService : IOrderDetailService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteOrderDetail] : {ex.Message}",
+                Desription = $"[DeleteOrderDetailAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> CreateOrderDetail(int idOrder, OrderViewModel orderViewModel)
+    public async Task<IBaseResponse<bool>> CreateOrderDetailAsync(int idOrder, OrderViewModel orderViewModel)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var cart = await _shoppingCartItemRepository.GetShoppingCartBy(orderViewModel.IdProfile);
+            var cart = await _shoppingCartItemRepository.GetShoppingCartByAsync(orderViewModel.IdProfile);
             
             foreach (var item in cart)
             {
@@ -118,7 +118,7 @@ public class OrderDetailService : IOrderDetailService
                     Quantity = item.Quantity,
                     Price = item.Price * item.Quantity
                 };
-                await _orderDetailsRepository.Create(orderDetail);
+                await _orderDetailsRepository.CreateAsync(orderDetail);
             }
             
             baseResponse.Data = true;
@@ -130,7 +130,7 @@ public class OrderDetailService : IOrderDetailService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[CreateOrderDetail] : {ex.Message}",
+                Desription = $"[CreateOrderDetailAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

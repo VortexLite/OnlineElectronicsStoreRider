@@ -7,14 +7,14 @@ namespace OnlineElectronicsStore.Service.Interfaces;
 
 public interface IProductService
 {
-    Task<IBaseResponse<List<Product>>> GetProducts();
-    Task<IBaseResponse<Product>> GetProduct(int id);
-    Task<IBaseResponse<Product>> GetByNameProduct(string name);
-    Task<IBaseResponse<List<ProductViewModel>>> GetProductWithImages();
-    Task<IBaseResponse<Product>> GetProductWithImagesById(int id);
-    Task<IBaseResponse<ProductDetailViewModel>> GetProductDetail(int id);
-    Task<IBaseResponse<List<ProductViewModel>>> GetsByName(string name);
-    Task<IBaseResponse<bool>> DeleteProduct(int id);
-    Task<IBaseResponse<bool>> CreateProduct(ProductViewModel productViewModel);
-    Task<IBaseResponse<Product>> EditProduct(ProductViewModel productViewModel);
+    Task<IBaseResponse<List<Product>>> GetProductsAsync();
+    Task<IBaseResponse<Product>> GetProductAsync(int id);
+    Task<IBaseResponse<Product>> GetByNameProductAsync(string name);
+    Task<IBaseResponse<List<ProductViewModel>>> GetProductWithImagesAsync();
+    Task<IBaseResponse<Product>> GetProductWithImagesByIdAsync(int id);
+    Task<IBaseResponse<ProductDetailViewModel>> GetProductDetailAsync(int id);
+    Task<IBaseResponse<List<ProductViewModel>>> GetsByNameAsync(string name);
+    Task<IBaseResponse<bool>> DeleteProductAsync(int id);
+    Task<IBaseResponse<bool>> CreateProductAsync(ProductViewModel productViewModel);
+    Task<IBaseResponse<Product>> EditProductAsync(ProductViewModel productViewModel);
 }

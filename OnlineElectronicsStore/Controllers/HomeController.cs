@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Response;
@@ -19,7 +20,7 @@ public class HomeController : Controller
     private readonly IShoppingCartItemService _shoppingCartItemService;
     private readonly IProfileService _profileService;
     
-    private IBaseResponse<int> profile;
+    private IBaseResponse<int> _profile;
     
     public HomeController(ILogger<HomeController> logger, IProducerService producerService, 
         IProductService productService,
@@ -34,10 +35,10 @@ public class HomeController : Controller
     }
     public async Task<IActionResult> Index()
     { 
-        var responseNavigation = await _producerService.NavigationRowsById(1);
-        var responseProductWithImage = await _productService.GetProductWithImages();
-        profile = await _profileService.GetByName(User.Identity.Name);
-        var responseCart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
+        var responseNavigation = await _producerService.NavigationRowsByIdAsync(1);
+        var responseProductWithImage = await _productService.GetProductWithImagesAsync();
+        _profile = await _profileService.GetByNameAsync(User.Identity.Name);
+        var responseCart = await _shoppingCartItemService.GetShoppingCartByAsync(_profile.Data);
         
         var responseResult = new Triple<IBaseResponse<List<Producer>>, 
             IBaseResponse<List<ProductViewModel>>, IBaseResponse<List<CartViewModel>>>()
@@ -56,6 +57,7 @@ public class HomeController : Controller
         return RedirectToAction("Error");
     }
     
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Search(string search)
     {
         if (string.IsNullOrEmpty(search))
@@ -63,9 +65,10 @@ public class HomeController : Controller
             return RedirectToAction("Index");
         }
 
-        var responseNavigation = await _producerService.NavigationRowsById(1);
-        var searchResults = await _productService.GetsByName(search);
-        var responseCart = await _shoppingCartItemService.GetShoppingCartBy(profile.Data);
+        var responseNavigation = await _producerService.NavigationRowsByIdAsync(1);
+        var searchResults = await _productService.GetsByNameAsync(search);
+        _profile = await _profileService.GetByNameAsync(User.Identity.Name);
+        var responseCart = await _shoppingCartItemService.GetShoppingCartByAsync(_profile.Data);
         
         var responseResult = new Triple<IBaseResponse<List<Producer>>, 
             IBaseResponse<List<ProductViewModel>>, IBaseResponse<List<CartViewModel>>>()
@@ -86,7 +89,7 @@ public class HomeController : Controller
     [HttpGet]
     public async Task<IActionResult> GetNavigationByCategoryId(int id)
     {
-        var response = await _producerService.NavigationRowsById(id);
+        var response = await _producerService.NavigationRowsByIdAsync(id);
         if (response.StatusCode == Domain.Enum.StatusCode.OK)
         {
             return Json(response.Data);

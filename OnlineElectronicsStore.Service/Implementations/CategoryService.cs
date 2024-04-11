@@ -15,12 +15,12 @@ public class CategoryService : ICategoryService
     {
         _categoryRepository = categoryRepository;
     }
-    public async Task<IBaseResponse<List<Category>>> GetCategories()
+    public async Task<IBaseResponse<List<Category>>> GetCategoriesAsync()
     {
         var baseResponse = new BaseResponse<List<Category>>();
         try
         {
-            var category = await _categoryRepository.Select();
+            var category = await _categoryRepository.SelectAsync();
             if (category.Count == 0)
             {
                 baseResponse.Desription = "Found 0 items";
@@ -37,18 +37,18 @@ public class CategoryService : ICategoryService
         {
             return new BaseResponse<List<Category>>()
             {
-                Desription = $"[GetCategories] : {ex.Message}",
+                Desription = $"[GetCategoriesAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<Category>> GetCategory(int id)
+    public async Task<IBaseResponse<Category>> GetCategoryAsync(int id)
     {
         var baseResponse = new BaseResponse<Category>();
         try
         {
-            var category = await _categoryRepository.Get(id);
+            var category = await _categoryRepository.GetAsync(id);
             if (category == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -64,18 +64,18 @@ public class CategoryService : ICategoryService
         {
             return new BaseResponse<Category>()
             {
-                Desription = $"[GetCategory] : {ex.Message}",
+                Desription = $"[GetCategoryAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
     
-    public async Task<IBaseResponse<Category>> GetByNameCategory(string name)
+    public async Task<IBaseResponse<Category>> GetByNameCategoryAsync(string name)
     {
         var baseResponse = new BaseResponse<Category>();
         try
         {
-            var category = await _categoryRepository.GetByName(name);
+            var category = await _categoryRepository.GetByNameAsync(name);
             if (category == null)
             {
                 baseResponse.Desription = $"Element with name:{name} not found";
@@ -91,18 +91,18 @@ public class CategoryService : ICategoryService
         {
             return new BaseResponse<Category>()
             {
-                Desription = $"[GetByNameCategory] : {ex.Message}",
+                Desription = $"[GetByNameCategoryAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<bool>> DeleteCategory(int id)
+    public async Task<IBaseResponse<bool>> DeleteCategoryAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var category = await _categoryRepository.Get(id);
+            var category = await _categoryRepository.GetAsync(id);
             if (category == null)
             {
                 baseResponse.Desription = $"Element with id:{id} not found";
@@ -110,7 +110,7 @@ public class CategoryService : ICategoryService
                 return baseResponse;
             }
 
-            await _categoryRepository.Delete(category);
+            await _categoryRepository.DeleteAsync(category);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
             
@@ -120,13 +120,13 @@ public class CategoryService : ICategoryService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[DeleteCategory] : {ex.Message}",
+                Desription = $"[DeleteCategoryAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
     
-    public async Task<IBaseResponse<bool>> CreateCategory(CategoryViewModel categoryViewModel)
+    public async Task<IBaseResponse<bool>> CreateCategoryAsync(CategoryViewModel categoryViewModel)
     {
         var baseResponse = new BaseResponse<bool>();
         try
@@ -136,7 +136,7 @@ public class CategoryService : ICategoryService
                 Name = categoryViewModel.Name
             };
 
-            await _categoryRepository.Create(category);
+            await _categoryRepository.CreateAsync(category);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
 
@@ -146,18 +146,18 @@ public class CategoryService : ICategoryService
         {
             return new BaseResponse<bool>()
             {
-                Desription = $"[CreateCategory] : {ex.Message}",
+                Desription = $"[CreateCategoryAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public async Task<IBaseResponse<Category>> EditCategory(CategoryViewModel categoryViewModel)
+    public async Task<IBaseResponse<Category>> EditCategoryAsync(CategoryViewModel categoryViewModel)
     {
         var baseResponse = new BaseResponse<Category>();
         try
         {
-            var category = await _categoryRepository.Get(categoryViewModel.Id);
+            var category = await _categoryRepository.GetAsync(categoryViewModel.Id);
             if (category == null)
             {
                 baseResponse.Desription = $"Element with id:{categoryViewModel.Id} not found";
@@ -167,7 +167,7 @@ public class CategoryService : ICategoryService
 
             category.Name = categoryViewModel.Name;
 
-            await _categoryRepository.Update(category);
+            await _categoryRepository.UpdateAsync(category);
             baseResponse.Data = category;
             baseResponse.StatusCode = StatusCode.OK;
 
@@ -177,7 +177,7 @@ public class CategoryService : ICategoryService
         {
             return new BaseResponse<Category>()
             {
-                Desription = $"[EditCategory] : {ex.Message}",
+                Desription = $"[EditCategoryAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
