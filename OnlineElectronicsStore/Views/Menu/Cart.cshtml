@@ -231,6 +231,14 @@
                     <i class="fa-solid fa-comment"></i>Мої відгуки
                 </a>
             </li>
+            @if (User.IsInRole("Admin"))
+            {
+                <li>
+                    <a asp-controller="Menu" asp-action="CreateProduct">
+                        <i class="fa-solid fa-list-ul"></i>Додати товар
+                    </a>
+                </li>
+            }
             <li>
                 <a asp-controller="Account" asp-action="Logout">
                     <i class="fa-solid fa-right-from-bracket" style="transform: rotate(180deg);"></i>Вихід

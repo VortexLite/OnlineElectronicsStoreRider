@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using OnlineElectronicsStore.DAL.Interfaces;
 using OnlineElectronicsStore.Domain.Entity;
+using OnlineElectronicsStore.Domain.ViewModels.Menu;
 using OnlineElectronicsStore.Domain.ViewModels.Product;
 
 namespace OnlineElectronicsStore.DAL.Repositories;
@@ -135,5 +137,61 @@ public class ProductRepository : IProductRepository
         };
         
         return viewModel;
+    }
+
+    public async Task<bool> CreateProductWithImageAsync(CreateProductViewModel viewModel)
+    {
+        var product = new Product
+        {
+            Name = viewModel.Name,
+            ShortDescription = viewModel.ShortDescription,
+            LongDescription = viewModel.LongDescription,
+            Price = viewModel.Price,
+            Amount = viewModel.Amount,
+            IdCategory = viewModel.IdCategory,
+            IdProducer = viewModel.IdProducer
+        };
+
+        await CreateAsync(product);
+        
+        var images = new List<IFormFile>();
+        images = viewModel.Images;
+        await ConvertFileAsync(images, product.Id);
+        
+        return true;
+    }
+    
+    public async Task<bool> ConvertFileAsync(List<IFormFile> entities, int idProduct)
+    {
+        var images = new List<Image>();
+
+        foreach (var formFile in entities)
+        {
+            if (formFile.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await formFile.CopyToAsync(memoryStream);
+                    var image = new Image
+                    {
+                        ImageData = memoryStream.ToArray(),
+                        IdProduct = idProduct
+                    };
+                    images.Add(image);
+                }
+            }
+        }
+
+        await CreateObjectsAsync(images);
+        
+        return true;
+    }
+
+    public async Task<bool> CreateObjectsAsync(List<Image> entities)
+    {
+        await _db.AddRangeAsync(entities);
+        await _db.SaveChangesAsync();
+
+        return true;
     }
 }

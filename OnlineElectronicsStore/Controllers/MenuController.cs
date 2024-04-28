@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Helpers;
 using OnlineElectronicsStore.Domain.Response;
@@ -14,17 +15,26 @@ public class MenuController : Controller
     private readonly IShoppingCartItemService _shoppingCartItemService;
     private readonly IOrderService _orderService;
     private readonly IReviewService _reviewService;
+    private readonly ICategoryService _categoryService;
+    private readonly IProducerService _producerService;
+    private readonly IProductService _productService;
 
     private IBaseResponse<int> _idProfile;
     public MenuController(IProfileService profileService, 
         IShoppingCartItemService shoppingCartItemService, 
         IOrderService orderService,
-        IReviewService reviewService)
+        IReviewService reviewService,
+        ICategoryService categoryService,
+        IProducerService producerService,
+        IProductService productService)
     {
         _profileService = profileService;
         _shoppingCartItemService = shoppingCartItemService;
         _orderService = orderService;
         _reviewService = reviewService;
+        _categoryService = categoryService;
+        _producerService = producerService;
+        _productService = productService;
     }
     public async Task<IActionResult> Cart()
     {
@@ -130,5 +140,26 @@ public class MenuController : Controller
         _idProfile = await _profileService.GetByNameAsync(User.Identity.Name);
         var reviews = await _reviewService.GetReviewByProfileAsync(_idProfile.Data);
         return View(reviews);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<IActionResult> CreateProduct()
+    {
+        var viewmodel = new CreateProductViewModel();
+        var categories = await _categoryService.GetCategoriesAsync();
+        var producers = await _producerService.GetProducersAsync();
+        viewmodel.Categories = categories.Data;
+        viewmodel.Producers = producers.Data;
+        
+        return View(viewmodel);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> CreateProduct(CreateProductViewModel viewModel)
+    {
+        var createProductWithImage = await _productService.CreateProductWithImageAsync(viewModel);
+        
+        return RedirectToAction("Index", "Home");
     }
 }

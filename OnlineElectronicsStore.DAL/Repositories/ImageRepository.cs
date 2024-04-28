@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using OnlineElectronicsStore.DAL.Interfaces;
 using OnlineElectronicsStore.Domain.Entity;
 
@@ -45,5 +46,13 @@ public class ImageRepository : IImageRepository
         await _db.SaveChangesAsync();
 
         return entity;
+    }
+
+    public async Task<bool> CreateImagesAsync(List<Image> entities)
+    {
+        await _db.AddRangeAsync(entities);
+        await _db.SaveChangesAsync();
+        
+        return true;
     }
 }

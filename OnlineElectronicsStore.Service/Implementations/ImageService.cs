@@ -104,13 +104,13 @@ public class ImageService : IImageService
         var baseResponse = new BaseResponse<bool>();
         try
         {
-            var category = new Image()
+            var images = new Image()
             {
                 IdProduct = image.IdProduct,
                 ImageData = image.ImageData
             };
 
-            await _imageRepository.CreateAsync(category);
+            await _imageRepository.CreateAsync(image);
             baseResponse.Data = true;
             baseResponse.StatusCode = StatusCode.OK;
 

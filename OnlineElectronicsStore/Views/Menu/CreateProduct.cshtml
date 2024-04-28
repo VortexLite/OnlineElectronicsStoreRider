@@ -1,4 +1,4 @@
-﻿@model OnlineElectronicsStore.Domain.Entity.Review
+﻿@model OnlineElectronicsStore.Domain.ViewModels.Menu.CreateProductViewModel
 
 @{
     ViewBag.Title = "title";
@@ -86,7 +86,7 @@
     }
 
 
-    .createReview
+    .createProduct
     {
         display: grid;
         grid-gap: 10px;
@@ -94,24 +94,24 @@
         border-radius: 5px;
         padding: 10px;
         border: 0;
-        width: 40%;
+        
         align-items: center;
     }
 
-    .createReview input
+    .createProduct input
     {
         border-radius: 5px;
         border: 1px solid;
     }
 
-    .createReview textarea
+    .createProduct textarea
     {
-        height: 200px;
+        height: 150px;
         border-radius: 5px;
         border: 1px solid;
     }
 
-    .createReview button
+    .createProduct button
     {
         background-color: #e00027;
         color: white;
@@ -135,19 +135,21 @@
                     <i class="fa-solid fa-user"></i>Особиста інформація
                 </a>
             </li>
-            <li id="activeLI">
+            <li>
                 <a asp-controller="Menu" asp-action="Order">
-                    <i class="fa-solid fa-list-ul" id="activeI"></i>Мої замовлення
+                    <i class="fa-solid fa-list-ul"></i>Мої замовлення
                 </a>
             </li>
             <li><i class="fa-solid fa-heart"></i>Обране</li>
-            <li><i class="fa-solid fa-comment"></i>Мої відгуки</li>
+            <li>
+                <a asp-controller="Menu" asp-action="Order">
+                    <i class="fa-solid fa-comment"></i>Мої відгуки
+                </a>
+            </li>
             @if (User.IsInRole("Admin"))
             {
-                <li>
-                    <a asp-controller="Menu" asp-action="CreateProduct">
-                        <i class="fa-solid fa-list-ul"></i>Додати товар
-                    </a>
+                <li id="activeLI">
+                    <i class="fa-solid fa-list-ul" id="activeI"></i>Додати товар
                 </li>
             }
             <li>
@@ -157,17 +159,37 @@
             </li>
         </ul>
 
-        <form asp-controller="Menu" asp-action="ReviewSave" method="post" class="createReview">
-            <label asp-for="Content">Відгук</label>
-            <textarea asp-for="Content"></textarea>
+        <form asp-controller="Menu" asp-action="CreateProduct" method="post" class="createProduct" enctype="multipart/form-data">
+            <label asp-for="Name">Назва товару</label>
+            <input type="text" asp-for="Name" />
 
-            <label asp-for="Rating">Рейтинг(між 1 і 5)</label>
-            <input type="number" min="1" max="5" asp-for="Rating" />
+            <label asp-for="ShortDescription">Короткий опис</label>
+            <textarea asp-for="ShortDescription" style="height: 50px"></textarea>
 
-            <input type="hidden" asp-for="IdProfile" value="@ViewBag.Profile"></input>
-            <input type="hidden" asp-for="IdOrder" value="@ViewBag.Order"></input>
-            <input type="hidden" asp-for="IdCategoryReview" value="2"></input>
+            <label asp-for="LongDescription">Довгий опис</label>
+            <textarea asp-for="LongDescription"></textarea>
+
+            <label asp-for="Price">Ціна</label>
+            <input type="number" asp-for="Price" />
+
+            <label asp-for="Amount">Кількість</label>
+            <input type="number" asp-for="Amount" />
+
+            <label asp-for="IdCategory">Категорія</label>
+            <select asp-for="IdCategory" asp-items="@Model.Categories.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })">
+                <option value="">Оберіть категорію</option>
+            </select>
+
+            <label asp-for="IdProducer">Постачальник</label>
+            <select asp-for="IdProducer" asp-items="@Model.Producers.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() })">
+                <option value="">Оберіть постачальника</option>
+            </select>
+
+            <label>Зображення</label>
+            <input type="file" name="Images" asp-for="Images" multiple accept="image/*" required>
+
             <button type="submit">Зберегти зміни</button>
         </form>
     </nav>
 </article>
+

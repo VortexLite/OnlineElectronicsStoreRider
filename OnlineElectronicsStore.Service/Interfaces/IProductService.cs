@@ -1,6 +1,7 @@
 ﻿using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Response;
 using OnlineElectronicsStore.Domain.ViewModels;
+using OnlineElectronicsStore.Domain.ViewModels.Menu;
 using OnlineElectronicsStore.Domain.ViewModels.Product;
 
 namespace OnlineElectronicsStore.Service.Interfaces;
@@ -16,5 +17,6 @@ public interface IProductService
     Task<IBaseResponse<List<ProductViewModel>>> GetsByNameAsync(string name);
     Task<IBaseResponse<bool>> DeleteProductAsync(int id);
     Task<IBaseResponse<bool>> CreateProductAsync(ProductViewModel productViewModel);
+    Task<IBaseResponse<bool>> CreateProductWithImageAsync(CreateProductViewModel viewModel);
     Task<IBaseResponse<Product>> EditProductAsync(ProductViewModel productViewModel);
 }

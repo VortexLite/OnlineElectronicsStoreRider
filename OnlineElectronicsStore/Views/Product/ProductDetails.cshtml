@@ -11,7 +11,14 @@
             <div class="col-md-4">
                 <div class="product-image">
                     <h1>@Model.Name</h1>
-                    <img src="data:image;base64,@Convert.ToBase64String(@Model.Images[1].ImageData)" alt="@Model.Name">
+                    @if (Model.Images.First().ImageData != null)
+                    {
+                        <img src="data:image;base64,@Convert.ToBase64String(Model.Images.First().ImageData)" alt="@Model.Name">
+                    }
+                    else
+                    {
+                        <img src="~/Resources/NullImage.png" alt="@Model.Name">
+                    }
                     <div class="features mt-3">
                         <h3>Характеристики</h3>
                         <div class="row">

@@ -3,6 +3,7 @@ using OnlineElectronicsStore.Domain.Entity;
 using OnlineElectronicsStore.Domain.Enum;
 using OnlineElectronicsStore.Domain.Response;
 using OnlineElectronicsStore.Domain.ViewModels;
+using OnlineElectronicsStore.Domain.ViewModels.Menu;
 using OnlineElectronicsStore.Domain.ViewModels.Product;
 using OnlineElectronicsStore.Service.Interfaces;
 
@@ -257,6 +258,27 @@ public class ProductService : IProductService
             return new BaseResponse<bool>()
             {
                 Desription = $"[CreateProductAsync] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse<bool>> CreateProductWithImageAsync(CreateProductViewModel viewModel)
+    {
+        var baseResponse = new BaseResponse<bool>();
+        try
+        {
+            await _productRepository.CreateProductWithImageAsync(viewModel);
+            baseResponse.Data = true;
+            baseResponse.StatusCode = StatusCode.OK;
+
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<bool>()
+            {
+                Desription = $"[CreateProductWithImageAsync] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
