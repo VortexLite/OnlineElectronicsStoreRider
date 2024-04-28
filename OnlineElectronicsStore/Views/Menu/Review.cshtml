@@ -1,0 +1,190 @@
+﻿@model OnlineElectronicsStore.Domain.Response.IBaseResponse<System.Collections.Generic.List<OnlineElectronicsStore.Domain.Entity.Review>>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<style>
+    article
+    {
+        z-index: 2;
+        display: grid;
+        margin: 0 5vw;
+        grid-gap: 5px;
+        font-size: 18px;
+        grid-template-rows: auto 1fr;
+
+    }
+
+    article nav
+    {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 300px 1fr;
+        grid-gap: 10px;
+    }
+
+    .navigationLeft
+    {
+        list-style-type: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 0;
+        display: grid;
+        height: 50vh;
+    }
+
+    #activeLI
+    {
+        background-color: #f0f0f0;
+    }
+
+    #activeI
+    {
+        color: #e00027;
+    }
+
+    .navigationLeft li
+    {
+        padding: 10px;
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .navigationLeft li:hover
+    {
+        background-color: #f7f7f7;
+    }
+
+    .navigationLeft li i
+    {
+        margin: 0 10px 0 0;
+    }
+
+    .tableOrder
+    {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .tableOrder thead
+    {
+        color: #929295;
+        background-color: #FCFEFF;
+        font-size: 18px;
+    }
+
+    .tableOrder tbody
+    {
+        font-size: 16px;
+        word-wrap: normal;
+    }
+
+    .tableOrder button
+    {
+        background-color: #e00027;
+        color: white;
+        border: 0;
+        border-radius: 5px;
+        padding: 7px;
+    }
+
+    .tableOrder button:hover
+    {
+        background-color: #f03a59;
+        transition: all 0.3s  ease-out;
+        cursor: pointer;
+    }
+
+    li > a,
+    li button a
+    {
+        text-decoration: none;
+        color: black;
+    }
+
+    li > a:visited,
+    li button a:visited
+    {
+        text-decoration: none;
+        color: black;
+    }
+
+    li > a:hover,
+    li button a:hover
+    {
+        color: black;
+    }
+
+    button > a,
+    button > a:visited,
+    button > a:hover
+    {
+        color: white;
+        text-decoration: none;
+    }
+
+</style>
+
+<article>
+    <nav>
+        <ul class="navigationLeft">
+            <li>
+                <a asp-controller="Menu" asp-action="Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>Корзина
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Menu" asp-action="PersonalInformation">
+                    <i class="fa-solid fa-user"></i>Особиста інформація
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Menu" asp-action="Order">
+                    <i class="fa-solid fa-list-ul"></i>Мої замовлення
+                </a>
+            </li>
+            <li><i class="fa-solid fa-heart"></i>Обране</li>
+            <li id="activeLI">
+                <i class="fa-solid fa-comment" id="activeI"></i>Мої відгуки
+            </li>
+            <li>
+                <a asp-controller="Account" asp-action="Logout">
+                    <i class="fa-solid fa-right-from-bracket" style="transform: rotate(180deg);"></i>Вихід
+                </a>
+            </li>
+        </ul>
+
+        <table class="tableOrder">
+            <thead>
+                <tr>
+                    <th>№ відгука</th>
+                    <th>Відгук</th>
+                    <th>Оцінка</th>
+                    <th>№ замовлення</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Data != null)
+                {
+                    foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td>№@item.Id</td>
+                            <td>@item.Content</td>
+                            <td>@item.Rating</td>
+                            <td>№@item.IdOrder</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </nav>
+</article>

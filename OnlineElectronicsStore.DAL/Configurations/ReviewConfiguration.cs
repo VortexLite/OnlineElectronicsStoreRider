@@ -20,14 +20,15 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
             .HasColumnName("Content")
             .HasColumnType("nvarchar(max)")
             .IsRequired();
-        
+
         builder.HasOne(r => r.Profile)
             .WithMany(u => u.Reviews)
-            .HasForeignKey(r => r.IdProfile);
+            .HasForeignKey(r => r.IdProfile)
+            .OnDelete(DeleteBehavior.NoAction);
         
-        builder.HasOne(r => r.Product)
-            .WithMany(p => p.Reviews)
-            .HasForeignKey(r => r.IdProduct);
+        builder.HasOne(r => r.Order)
+            .WithMany(u => u.Reviews)
+            .HasForeignKey(r => r.IdOrder);
         
         builder.HasOne(r => r.CategoryReviews)
             .WithMany(c => c.Reviews)

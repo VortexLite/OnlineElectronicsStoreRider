@@ -57,7 +57,6 @@ public class HomeController : Controller
         return RedirectToAction("Error");
     }
     
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Search(string search)
     {
         if (string.IsNullOrEmpty(search))
@@ -96,6 +95,27 @@ public class HomeController : Controller
         }
 
         return RedirectToAction("Error");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DoSomething()
+    {
+        await Task.Delay(2000);
+
+        var imagePath = "Download.gif";
+        var imageFullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Resources", imagePath);
+        
+        if (System.IO.File.Exists(imageFullPath))
+        {
+            // Повернення гіфки як файлової відповіді
+            var imageFileStream = new FileStream(imageFullPath, FileMode.Open);
+            return File(imageFileStream, "image/gif");
+        }
+        else
+        {
+            // Якщо гіфка не знайдена, повернення відповіді з текстом про помилку
+            return Content("Гіфка не знайдена");
+        }
     }
     
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

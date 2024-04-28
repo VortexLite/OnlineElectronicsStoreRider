@@ -1,0 +1,172 @@
+﻿@model OnlineElectronicsStore.Domain.Entity.Profile
+
+@{
+    ViewBag.Title = "Особиста інформація";
+    Layout = "_Layout";
+}
+
+<style>
+    article
+    {
+        z-index: 2;
+        display: grid;
+        margin: 0 5vw;
+        grid-gap: 5px;
+        font-size: 18px;
+        grid-template-rows: auto 1fr;
+
+    }
+
+    article nav
+    {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 300px 1fr;
+        grid-gap: 10px;
+    }
+
+    .navigationLeft
+    {
+        list-style-type: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        border: 0;
+        padding: 0;
+        display: grid;
+        height: 50vh;
+    }
+
+    #activeLI
+    {
+        background-color: #f0f0f0;
+    }
+
+    #activeI
+    {
+        color: #e00027;
+    }
+
+    .navigationLeft li
+    {
+        padding: 10px;
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .navigationLeft li:hover
+    {
+        background-color: #f7f7f7;
+    }
+
+    .navigationLeft li i
+    {
+        margin: 0 10px 0 0;
+    }
+
+    li > a,
+    li button a
+    {
+        text-decoration: none;
+        color: black;
+    }
+
+    li > a:visited,
+    li button a:visited
+    {
+        text-decoration: none;
+        color: black;
+    }
+
+    li > a:hover,
+    li button a:hover
+    {
+        color: black;
+    }
+
+
+    .updateInfo
+    {
+        display: grid;
+        grid-gap: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        padding: 10px;
+        border: 0;
+        width: 30vw;
+        align-items: center;
+    }
+
+    .updateInfo input
+    {
+        border-radius: 5px;
+        border: 0.5px solid;
+    }
+
+    .updateInfo button
+    {
+        background-color: #e00027;
+        color: white;
+        border-radius: 5px;
+        border: 0;
+        padding: 5px;
+        font-size: 16px;
+    }
+</style>
+
+<article>
+    <nav>
+        <ul class="navigationLeft">
+            <li>
+                <a asp-controller="Menu" asp-action="Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>Корзина
+                </a>
+            </li>
+            <li id="activeLI">
+                <i class="fa-solid fa-user" id="activeI"></i>Особиста інформація
+            </li>
+            <li>
+                <a asp-controller="Menu" asp-action="Order">
+                    <i class="fa-solid fa-list-ul"></i>Мої замовлення
+                </a>
+            </li>
+            <li><i class="fa-solid fa-heart"></i>Обране</li>
+            <li>
+                <a asp-controller="Menu" asp-action="Review">
+                    <i class="fa-solid fa-comment"></i>Мої відгуки
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Account" asp-action="Logout">
+                    <i class="fa-solid fa-right-from-bracket" style="transform: rotate(180deg);"></i>Вихід
+                </a>
+            </li>
+        </ul>
+
+        <form asp-controller="Menu" asp-action="PersonalInformationUpdate" method="post" class="updateInfo">
+            <input type="hidden" asp-for="Id" />
+
+            <label asp-for="Name">Ім'я</label>
+            <input asp-for="Name" />
+
+            <label asp-for="Surname">Прізвище</label>
+            <input asp-for="Surname" />
+
+
+            <label asp-for="Middlename">По батькові</label>
+            <input asp-for="Middlename" />
+
+            <label asp-for="Phone">Телефон</label>
+            <input asp-for="Phone" />
+
+            <label asp-for="Email">Електронна пошта</label>
+            <input asp-for="Email" />
+
+            <label asp-for="Address">Адреса</label>
+            <input asp-for="Address" />
+
+            <button type="submit">Зберегти зміни</button>
+        </form>
+    </nav>
+</article>

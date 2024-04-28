@@ -13,15 +13,18 @@ public class MenuController : Controller
     private readonly IProfileService _profileService;
     private readonly IShoppingCartItemService _shoppingCartItemService;
     private readonly IOrderService _orderService;
+    private readonly IReviewService _reviewService;
 
     private IBaseResponse<int> _idProfile;
     public MenuController(IProfileService profileService, 
         IShoppingCartItemService shoppingCartItemService, 
-        IOrderService orderService)
+        IOrderService orderService,
+        IReviewService reviewService)
     {
         _profileService = profileService;
         _shoppingCartItemService = shoppingCartItemService;
         _orderService = orderService;
+        _reviewService = reviewService;
     }
     public async Task<IActionResult> Cart()
     {
@@ -85,5 +88,47 @@ public class MenuController : Controller
         }
 
         return RedirectToAction("Index", "Home");
+    }
+
+    public async Task<IActionResult> PersonalInformation()
+    {
+        _idProfile = await _profileService.GetByNameAsync(User.Identity.Name);
+        var profile = await _profileService.GetProfileAsync(_idProfile.Data);
+
+        if (profile.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return View(profile.Data);
+        }
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    public async Task<IActionResult> PersonalInformationUpdate(Profile profile)
+    {
+        await _profileService.EditProfileAsync(profile);
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    public async Task<IActionResult> ReviewCreate(int id)
+    {
+        _idProfile = await _profileService.GetByNameAsync(User.Identity.Name);
+        ViewBag.Order = id;
+        ViewBag.Profile = _idProfile.Data;
+        return View();
+    }
+    
+    public async Task<IActionResult> ReviewSave(Review model)
+    {
+        var review = await _reviewService.CreateReviewAsync(model);
+        
+        return RedirectToAction("Index", "Home");
+    }
+
+    public async Task<IActionResult> Review()
+    {
+        _idProfile = await _profileService.GetByNameAsync(User.Identity.Name);
+        var reviews = await _reviewService.GetReviewByProfileAsync(_idProfile.Data);
+        return View(reviews);
     }
 }

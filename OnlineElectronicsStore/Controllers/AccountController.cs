@@ -34,7 +34,7 @@ public class AccountController : Controller
             var user = await _authenticateService.AuthenticateLoginPasswordUserAsync(loginViewModel.Login, loginViewModel.Password);
             if (user.Data != null)
             {
-                await Authenticate(loginViewModel.Login);
+                await Authenticate(user.Data);
  
                 return RedirectToAction("Index", "Home");
             }
@@ -56,13 +56,14 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _authenticateService.AuthenticateLoginUserAsync(registerViewModel.Login);
-            if (user.Data == null)
+            var userAuth = await _authenticateService.AuthenticateLoginUserAsync(registerViewModel.Login);
+            if (userAuth.Data == null)
             {
                 var checkUser = await _userService.CreateUserAsync(registerViewModel);
                 if (checkUser.Data)
                 {
-                    await Authenticate(registerViewModel.Login);
+                    var user = await _userService.GetByLoginAsync(registerViewModel.Login);
+                    await Authenticate(user.Data);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -77,12 +78,12 @@ public class AccountController : Controller
         return View(registerViewModel);
     }
 
-    private async Task Authenticate(string username)
+    private async Task Authenticate(User user)
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimsIdentity.DefaultNameClaimType, username),
-            new Claim(ClaimsIdentity.DefaultRoleClaimType, "User")
+            new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+            new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
         };
         
         ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

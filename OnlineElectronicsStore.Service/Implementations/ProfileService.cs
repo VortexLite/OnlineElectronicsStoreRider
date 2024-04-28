@@ -126,6 +126,42 @@ public class ProfileService : IProfileService
         }
     }
 
+    public async Task<IBaseResponse<bool>> EditProfileAsync(Profile model)
+    {
+        var baseResponse = new BaseResponse<bool>();
+        try
+        {
+            var profile = await _profileRepository.GetAsync(model.Id);
+            if (profile == null)
+            {
+                baseResponse.Desription = $"Element with id:{model.Id} not found";
+                baseResponse.StatusCode = StatusCode.ProfileUserNotFound;
+                return baseResponse;
+            }
+
+            profile.Name = model.Name;
+            profile.Surname = model.Surname;
+            profile.Middlename = model.Middlename;
+            profile.Phone = model.Phone;
+            profile.Email = model.Email;
+            profile.Address = model.Address;
+
+            await _profileRepository.UpdateAsync(profile);
+            baseResponse.Data = true;
+            baseResponse.StatusCode = StatusCode.OK;
+
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<bool>()
+            {
+                Desription = $"[EditProfileByIdAsync] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
     public async Task<IBaseResponse<bool>> EditProfileByContactAsync(ContactViewModel contactViewModel, int id)
     {
         var baseResponse = new BaseResponse<bool>();

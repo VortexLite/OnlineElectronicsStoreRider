@@ -102,18 +102,63 @@
         transition: all 0.3s  ease-out;
         cursor: pointer;
     }
+
+	li > a,
+	li button a
+	{
+		text-decoration: none;
+		color: black;
+	}
+
+	li > a:visited,
+	li button a:visited
+	{
+		text-decoration: none;
+		color: black;
+	}
+
+	li > a:hover,
+	li button a:hover
+	{
+		color: black;
+	}
+
+	button > a,
+	button > a:visited,
+	button > a:hover
+	{
+		color: white;
+		text-decoration: none;
+	}
+	
 </style>
 
 <article>
 	<h2>Вітаємо, @Model.Second.Data.Name</h2>
 	<nav>
 		<ul class="navigationLeft">
-			<li><i class="fa-solid fa-cart-shopping"></i>Корзина</li>
-			<li><i class="fa-solid fa-user"></i>Особиста інформація</li>
+			<li>
+				<a asp-controller="Menu" asp-action="Cart">
+					<i class="fa-solid fa-cart-shopping"></i>Корзина
+				</a>
+			</li>
+			<li>
+				<a asp-controller="Menu" asp-action="PersonalInformation">
+					<i class="fa-solid fa-user"></i>Особиста інформація
+				</a>
+			</li>
 			<li id="activeLI"><i class="fa-solid fa-list-ul" id="activeI"></i>Мої замовлення</li>
 			<li><i class="fa-solid fa-heart"></i>Обране</li>
-			<li><i class="fa-solid fa-comment"></i>Мої відгуки</li>
-			<li><i class="fa-solid fa-right-from-bracket" style="transform: rotate(180deg);"></i>Вихід</li>
+			<li>
+				<a asp-controller="Menu" asp-action="Review">
+					<i class="fa-solid fa-comment"></i>Мої відгуки
+				</a>
+			</li>
+			<li>
+				<a asp-controller="Account" asp-action="Logout">
+					<i class="fa-solid fa-right-from-bracket" style="transform: rotate(180deg);"></i>Вихід
+				</a>
+			</li>
 		</ul>
 				
 	<table class="tableOrder">
@@ -141,7 +186,11 @@
 					<td>@item.NameStatus</td>
 					<td>@item.NameDelivery</td>
 					<td>
-						<button>Залишити відгук</button>
+						<button>
+							<a href="@Url.Action("ReviewCreate", "Menu", new { id = @item.Id })">
+								Залишити відгук
+							</a> 
+						</button>
 					</td>
 				</tr>
 			}

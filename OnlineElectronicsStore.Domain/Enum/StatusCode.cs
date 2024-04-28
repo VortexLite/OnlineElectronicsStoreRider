@@ -47,6 +47,9 @@ public enum StatusCode
     //DeliveryType
     DeliveryTypeElementNotFound = 140,
     
+    //Review
+    ReviewElementNotFound = 150,
+    
     //All
     OK = 200,
     InternalServerError = 500

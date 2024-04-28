@@ -46,4 +46,11 @@ public class UserRepository : IUserRepository
 
         return entity;
     }
+
+    public async Task<User> GetByLoginAsync(string? login)
+    {
+        return await _db.Users
+            .Include(i => i.Role)
+            .FirstOrDefaultAsync(i => i.Login == login);
+    }
 }

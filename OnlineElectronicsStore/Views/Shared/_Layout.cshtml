@@ -11,7 +11,9 @@
 <body class="backgroundBody">
     <header class="gridBlock">
     		<nav>
-    			<img src="~/lib/Images/logo.webp" class="imgLogo"  alt="Logo Gadgets store"/>
+			    <a asp-controller="Home" asp-action="Index">
+				    <img src="~/lib/Images/logo.webp" class="imgLogo"  alt="Logo Gadgets store"/>
+			    </a>
     			
     			<button class="btnCatalog">
     				<i class="fa-solid fa-bars"></i>
@@ -33,7 +35,9 @@
 							    <a asp-controller="Menu" asp-action="Cart">
 								    <li><i class="fa-solid fa-user"></i>Особиста інформація</li>
 							    </a>
-							    <li><i class="fa-solid fa-list-ul"></i>Мої замовлення</li>
+							    <a asp-controller="Menu" asp-action="Order">
+								    <li><i class="fa-solid fa-list-ul"></i>Мої замовлення</li>
+							    </a>
 							    <li><i class="fa-solid fa-comment"></i>Мої відгуки</li>
 							    <hr color="lightgray">
 							    <a asp-controller="Account" asp-action="Logout">

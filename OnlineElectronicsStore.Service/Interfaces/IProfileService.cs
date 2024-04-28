@@ -11,6 +11,7 @@ public interface IProfileService
     Task<IBaseResponse<Profile>> GetProfileAsync(int id);
     Task<IBaseResponse<int>> GetByNameAsync(string? name);
     Task<IBaseResponse<bool>> DeleteProfileAsync(int id);
+    Task<IBaseResponse<bool>> EditProfileAsync(Profile model);
     //Task<IBaseResponse<bool>> CreateProfileAsync(RegisterViewModel registerViewModel);
     Task<IBaseResponse<bool>> EditProfileByContactAsync(ContactViewModel contactViewModel, int id);
 }

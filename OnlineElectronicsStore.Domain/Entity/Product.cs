@@ -20,5 +20,4 @@ public class Product
     public List<ShoppingCartItem> ShoppingCartItems { get; set; }
     public List<Image> Images { get; set; }
     public List<ProductWishList> ProductWishLists { get; set; }
-    public List<Review> Reviews { get; set; }
 }

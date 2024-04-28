@@ -125,7 +125,7 @@
 
 @for (int i = 0; i < 5; i++)
 {
-    @foreach (var product in Model.Data)
+    foreach (var product in Model.Data)
     {
         <section>
             <a href="@Url.Action("ProductDetails", "Product", new { id = @product.Id })">

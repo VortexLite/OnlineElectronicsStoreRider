@@ -72,6 +72,33 @@ public class UserService : IUserService
         }
     }
 
+    public async Task<IBaseResponse<User>> GetByLoginAsync(string login)
+    {
+        var baseResponse = new BaseResponse<User>();
+        try
+        {
+            var user = await _userRepository.GetByLoginAsync(login);
+            if (user == null)
+            {
+                baseResponse.Desription = $"Element with login:{login} not found";
+                baseResponse.StatusCode = StatusCode.UserNotFound;
+                return baseResponse;
+            }
+
+            baseResponse.Data = user;
+            baseResponse.StatusCode = StatusCode.OK;
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponse<User>()
+            {
+                Desription = $"[GetByLoginAsync] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
     public async Task<IBaseResponse<bool>> DeleteUserAsync(int id)
     {
         var baseResponse = new BaseResponse<bool>();

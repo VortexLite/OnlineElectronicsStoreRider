@@ -76,8 +76,6 @@ public class DbInitializer
             await _context.AddRangeAsync(categories);
             await _context.SaveChangesAsync();
         }
-        
-        
     }
 
     public async Task SeedDeliveryTypes()
@@ -884,14 +882,15 @@ public class DbInitializer
     {
         if (!_context.Profiles.Any())
         {
-            var users = new List<Profile>()
+            var profiles = new List<Profile>()
             {
                 new Profile()
                 {
                     Email = "admin@email.com"
                 }
             };
-            await _context.AddRangeAsync(users);
+            
+            await _context.AddRangeAsync(profiles);
             await _context.SaveChangesAsync();
         }
     }
@@ -900,13 +899,15 @@ public class DbInitializer
     {
         if (!_context.Users.Any())
         {
+            var profile = await _context.Profiles.FirstOrDefaultAsync(i => i.Email == "admin@email.com");
+            
             var users = new List<User>()
             {
                 new User()
                 {
                     Login = "admin",
                     Password = "admin",
-                    IdProfile = 1,
+                    IdProfile = profile.Id,
                     IdRole = 1
                 }
             };
