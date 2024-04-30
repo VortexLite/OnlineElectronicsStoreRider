@@ -16,25 +16,25 @@ public class CategoryRepository : ICategoryRepository
     {
         await _db.Categories.AddAsync(entity);
         await _db.SaveChangesAsync();
-
         return true;
     }
 
     public async Task<Category> GetAsync(int id)
     {
-        return await _db.Categories.FirstOrDefaultAsync(x => x.Id == id);
+        // Використовуємо IQueryable для збереження лінивого вирахування та AsNoTracking для оптимізації
+        return await _db.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<Category>> SelectAsync()
     {
-        return await _db.Categories.ToListAsync();
+        // Використовуємо IQueryable для збереження лінивого вирахування та AsNoTracking для оптимізації
+        return await _db.Categories.AsNoTracking().ToListAsync();
     }
 
     public async Task<bool> DeleteAsync(Category entity)
     {
         _db.Categories.Remove(entity);
         await _db.SaveChangesAsync();
-
         return true;
     }
 
@@ -42,12 +42,12 @@ public class CategoryRepository : ICategoryRepository
     {
         _db.Categories.Update(entity);
         await _db.SaveChangesAsync();
-
         return entity;
     }
 
     public async Task<Category> GetByNameAsync(string name)
     {
-        return await _db.Categories.FirstOrDefaultAsync(x => x.Name == name);
+        // Використовуємо IQueryable для збереження лінивого вирахування та AsNoTracking для оптимізації
+        return await _db.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Name == name);
     }
 }

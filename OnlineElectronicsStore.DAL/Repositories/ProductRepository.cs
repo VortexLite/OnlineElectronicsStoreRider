@@ -57,7 +57,8 @@ public class ProductRepository : IProductRepository
 
     public async Task<List<ProductViewModel>> GetProductWithImagesAsync()
     {
-        var products = await _db.Products.ToListAsync();
+        // Використовуємо IQueryable для лінивого вирахування та AsNoTracking для оптимізації
+        var products = await _db.Products.AsNoTracking().ToListAsync();
         
         var viewModels = new List<ProductViewModel>();
         foreach (var product in products)
@@ -80,8 +81,10 @@ public class ProductRepository : IProductRepository
 
     public async Task<List<ProductViewModel>> GetsByNameAsync(string name)
     {
+        // Використовуємо IQueryable для лінивого вирахування та AsNoTracking для оптимізації
         var products = await _db.Products
             .Where(p => EF.Functions.Like(p.Name, "%" + name + "%"))
+            .AsNoTracking()
             .ToListAsync();
         
         var viewModels = new List<ProductViewModel>();
@@ -105,26 +108,26 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> GetProdutWithImageByIdAsync(int id)
     {
-        var product = await _db.Products.
-            Include(i => i.Images).
-            FirstOrDefaultAsync(x => x.Id == id);
-
-        return product;
+        // Використовуємо IQueryable для лінивого вирахування та AsNoTracking для оптимізації
+        return await _db.Products
+            .Include(i => i.Images)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<ProductDetailViewModel> GetProductDetailAsync(int id)
     {
         var product = await _db.Products
-            .FirstOrDefaultAsync(i => i.Id == id);
+            .Include(p => p.Images)
+            .Include(p => p.ProductCharacteristics)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
 
-        var images = await _db.Images
-            .Where(i => i.IdProduct == id)
-            .ToListAsync();
+        if (product == null)
+        {
+            return null;
+        }
 
-        var details = await _db.ProductCharacteristics
-            .Where(i => i.IdProduct == id)
-            .ToListAsync();
-        
         var viewModel = new ProductDetailViewModel()
         {
             Name = product.Name,
@@ -132,9 +135,10 @@ public class ProductRepository : IProductRepository
             LongDescription = product.LongDescription,
             Price = product.Price,
             Amount = product.Amount,
-            ProductCharacteristics = details,
-            Images = images
+            ProductCharacteristics = product.ProductCharacteristics,
+            Images = product.Images
         };
+
         
         return viewModel;
     }

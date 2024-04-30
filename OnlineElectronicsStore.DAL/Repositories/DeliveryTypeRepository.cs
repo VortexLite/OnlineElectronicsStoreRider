@@ -16,25 +16,25 @@ public class DeliveryTypeRepository : IDeliveryTypeRepository
     {
         await _db.DeliveryTypes.AddAsync(entity);
         await _db.SaveChangesAsync();
-
         return true;
     }
 
     public async Task<DeliveryType> GetAsync(int id)
     {
-        return await _db.DeliveryTypes.FirstOrDefaultAsync(x => x.Id == id);
+        // Використовуємо IQueryable для збереження лінивого вирахування та AsNoTracking для оптимізації
+        return await _db.DeliveryTypes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<DeliveryType>> SelectAsync()
     {
-        return await _db.DeliveryTypes.ToListAsync();
+        // Використовуємо IQueryable для збереження лінивого вирахування та AsNoTracking для оптимізації
+        return await _db.DeliveryTypes.AsNoTracking().ToListAsync();
     }
 
     public async Task<bool> DeleteAsync(DeliveryType entity)
     {
         _db.DeliveryTypes.Remove(entity);
         await _db.SaveChangesAsync();
-
         return true;
     }
 
@@ -42,7 +42,6 @@ public class DeliveryTypeRepository : IDeliveryTypeRepository
     {
         _db.DeliveryTypes.Update(entity);
         await _db.SaveChangesAsync();
-
         return entity;
     }
 }

@@ -17,25 +17,23 @@ public class ProfileRepository : IProfileRepository
     {
         await _db.Profiles.AddAsync(entity);
         await _db.SaveChangesAsync();
-
         return true;
     }
 
     public async Task<Profile> GetAsync(int id)
     {
-        return await _db.Profiles.FirstOrDefaultAsync(x => x.Id == id);
+        return await _db.Profiles.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<Profile>> SelectAsync()
     {
-        return await _db.Profiles.ToListAsync();
+        return await _db.Profiles.AsNoTracking().ToListAsync();
     }
 
     public async Task<bool> DeleteAsync(Profile entity)
     {
         _db.Profiles.Remove(entity);
         await _db.SaveChangesAsync();
-
         return true;
     }
 
@@ -43,15 +41,16 @@ public class ProfileRepository : IProfileRepository
     {
         _db.Profiles.Update(entity);
         await _db.SaveChangesAsync();
-
         return entity;
     }
 
     public async Task<int> GetByNameAsync(string? name)
     {
-        var profile = await _db.Profiles
-            .FirstOrDefaultAsync(i => i.User.Login == name);
-
-        return profile.Id;
+        var profileId = await _db.Profiles
+            .Where(p => p.User.Login == name)
+            .Select(p => p.Id)
+            .FirstOrDefaultAsync();
+        
+        return profileId;
     }
 }

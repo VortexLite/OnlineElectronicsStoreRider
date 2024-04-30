@@ -22,12 +22,12 @@ public class ShoppingCartItemRepository : IShoppingCartItemRepository
 
     public async Task<ShoppingCartItem> GetAsync(int id)
     {
-        return await _db.ShoppingCartItems.FirstOrDefaultAsync(x => x.Id == id);
+        return await _db.ShoppingCartItems.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<ShoppingCartItem>> SelectAsync()
     {
-        return await _db.ShoppingCartItems.ToListAsync();
+        return await _db.ShoppingCartItems.AsNoTracking().ToListAsync();
     }
 
     public async Task<bool> DeleteAsync(ShoppingCartItem entity)

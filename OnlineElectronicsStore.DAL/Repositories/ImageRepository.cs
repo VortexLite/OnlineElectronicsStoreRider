@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OnlineElectronicsStore.DAL.Interfaces;
 using OnlineElectronicsStore.Domain.Entity;
 
@@ -18,25 +17,25 @@ public class ImageRepository : IImageRepository
     {
         await _db.Images.AddAsync(entity);
         await _db.SaveChangesAsync();
-        
         return true;
     }
 
     public async Task<Image> GetAsync(int id)
     {
-        return await _db.Images.FirstOrDefaultAsync(x => x.Id == id);
+        // Використовуємо IQueryable для збереження лінивого вирахування та AsNoTracking для оптимізації
+        return await _db.Images.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<Image>> SelectAsync()
     {
-        return await _db.Images.ToListAsync();
+        // Використовуємо IQueryable для збереження лінивого вирахування та AsNoTracking для оптимізації
+        return await _db.Images.AsNoTracking().ToListAsync();
     }
 
     public async Task<bool> DeleteAsync(Image entity)
     {
         _db.Images.Remove(entity);
         await _db.SaveChangesAsync();
-
         return true;
     }
 
@@ -44,7 +43,6 @@ public class ImageRepository : IImageRepository
     {
         _db.Images.Update(entity);
         await _db.SaveChangesAsync();
-
         return entity;
     }
 
@@ -52,7 +50,6 @@ public class ImageRepository : IImageRepository
     {
         await _db.AddRangeAsync(entities);
         await _db.SaveChangesAsync();
-        
         return true;
     }
 }
